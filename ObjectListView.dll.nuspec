@@ -14,6 +14,10 @@
 		<description>ObjectListView is a .NET ListView wired on caffeine, guarana and steroids. More calmly, it is a C# wrapper around a .NET ListView, which makes the ListView much easier to use and teaches it lots of neat new tricks.</description>
 		<copyright>Copyright 2006-2016 Bright Ideas Software</copyright>
 		<tags>.Net WinForms Net20 Net40 ListView Controls</tags>
+		<dependencies>
+			<group targetFramework="net20">
+			</group>
+		</dependencies>
 	</metadata>
 	<files>
 		<file src="bin\Net20\ObjectListView.xml" target="xml" />

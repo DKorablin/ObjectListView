@@ -48,10 +48,6 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Extracting all artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: bin
     - name: Checkout nessesary files from repo
       uses: actions/checkout@v4
       with:
@@ -60,7 +56,7 @@ jobs:
           ${{env.SolutionName}}.dll.nuspec
         sparse-checkout-cone-mode: false
     - name: Extracting all artifacts
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v3
       with:
         path: bin
     - name: Pack artifacts

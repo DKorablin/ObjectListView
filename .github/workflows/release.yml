@@ -34,7 +34,7 @@ jobs:
     - name: Setup .NET
       uses: microsoft/setup-msbuild@v1.1
     - name: Build .NET Framework
-      run: MSBuild -nologo -restore "${{github.workspace}}\${{env.SolutionName}}\${{env.SolutionName}}.csproj" /property:Configuration=Release -property:OutputPath="${{github.workspace}}/bin/" -property:Version=${{needs.version.outputs.new_version}}"
+      run: MSBuild -nologo -restore "${{github.workspace}}\${{env.SolutionName}}\${{env.SolutionName}}.csproj" /property:Configuration=Release -property:OutputPath="${{github.workspace}}/bin/" -property:Version=${{needs.version.outputs.new_version}}
     - name: Deploy artifacts
       uses: actions/upload-artifact@v3
       with:

@@ -17,7 +17,7 @@
 		<tags>.Net WinForms Net20 Net40 ListView Controls</tags>
 	</metadata>
 	<files>
-		<file src="bin\ObjectListView.xml" target="xml" />
-		<file src="bin\ObjectListView.dll" target="lib\net20" />
+		<file src="bin\Net20\ObjectListView.xml" target="xml" />
+		<file src="bin\Net20\ObjectListView.dll" target="lib\net20" />
 	</files>
 </package>

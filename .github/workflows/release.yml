@@ -10,7 +10,6 @@ env:
 jobs:
   version:
     name: Incrementing version number
-    needs: [test_net_windows]
     runs-on: ubuntu-latest
     outputs:
       new_version: ${{steps.tag_version.outputs.new_version}}
@@ -22,7 +21,7 @@ jobs:
       uses: mathieudutour/github-tag-action@v6.1
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
-        #custom_tag: 2.9.1
+        custom_tag: 2.9.1
 
   build_net_framework:
     name: Build .NET Framework assembly

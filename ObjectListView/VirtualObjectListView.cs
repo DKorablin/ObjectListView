@@ -391,8 +391,10 @@ namespace BrightIdeasSoftware
 
                 // Get around the 'private' marker on 'virtualListSize' field using reflection
                 if (virtualListSizeFieldInfo == null) {
-                    virtualListSizeFieldInfo = typeof(ListView).GetField("virtualListSize", BindingFlags.NonPublic | BindingFlags.Instance);
-                    System.Diagnostics.Debug.Assert(virtualListSizeFieldInfo != null);
+                    virtualListSizeFieldInfo = typeof(ListView).GetField("_virtualListSize", BindingFlags.NonPublic | BindingFlags.Instance)
+                        ?? typeof(ListView).GetField("virtualListSize", BindingFlags.NonPublic | BindingFlags.Instance);//.NET 7 Fix
+
+					System.Diagnostics.Debug.Assert(virtualListSizeFieldInfo != null);
                 }
 
                 // Set the base class private field so that it keeps on working

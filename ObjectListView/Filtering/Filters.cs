@@ -34,16 +34,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Reflection;
-using System.Drawing;
 
 namespace BrightIdeasSoftware
 {
-    /// <summary>
-    /// Interface for model-by-model filtering
-    /// </summary>
-    public interface IModelFilter
+	/// <summary>
+	/// Interface for model-by-model filtering
+	/// </summary>
+	public interface IModelFilter
     {
         /// <summary>
         /// Should the given model be included when this filter is installed

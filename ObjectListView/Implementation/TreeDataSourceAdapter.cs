@@ -20,8 +20,8 @@ namespace BrightIdeasSoftware
         public TreeDataSourceAdapter(DataTreeListView tlv)
             : base(tlv) {
             this.treeListView = tlv;
-            this.treeListView.CanExpandGetter = delegate(object model) { return this.CalculateHasChildren(model); };
-            this.treeListView.ChildrenGetter = delegate(object model) { return this.CalculateChildren(model); };
+            this.treeListView.CanExpandGetter = (model) => this.CalculateHasChildren(model);
+            this.treeListView.ChildrenGetter = (model) => this.CalculateChildren(model);
         }
 
         #endregion

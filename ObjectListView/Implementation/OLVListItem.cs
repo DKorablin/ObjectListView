@@ -43,7 +43,7 @@ using System.Drawing;
 namespace BrightIdeasSoftware {
 
     /// <summary>
-    /// OLVListItems are specialized ListViewItems that know which row object they came from,
+    /// OLVListItems are specialized ListViewItems that know which row Object they came from,
     /// and the row index at which they are displayed, even when in group view mode. They
     /// also know the image they should draw against themselves
     /// </summary>
@@ -51,16 +51,16 @@ namespace BrightIdeasSoftware {
         #region Constructors
 
         /// <summary>
-        /// Create a OLVListItem for the given row object
+        /// Create a OLVListItem for the given row Object
         /// </summary>
-        public OLVListItem(object rowObject) {
+        public OLVListItem(Object rowObject) {
             this.rowObject = rowObject;
         }
 
         /// <summary>
-        /// Create a OLVListItem for the given row object, represented by the given string and image
+        /// Create a OLVListItem for the given row Object, represented by the given String and image
         /// </summary>
-        public OLVListItem(object rowObject, string text, Object image)
+        public OLVListItem(Object rowObject, String text, Object image)
             : base(text, -1) {
             this.rowObject = rowObject;
             this.imageSelector = image;
@@ -226,7 +226,7 @@ namespace BrightIdeasSoftware {
         /// <summary>
         /// Get or set the image that should be shown against this item
         /// </summary>
-        /// <remarks><para>This can be an Image, a string or an int. A string or an int will
+        /// <remarks><para>This can be an Image, a String or an int. A String or an int will
         /// be used as an index into the small image list.</para></remarks>
         public Object ImageSelector {
             get { return imageSelector; }
@@ -243,13 +243,13 @@ namespace BrightIdeasSoftware {
         private Object imageSelector;
 
         /// <summary>
-        /// Gets or sets the model object that is source of the data for this list item.
+        /// Gets or sets the model Object that is source of the data for this list item.
         /// </summary>
-        public object RowObject {
+        public Object RowObject {
             get { return rowObject; }
             set { rowObject = value; }
         }
-        private object rowObject;
+        private Object rowObject;
 
         /// <summary>
         /// Gets or sets the color that will be used for this row's background when it is selected and 

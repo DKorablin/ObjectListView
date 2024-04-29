@@ -43,7 +43,7 @@ namespace BrightIdeasSoftware
     /// <summary>
     /// ColumnComparer is the workhorse for all comparison between two values of a particular column.
     /// If the column has a specific comparer, use that to compare the values. Otherwise, do
-    /// a case insensitive string compare of the string representations of the values.
+    /// a case insensitive String compare of the String representations of the values.
     /// </summary>
     /// <remarks><para>This class inherits from both IComparer and its generic counterpart
     /// so that it can be used on untyped and typed collections.</para>
@@ -98,7 +98,7 @@ namespace BrightIdeasSoftware
         /// <param name="x">row1</param>
         /// <param name="y">row2</param>
         /// <returns>An ordering indication: -1, 0, 1</returns>
-        public int Compare(object x, object y)
+        public int Compare(Object x, Object y)
         {
             return this.Compare((OLVListItem)x, (OLVListItem)y);
         }
@@ -115,8 +115,8 @@ namespace BrightIdeasSoftware
                 return 0;
 
             int result = 0;
-            object x1 = this.column.GetValue(x.RowObject);
-            object y1 = this.column.GetValue(y.RowObject);
+            Object x1 = this.column.GetValue(x.RowObject);
+            Object y1 = this.column.GetValue(y.RowObject);
 
             // Handle nulls. Null values come last
             bool xIsNull = (x1 == null || x1 == System.DBNull.Value);
@@ -146,7 +146,7 @@ namespace BrightIdeasSoftware
         /// <param name="x">The aspect extracted from the first row</param>
         /// <param name="y">The aspect extracted from the second row</param>
         /// <returns>An ordering indication: -1, 0, 1</returns>
-        public int CompareValues(object x, object y)
+        public int CompareValues(Object x, Object y)
         {
             // Force case insensitive compares on strings
             String xAsString = x as String;
@@ -157,7 +157,7 @@ namespace BrightIdeasSoftware
             return comparable != null ? comparable.CompareTo(y) : 0;
         }
 
-        private static int CompareStrings(string x, string y)
+        private static int CompareStrings(String x, String y)
         {
             if (StringComparer == null)
                 return String.Compare(x, y, StringComparison.CurrentCultureIgnoreCase);
@@ -217,7 +217,7 @@ namespace BrightIdeasSoftware
     /// <para>This is used by virtual ObjectListViews. Non-virtual lists use
     /// ColumnComparer</para>
     /// </remarks>
-    public class ModelObjectComparer : IComparer, IComparer<object>
+    public class ModelObjectComparer : IComparer, IComparer<Object>
     {
         /// <summary>
         /// Gets or sets the method that will be used to compare two strings.
@@ -231,7 +231,7 @@ namespace BrightIdeasSoftware
         private static StringCompareDelegate stringComparer;
 
         /// <summary>
-        /// Create a model object comparer
+        /// Create a model Object comparer
         /// </summary>
         /// <param name="col"></param>
         /// <param name="order"></param>
@@ -242,7 +242,7 @@ namespace BrightIdeasSoftware
         }
 
         /// <summary>
-        /// Create a model object comparer with a secondary sorting column
+        /// Create a model Object comparer with a secondary sorting column
         /// </summary>
         /// <param name="col"></param>
         /// <param name="order"></param>
@@ -262,11 +262,11 @@ namespace BrightIdeasSoftware
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public int Compare(object x, object y)
+        public int Compare(Object x, Object y)
         {
             int result = 0;
-            object x1 = this.column.GetValue(x);
-            object y1 = this.column.GetValue(y);
+            Object x1 = this.column.GetValue(x);
+            Object y1 = this.column.GetValue(y);
 
             if (this.sortOrder == SortOrder.None)
                 return 0;
@@ -299,7 +299,7 @@ namespace BrightIdeasSoftware
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public int CompareValues(object x, object y)
+        public int CompareValues(Object x, Object y)
         {
             // Force case insensitive compares on strings
             String xStr = x as String;
@@ -310,7 +310,7 @@ namespace BrightIdeasSoftware
             return comparable != null ? comparable.CompareTo(y) : 0;
         }
 
-        private static int CompareStrings(string x, string y)
+        private static int CompareStrings(String x, String y)
         {
             if (StringComparer == null)
                 return String.Compare(x, y, StringComparison.CurrentCultureIgnoreCase);
@@ -322,7 +322,7 @@ namespace BrightIdeasSoftware
         private SortOrder sortOrder;
         private ModelObjectComparer secondComparer;
 
-        #region IComparer<object> Members
+        #region IComparer<Object> Members
 
         #endregion
     }

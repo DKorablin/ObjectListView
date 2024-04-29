@@ -25,20 +25,14 @@
  * If you wish to use this code in a closed source application, please contact phillip.piper@gmail.com.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BrightIdeasSoftware {
-
-    public partial class ObjectListView {
-        /// <summary>
-        /// How does a user indicate that they want to edit cells?
-        /// </summary>
-        public enum CellEditActivateMode {
-            /// <summary>
-            /// This list cannot be edited. F2 does nothing.
-            /// </summary>
+namespace BrightIdeasSoftware
+{
+	public partial class ObjectListView
+    {
+        /// <summary>How does a user indicate that they want to edit cells?</summary>
+        public enum CellEditActivateMode
+        {
+            /// <summary>This list cannot be edited. F2 does nothing.</summary>
             None = 0,
 
             /// <summary>
@@ -59,43 +53,30 @@ namespace BrightIdeasSoftware {
             /// </summary>
             F2Only = 3,
 
-            /// <summary>
-            /// A single click on  a <strong>any</strong> cell will edit the value, even the primary column.
-            /// </summary>
+            /// <summary>A single click on  a <strong>any</strong> cell will edit the value, even the primary column.</summary>
             SingleClickAlways = 4,
         }
 
-        /// <summary>
-        /// These values specify how column selection will be presented to the user
-        /// </summary>
-        public enum ColumnSelectBehaviour {
-            /// <summary>
-            /// No column selection will be presented 
-            /// </summary>
+        /// <summary>These values specify how column selection will be presented to the user</summary>
+        public enum ColumnSelectBehaviour
+        {
+            /// <summary>No column selection will be presented</summary>
             None,
 
-            /// <summary>
-            /// The columns will be show in the main menu
-            /// </summary>
+            /// <summary>The columns will be show in the main menu</summary>
             InlineMenu,
 
-            /// <summary>
-            /// The columns will be shown in a submenu
-            /// </summary>
+            /// <summary>The columns will be shown in a submenu</summary>
             Submenu,
 
-            /// <summary>
-            /// A model dialog will be presented to allow the user to choose columns
-            /// </summary>
+            /// <summary>A model dialog will be presented to allow the user to choose columns</summary>
             ModelDialog,
 
             /*
              * NonModelDialog is just a little bit tricky since the OLV can change views while the dialog is showing
              * So, just comment this out for the time being.
              
-            /// <summary>
-            /// A non-model dialog will be presented to allow the user to choose columns
-            /// </summary>
+            /// <summary>A non-model dialog will be presented to allow the user to choose columns</summary>
             NonModelDialog
              * 
              */

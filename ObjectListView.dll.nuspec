@@ -17,10 +17,13 @@
 		<dependencies>
 			<group targetFramework="net20">
 			</group>
+			<group targetFramework="net7.0-windows7.0">
+			</group>
 		</dependencies>
 	</metadata>
 	<files>
 		<file src="bin\Net20\ObjectListView.xml" target="xml" />
 		<file src="bin\Net20\ObjectListView.dll" target="lib\net20" />
+		<file src="bin\net7.0-windows\LogListView.dll" target="lib\net7.0-windows7.0" />
 	</files>
 </package>

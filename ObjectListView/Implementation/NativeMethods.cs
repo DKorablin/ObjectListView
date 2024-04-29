@@ -228,7 +228,7 @@ namespace BrightIdeasSoftware
             public int ulFlags;
             public IntPtr hBmp;
             [MarshalAs(UnmanagedType.LPTStr)]
-            public string pszImage;
+            public String pszImage;
             public int cchImageMax;
             public int xOffset;
             public int yOffset;
@@ -241,7 +241,7 @@ namespace BrightIdeasSoftware
             public int fmt;
             public int cx;
             [MarshalAs(UnmanagedType.LPTStr)]
-            public string pszText;
+            public String pszText;
             public int cchTextMax;
             public int iSubItem;
             // These are available in Common Controls >= 0x0300
@@ -253,7 +253,7 @@ namespace BrightIdeasSoftware
         public struct LVFINDINFO
         {
             public int flags;
-            public string psz;
+            public String psz;
             public IntPtr lParam;
             public int ptX;
             public int ptY;
@@ -266,10 +266,10 @@ namespace BrightIdeasSoftware
             public uint cbSize;
             public uint mask;
             [MarshalAs(UnmanagedType.LPTStr)]
-            public string pszHeader;
+            public String pszHeader;
             public int cchHeader;
             [MarshalAs(UnmanagedType.LPTStr)]
-            public string pszFooter;
+            public String pszFooter;
             public int cchFooter;
             public int iGroupId;
             public uint stateMask;
@@ -283,33 +283,33 @@ namespace BrightIdeasSoftware
             public uint cbSize;
             public uint mask;
             [MarshalAs(UnmanagedType.LPTStr)]
-            public string pszHeader;
+            public String pszHeader;
             public uint cchHeader;
             [MarshalAs(UnmanagedType.LPTStr)]
-            public string pszFooter;
+            public String pszFooter;
             public int cchFooter;
             public int iGroupId;
             public uint stateMask;
             public uint state;
             public uint uAlign;
             [MarshalAs(UnmanagedType.LPTStr)]
-            public string pszSubtitle;
+            public String pszSubtitle;
             public uint cchSubtitle;
             [MarshalAs(UnmanagedType.LPTStr)]
-            public string pszTask;
+            public String pszTask;
             public uint cchTask;
             [MarshalAs(UnmanagedType.LPTStr)]
-            public string pszDescriptionTop;
+            public String pszDescriptionTop;
             public uint cchDescriptionTop;
             [MarshalAs(UnmanagedType.LPTStr)]
-            public string pszDescriptionBottom;
+            public String pszDescriptionBottom;
             public uint cchDescriptionBottom;
             public int iTitleImage;
             public int iExtendedImage;
             public int iFirstItem;         // Read only
             public int cItems;             // Read only
             [MarshalAs(UnmanagedType.LPTStr)]
-            public string pszSubsetTitle;     // NULL if group is not subset
+            public String pszSubsetTitle;     // NULL if group is not subset
             public uint cchSubsetTitle;
         }
 
@@ -350,7 +350,7 @@ namespace BrightIdeasSoftware
             public int state;
             public int stateMask;
             [MarshalAs(UnmanagedType.LPTStr)]
-            public string pszText;
+            public String pszText;
             public int cchTextMax;
             public int iImage;
             public IntPtr lParam;
@@ -403,9 +403,9 @@ namespace BrightIdeasSoftware
             public uint state;
             public uint stateMask;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_LINKID_TEXT)]
-            public string szID;
+            public String szID;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = L_MAX_URL_LENGTH)]
-            public string szUrl;
+            public String szUrl;
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -450,7 +450,7 @@ namespace BrightIdeasSoftware
         {
             public NativeMethods.NMHDR hdr;
             public int dwFlags;
-            public string pszText;
+            public String pszText;
             public int cchTextMax;
             public int iItem;
             public int iSubItem;
@@ -488,9 +488,9 @@ namespace BrightIdeasSoftware
         {
             public NativeMethods.NMHDR hdr;
             [MarshalAs(UnmanagedType.LPTStr)]
-            public string lpszText;
+            public String lpszText;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
-            public string szText;
+            public String szText;
             public IntPtr hinst;
             public int uFlags;
             public IntPtr lParam;
@@ -571,9 +571,9 @@ namespace BrightIdeasSoftware
         [DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
         public static extern IntPtr SendMessageLVBKIMAGE(IntPtr hWnd, int Msg, int wParam, ref NativeMethods.LVBKIMAGE lParam);
         [DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
-        public static extern IntPtr SendMessageString(IntPtr hWnd, int Msg, int wParam, string lParam);
+        public static extern IntPtr SendMessageString(IntPtr hWnd, int Msg, int wParam, String lParam);
         [DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
-        public static extern IntPtr SendMessageIUnknown(IntPtr hWnd, int msg, [MarshalAs(UnmanagedType.IUnknown)] object wParam, int lParam);
+        public static extern IntPtr SendMessageIUnknown(IntPtr hWnd, int msg, [MarshalAs(UnmanagedType.IUnknown)] Object wParam, int lParam);
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SendMessage(IntPtr hWnd, int msg, int wParam, ref LVGROUP lParam);
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
@@ -1167,7 +1167,7 @@ namespace BrightIdeasSoftware
         public static extern IntPtr SelectObject(IntPtr hdc, IntPtr obj);
 
         [DllImport("uxtheme.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
-        public static extern IntPtr SetWindowTheme(IntPtr hWnd, string subApp, string subIdList);
+        public static extern IntPtr SetWindowTheme(IntPtr hWnd, String subApp, String subIdList);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern bool InvalidateRect(IntPtr hWnd, int ignored, bool erase);

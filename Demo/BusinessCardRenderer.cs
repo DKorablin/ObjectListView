@@ -6,7 +6,8 @@ using System.Windows.Forms;
 using BrightIdeasSoftware;
 using ObjectListViewDemo.Models;
 
-namespace ObjectListViewDemo {
+namespace ObjectListViewDemo
+{
     /// <summary>
     /// Hackish renderer that draw a fancy version of a person for a Tile view.
     /// </summary>
@@ -15,12 +16,12 @@ namespace ObjectListViewDemo {
     /// but it is obvious</remarks>
     public class BusinessCardRenderer : AbstractRenderer
     {
-        public override bool RenderItem(DrawListViewItemEventArgs e, Graphics g, Rectangle itemBounds, object rowObject)
+        public override bool RenderItem(DrawListViewItemEventArgs e, Graphics g, Rectangle itemBounds, Object rowObject)
         {
             // If we're in any other view than Tile, return false to say that we haven't done
             // the rendering and the default process should do it's stuff
             ObjectListView olv = e.Item.ListView as ObjectListView;
-            if (olv == null || olv.View != View.Tile)
+            if(olv == null || olv.View != View.Tile)
                 return false;
 
             // Use buffered graphics to kill flickers
@@ -30,12 +31,11 @@ namespace ObjectListViewDemo {
             g.SmoothingMode = ObjectListView.SmoothingMode;
             g.TextRenderingHint = ObjectListView.TextRenderingHint;
 
-            if (e.Item.Selected)
+            if(e.Item.Selected)
             {
                 this.BorderPen = Pens.Blue;
                 this.HeaderBackBrush = new SolidBrush(olv.SelectedBackColorOrDefault);
-            }
-            else
+            } else
             {
                 this.BorderPen = new Pen(Color.FromArgb(0x33, 0x33, 0x33));
                 this.HeaderBackBrush = new SolidBrush(Color.FromArgb(0x33, 0x33, 0x33));
@@ -56,15 +56,15 @@ namespace ObjectListViewDemo {
         internal Brush HeaderBackBrush = new SolidBrush(Color.FromArgb(0x33, 0x33, 0x33));
         internal Brush BackBrush = Brushes.LemonChiffon;
 
-        public void DrawBusinessCard(Graphics g, Rectangle itemBounds, object rowObject, ObjectListView olv, OLVListItem item)
+        public void DrawBusinessCard(Graphics g, Rectangle itemBounds, Object rowObject, ObjectListView olv, OLVListItem item)
         {
-            const int spacing = 8;
+            const Int32 spacing = 8;
 
             // Allow a border around the card
             itemBounds.Inflate(-2, -2);
 
             // Draw card background
-            const int rounding = 20;
+            const Int32 rounding = 20;
             GraphicsPath path = this.GetRoundedRect(itemBounds, rounding);
             g.FillPath(this.BackBrush, path);
             g.DrawPath(this.BorderPen, path);
@@ -75,23 +75,20 @@ namespace ObjectListViewDemo {
             Rectangle photoRect = itemBounds;
             photoRect.Inflate(-spacing, -spacing);
             Person person = rowObject as Person;
-            if (person != null)
+            if(person != null)
             {
                 photoRect.Width = 80;
-                string photoFile = String.Format(@".\Photos\{0}.png", person.Photo);
-                if (File.Exists(photoFile))
+                String photoFile = String.Format(@".\Photos\{0}.png", person.Photo);
+                if(File.Exists(photoFile))
                 {
                     Image photo = Image.FromFile(photoFile);
-                    if (photo.Width > photoRect.Width)
-                        photoRect.Height = (int)(photo.Height * ((float)photoRect.Width / photo.Width));
+                    if(photo.Width > photoRect.Width)
+                        photoRect.Height = (Int32)(photo.Height * ((float)photoRect.Width / photo.Width));
                     else
                         photoRect.Height = photo.Height;
                     g.DrawImage(photo, photoRect);
-                }
-                else
-                {
+                } else
                     g.DrawRectangle(Pens.DarkGray, photoRect);
-                }
             }
 
             // Now draw the text portion
@@ -105,7 +102,7 @@ namespace ObjectListViewDemo {
             fmt.LineAlignment = StringAlignment.Near;
             String txt = item.Text;
 
-            using (Font font = new Font("Tahoma", 11))
+            using(Font font = new Font("Tahoma", 11))
             {
                 // Measure the height of the title
                 SizeF size = g.MeasureString(txt, font, (int)textBoxRect.Width, fmt);
@@ -119,15 +116,15 @@ namespace ObjectListViewDemo {
             }
 
             // Draw the other bits of information
-            using (Font font = new Font("Tahoma", 8))
+            using(Font font = new Font("Tahoma", 8))
             {
                 SizeF size = g.MeasureString("Wj", font, itemBounds.Width, fmt);
                 textBoxRect.Height = size.Height;
                 fmt.Alignment = StringAlignment.Near;
-                for (int i = 0; i < olv.Columns.Count; i++)
+                for(int i = 0; i < olv.Columns.Count; i++)
                 {
                     OLVColumn column = olv.GetColumn(i);
-                    if (column.IsTileViewColumn)
+                    if(column.IsTileViewColumn)
                     {
                         txt = column.GetStringValue(rowObject);
                         g.DrawString(txt, font, this.TextBrush, textBoxRect, fmt);
@@ -137,7 +134,7 @@ namespace ObjectListViewDemo {
             }
         }
 
-        private GraphicsPath GetRoundedRect(RectangleF rect, float diameter)
+        private GraphicsPath GetRoundedRect(RectangleF rect, Single diameter)
         {
             GraphicsPath path = new GraphicsPath();
 

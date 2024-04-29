@@ -33,139 +33,141 @@ using System.Windows.Forms;
 
 namespace BrightIdeasSoftware
 {
-    /// <summary>
-    /// Support running an animation as a decoration on an ObjectListView
-    /// </summary>
-    class AnimatedDecoration : AbstractDecoration
-    {
-        #region Life and death
+	/// <summary>Support running an animation as a decoration on an ObjectListView</summary>
+	class AnimatedDecoration : AbstractDecoration
+	{
+		#region Life and death
 
-        /// <summary>
-        /// Create a decoration that will draw an animation onto the given ObjectListView
-        /// </summary>
-        /// <param name="olv"></param>
-        public AnimatedDecoration(ObjectListView olv) {
-            this.ListView = olv;
-            this.Animation = new Animation();
-            this.SubscribeEvents();
-        }
+		/// <summary>Create a decoration that will draw an animation onto the given ObjectListView</summary>
+		/// <param name="olv"></param>
+		public AnimatedDecoration(ObjectListView olv)
+		{
+			this.ListView = olv;
+			this.Animation = new Animation();
+			this.SubscribeEvents();
+		}
 
-        /// <summary>
-        /// Create a decoration that will draw an animation around the row of the given model
-        /// </summary>
-        /// <param name="ModelObject">The model that identifies the row on which the 
-        /// animation will draw. If this is null, the decoration will drawn around the 
-        /// whole ListView.</param>
-        public AnimatedDecoration(ObjectListView olv, object modelObject)
-            : this(olv) {
-            this.ModelObject = modelObject;
-        }
+		/// <summary>Create a decoration that will draw an animation around the row of the given model</summary>
+		/// <param name="ModelObject">The model that identifies the row on which the 
+		/// animation will draw. If this is null, the decoration will drawn around the 
+		/// whole ListView.</param>
+		public AnimatedDecoration(ObjectListView olv, Object modelObject)
+			: this(olv)
+			=> this.ModelObject = modelObject;
 
-        /// <summary>
-        /// Create a decoration that will draw an animation around a cell of the given model
-        /// </summary>
-        /// <param name="ModelObject"></param>
-        public AnimatedDecoration(ObjectListView olv, object modelObject, OLVColumn column)
-            : this(olv) {
-            this.ModelObject = modelObject;
-            this.Column = column;
-        }
+		/// <summary>Create a decoration that will draw an animation around a cell of the given model</summary>
+		/// <param name="ModelObject"></param>
+		public AnimatedDecoration(ObjectListView olv, Object modelObject, OLVColumn column)
+			: this(olv)
+		{
+			this.ModelObject = modelObject;
+			this.Column = column;
+		}
 
-        /// <summary>
-        /// Create a decoration that will draw an animation around a cell of the given model
-        /// </summary>
-        /// <param name="ModelObject"></param>
-        public AnimatedDecoration(ObjectListView olv, OLVListItem item, OLVListSubItem subItem)
-            : this(olv) {
-            this.ModelObject = item.RowObject;
-            this.Column = olv.GetColumn(item.SubItems.IndexOf(subItem));
-        }
+		/// <summary>Create a decoration that will draw an animation around a cell of the given model</summary>
+		/// <param name="ModelObject"></param>
+		public AnimatedDecoration(ObjectListView olv, OLVListItem item, OLVListSubItem subItem)
+			: this(olv)
+		{
+			this.ModelObject = item.RowObject;
+			this.Column = olv.GetColumn(item.SubItems.IndexOf(subItem));
+		}
 
-        #endregion
+		#endregion
 
-        #region Public properties
+		#region Public properties
 
-        public ObjectListView ListView { get; protected set; }
-        public Animation Animation { get; protected set; }
-        public object ModelObject { get; protected set; }
-        public OLVColumn Column { get; protected set; }
+		public ObjectListView ListView { get; protected set; }
+		public Animation Animation { get; protected set; }
+		public Object ModelObject { get; protected set; }
+		public OLVColumn Column { get; protected set; }
 
-        #endregion
+		#endregion
 
-        #region Subscriptions
+		#region Subscriptions
 
-        protected void SubscribeEvents() {
-            this.ListView.Disposed += new EventHandler(ListView_Disposed);
-            this.Animation.Started += new EventHandler<StartAnimationEventArgs>(Animation_Started);
-            this.Animation.Stopped += new EventHandler<StopAnimationEventArgs>(Animation_Stopped);
-            this.Animation.Redraw += new EventHandler<RedrawEventArgs>(Animation_Redraw);
-            this.Animation.Ticked += new EventHandler<TickEventArgs>(Animation_Ticked);
-        }
+		protected void SubscribeEvents()
+		{
+			this.ListView.Disposed += new EventHandler(ListView_Disposed);
+			this.Animation.Started += new EventHandler<StartAnimationEventArgs>(Animation_Started);
+			this.Animation.Stopped += new EventHandler<StopAnimationEventArgs>(Animation_Stopped);
+			this.Animation.Redraw += new EventHandler<RedrawEventArgs>(Animation_Redraw);
+			this.Animation.Ticked += new EventHandler<TickEventArgs>(Animation_Ticked);
+		}
 
-        protected void UnsubscribeEvents() {
-            this.ListView.Disposed -= new EventHandler(ListView_Disposed);
-            this.Animation.Started -= new EventHandler<StartAnimationEventArgs>(Animation_Started);
-            this.Animation.Stopped -= new EventHandler<StopAnimationEventArgs>(Animation_Stopped);
-            this.Animation.Redraw -= new EventHandler<RedrawEventArgs>(Animation_Redraw);
-            this.Animation.Ticked -= new EventHandler<TickEventArgs>(Animation_Ticked);
-        }
+		protected void UnsubscribeEvents()
+		{
+			this.ListView.Disposed -= new EventHandler(ListView_Disposed);
+			this.Animation.Started -= new EventHandler<StartAnimationEventArgs>(Animation_Started);
+			this.Animation.Stopped -= new EventHandler<StopAnimationEventArgs>(Animation_Stopped);
+			this.Animation.Redraw -= new EventHandler<RedrawEventArgs>(Animation_Redraw);
+			this.Animation.Ticked -= new EventHandler<TickEventArgs>(Animation_Ticked);
+		}
 
-        #endregion
+		#endregion
 
-        #region IOverlay implementation
+		#region IOverlay implementation
 
-        public override void Draw(ObjectListView olv, Graphics g, Rectangle r) {
-            if (!this.Animation.Running)
-                return;
+		public override void Draw(ObjectListView olv, Graphics g, Rectangle r)
+		{
+			if(!this.Animation.Running)
+				return;
 
-            if (this.ModelObject != null) {
-                this.ListItem = this.ListView.ModelToItem(this.ModelObject);
-                if (this.ListItem == null)
-                    return;
-                if (this.Column != null) {
-                    this.Animation.Bounds = this.ListItem.GetSubItemBounds(this.Column.Index);
-                } else 
-                    this.Animation.Bounds = this.RowBounds;
-            } else {
-                this.Animation.Bounds = r;
-            } 
-            
-            this.Animation.Draw(g);
-        }
+			if(this.ModelObject != null)
+			{
+				this.ListItem = this.ListView.ModelToItem(this.ModelObject);
+				if(this.ListItem == null)
+					return;
+				if(this.Column != null)
+					this.Animation.Bounds = this.ListItem.GetSubItemBounds(this.Column.Index);
+				else
+					this.Animation.Bounds = this.RowBounds;
+			} else
+				this.Animation.Bounds = r;
 
-        #endregion
+			this.Animation.Draw(g);
+		}
 
-        #region Event handlers
+		#endregion
 
-        protected virtual void ListView_Disposed(object sender, EventArgs e) {
-            this.Animation.Stop();
-        }
+		#region Event handlers
 
-        protected virtual void Animation_Started(object sender, StartAnimationEventArgs e) {
-            this.Animation.Bounds = this.ListView.ContentRectangle;
-            this.ListView.AddDecoration(this);
-        }
+		protected virtual void ListView_Disposed(Object sender, EventArgs e)
+			=> this.Animation.Stop();
 
-        protected virtual void Animation_Stopped(object sender, StopAnimationEventArgs e) {
-            if (!this.ListView.IsDisposed && this.ListView.IsHandleCreated) {
-                this.ListView.Invoke((MethodInvoker)delegate {
-                    this.UnsubscribeEvents();
-                    this.ListView.RemoveDecoration(this);
-                });
-            }
-        }
+		protected virtual void Animation_Started(Object sender, StartAnimationEventArgs e)
+		{
+			this.Animation.Bounds = this.ListView.ContentRectangle;
+			this.ListView.AddDecoration(this);
+		}
 
-        protected virtual void Animation_Redraw(object sender, RedrawEventArgs e) {
-            if (!this.ListView.IsDisposed && this.ListView.IsHandleCreated) {
-                this.ListView.Invoke((MethodInvoker)delegate {
-                    this.ListView.Invalidate();
-                });
-            }
-        }
+		protected virtual void Animation_Stopped(Object sender, StopAnimationEventArgs e)
+		{
+			if(!this.ListView.IsDisposed && this.ListView.IsHandleCreated)
+			{
+				this.ListView.Invoke((MethodInvoker)delegate
+				{
+					this.UnsubscribeEvents();
+					this.ListView.RemoveDecoration(this);
+				});
+			}
+		}
 
-        protected virtual void Animation_Ticked(object sender, TickEventArgs e) {
-        }
+		protected virtual void Animation_Redraw(Object sender, RedrawEventArgs e)
+		{
+			if(!this.ListView.IsDisposed && this.ListView.IsHandleCreated)
+			{
+				this.ListView.Invoke((MethodInvoker)delegate
+				{
+					this.ListView.Invalidate();
+				});
+			}
+		}
 
-        #endregion
-    }
+		protected virtual void Animation_Ticked(Object sender, TickEventArgs e)
+		{
+		}
+
+		#endregion
+	}
 }

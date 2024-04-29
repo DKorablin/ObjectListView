@@ -36,129 +36,132 @@ using System.Windows.Forms;
 
 namespace BrightIdeasSoftware
 {
-    /// <summary>
-    /// An ImageSprite draws an image onto the animation, to which animations can be applied
-    /// </summary>
-    /// <remarks>The image can even be an animated GIF!</remarks>
-    public class ImageSprite : Sprite
-    {
-        #region Life and death
+	/// <summary>An ImageSprite draws an image onto the animation, to which animations can be applied</summary>
+	/// <remarks>The image can even be an animated GIF!</remarks>
+	public class ImageSprite : Sprite
+	{
+		#region Life and death
 
-        public ImageSprite(Image image) {
-            this.Image = image;
-        }
+		public ImageSprite(Image image)
+			=> this.Image = image;
 
-        #endregion
+		#endregion
 
-        #region Implementation properties
+		#region Implementation properties
 
-        protected Image Image ;
+		protected Image Image;
 
-        #endregion
+		#endregion
 
-        #region Sprite properties
+		#region Sprite properties
 
-        /// <summary>
-        /// Gets or sets how big the image is
-        /// </summary>
-        /// <remarks>The image size cannot be set, since it is natural size multiplied by 
-        /// the Scale property.</remarks>
-        public override Size Size {
-            get {
-                if (this.Image == null)
-                    return Size.Empty;
+		/// <summary>Gets or sets how big the image is</summary>
+		/// <remarks>The image size cannot be set, since it is natural size multiplied by the Scale property.</remarks>
+		public override Size Size
+		{
+			get
+			{
+				if(this.Image == null)
+					return Size.Empty;
 
-                // Internal the Image class cannot handle being accessed by multiple threads
-                // at the same time. So make sure the access is serialized.
-                lock (this.locker) {
-                    if (this.Scale == 1.0f)
-                        return this.Image.Size;
-                    else
-                        return new Size((int)(this.Image.Size.Width * this.Scale),
-                            (int)(this.Image.Size.Height * this.Scale));
-                }
-            }
-            set {
-            }
-        }
+				// Internal the Image class cannot handle being accessed by multiple threads
+				// at the same time. So make sure the access is serialized.
+				lock(this._locker)
+				{
+					if(this.Scale == 1.0f)
+						return this.Image.Size;
+					else
+						return new Size((Int32)(this.Image.Size.Width * this.Scale),
+							(Int32)(this.Image.Size.Height * this.Scale));
+				}
+			}
+			set { }
+		}
 
-        #endregion
+		#endregion
 
-        #region Sprite methods
+		#region Sprite methods
 
-        public override void Start() {
-            if (this.Image != null && ImageAnimator.CanAnimate(this.Image)) {
-                isAnimatedImage = true;
-                ImageAnimator.Animate(this.Image, this.OnFrameChanged);
-            }
-        }
-        bool isAnimatedImage;
+		public override void Start()
+		{
+			if(this.Image != null && ImageAnimator.CanAnimate(this.Image))
+			{
+				_isAnimatedImage = true;
+				ImageAnimator.Animate(this.Image, this.OnFrameChanged);
+			}
+		}
+		private Boolean _isAnimatedImage;
 
-        public override void Stop() {
-            if (this.isAnimatedImage)
-                ImageAnimator.StopAnimate(this.Image, this.OnFrameChanged);
-        }
+		public override void Stop()
+		{
+			if(this._isAnimatedImage)
+				ImageAnimator.StopAnimate(this.Image, this.OnFrameChanged);
+		}
 
-        public override void Draw(Graphics g) {
-            this.ApplyState(g);
-            lock (this.locker) {
-                if (this.Image != null) {
-                    if (this.isAnimatedImage)
-                        ImageAnimator.UpdateFrames(this.Image);
+		public override void Draw(Graphics g)
+		{
+			this.ApplyState(g);
+			lock(this._locker)
+			{
+				if(this.Image != null)
+				{
+					if(this._isAnimatedImage)
+						ImageAnimator.UpdateFrames(this.Image);
 
-                    this.DrawTransparentBitmap(g, this.Bounds, this.Image, this.Opacity);
-                }
-                this.UnapplyState(g);
-            }
-        }
+					this.DrawTransparentBitmap(g, this.Bounds, this.Image, this.Opacity);
+				}
+				this.UnapplyState(g);
+			}
+		}
 
-        private Object locker = new object();
+		private Object _locker = new Object();
 
-        #endregion
+		#endregion
 
-        #region Implementation methods
+		#region Implementation methods
 
-        /// <summary>
-        /// The frame on an animated GIF has changed. Normally we would redraw, but
-        /// we leave that to the animation controller.
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="e"></param>
-        private void OnFrameChanged(object o, EventArgs e) {
-        }
+		/// <summary>
+		/// The frame on an animated GIF has changed.
+		/// Normally we would redraw, but we leave that to the animation controller.
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="e"></param>
+		private void OnFrameChanged(Object o, EventArgs e)
+		{
+		}
 
-        /// <summary>
-        /// Draw an image in a (possibilty) transluscent fashion
-        /// </summary>
-        /// <param name="g"></param>
-        /// <param name="r"></param>
-        /// <param name="image"></param>
-        /// <param name="transparency"></param>
-        protected void DrawTransparentBitmap(Graphics g, Rectangle r, Image image, float transparency) {
-            if (transparency <= 0.0f)
-                return;
+		/// <summary>Draw an image in a (possibilty) transluscent fashion</summary>
+		/// <param name="g"></param>
+		/// <param name="r"></param>
+		/// <param name="image"></param>
+		/// <param name="transparency"></param>
+		protected void DrawTransparentBitmap(Graphics g, Rectangle r, Image image, Single transparency)
+		{
+			if(transparency <= 0.0f)
+				return;
 
-            ImageAttributes imageAttributes = null;
-            if (transparency < 1.0f) {
-                imageAttributes = new ImageAttributes();
-                float[][] colorMatrixElements = {
-                    new float[] {1,  0,  0,  0, 0},
-                    new float[] {0,  1,  0,  0, 0},
-                    new float[] {0,  0,  1,  0, 0},
-                    new float[] {0,  0,  0,  transparency, 0},
-                    new float[] {0,  0,  0,  0, 1}};
+			ImageAttributes imageAttributes = null;
+			if(transparency < 1.0f)
+			{
+				imageAttributes = new ImageAttributes();
+				Single[][] colorMatrixElements = {
+					new Single[] {1,  0,  0,  0, 0},
+					new Single[] {0,  1,  0,  0, 0},
+					new Single[] {0,  0,  1,  0, 0},
+					new Single[] {0,  0,  0,  transparency, 0},
+					new Single[] {0,  0,  0,  0, 1}};
 
-                imageAttributes.SetColorMatrix(new ColorMatrix(colorMatrixElements));
-            }
+				imageAttributes.SetColorMatrix(new ColorMatrix(colorMatrixElements));
+			}
 
-            Rectangle dest = new Rectangle(Point.Empty, this.Size);
-            g.DrawImage(image,
-               dest,                                          // destination rectangle
-               0, 0, image.Size.Width, image.Size.Height,  // source rectangle
-               GraphicsUnit.Pixel,
-               imageAttributes);
-        }
+			Rectangle dest = new Rectangle(Point.Empty, this.Size);
+			g.DrawImage(image,
+			   dest,                                          // destination rectangle
+			   0, 0, image.Size.Width, image.Size.Height,  // source rectangle
+			   GraphicsUnit.Pixel,
+			   imageAttributes);
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

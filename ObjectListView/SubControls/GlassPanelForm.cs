@@ -49,411 +49,401 @@ using System.Windows.Forms;
 
 namespace BrightIdeasSoftware
 {
-    /// <summary>
-    /// A GlassPanelForm sits transparently over an ObjectListView to show overlays.
-    /// </summary>
-    internal partial class GlassPanelForm : Form
-    {
-        public GlassPanelForm() {
-            this.Name = "GlassPanelForm";
-            this.Text = "GlassPanelForm";
+	/// <summary>A GlassPanelForm sits transparently over an ObjectListView to show overlays.</summary>
+	internal partial class GlassPanelForm : Form
+	{
+		public GlassPanelForm()
+		{
+			this.Name = "GlassPanelForm";
+			this.Text = "GlassPanelForm";
 
-            ClientSize = new System.Drawing.Size(0, 0);
-            ControlBox = false;
-            FormBorderStyle = FormBorderStyle.None;
-            SizeGripStyle = SizeGripStyle.Hide;
-            StartPosition = FormStartPosition.Manual;
-            MaximizeBox = false;
-            MinimizeBox = false;
-            ShowIcon = false;
-            ShowInTaskbar = false;
-            FormBorderStyle = FormBorderStyle.None;
+			this.ClientSize = new Size(0, 0);
+			this.ControlBox = false;
+			this.FormBorderStyle = FormBorderStyle.None;
+			this.SizeGripStyle = SizeGripStyle.Hide;
+			this.StartPosition = FormStartPosition.Manual;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
+			this.FormBorderStyle = FormBorderStyle.None;
 
-            SetStyle(ControlStyles.Selectable, false);
-            
-            this.Opacity = 0.5f;
-            this.BackColor = Color.FromArgb(255, 254, 254, 254);
-            this.TransparencyKey = this.BackColor;
-            this.HideGlass();
-            NativeMethods.ShowWithoutActivate(this);
-        }
+			this.SetStyle(ControlStyles.Selectable, false);
 
-        protected override void Dispose(bool disposing) {
-            if (disposing)
-                this.Unbind();
+			this.Opacity = 0.5f;
+			this.BackColor = Color.FromArgb(255, 254, 254, 254);
+			this.TransparencyKey = this.BackColor;
+			this.HideGlass();
+			NativeMethods.ShowWithoutActivate(this);
+		}
 
-            base.Dispose(disposing);
-        }
+		protected override void Dispose(Boolean disposing)
+		{
+			if(disposing)
+				this.Unbind();
 
-        #region Properties
+			base.Dispose(disposing);
+		}
 
-        /// <summary>
-        /// Get the low-level windows flag that will be given to CreateWindow.
-        /// </summary>
-        protected override CreateParams CreateParams {
-            get {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x20; // WS_EX_TRANSPARENT
-                cp.ExStyle |= 0x80; // WS_EX_TOOLWINDOW 
-                return cp;
-            }
-        }
+		#region Properties
 
-        #endregion
+		/// <summary>Get the low-level windows flag that will be given to CreateWindow.</summary>
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				CreateParams cp = base.CreateParams;
+				cp.ExStyle |= 0x20; // WS_EX_TRANSPARENT
+				cp.ExStyle |= 0x80; // WS_EX_TOOLWINDOW 
+				return cp;
+			}
+		}
 
-        #region Commands
+		#endregion
 
-        /// <summary>
-        /// Attach this form to the given ObjectListView
-        /// </summary>        
-        public void Bind(ObjectListView olv, IOverlay overlay) {
-            if (this.objectListView != null)
-                this.Unbind();
+		#region Commands
 
-            this.objectListView = olv;
-            this.Overlay = overlay;
-            this.mdiClient = null;
-            this.mdiOwner = null;
+		/// <summary>Attach this form to the given ObjectListView</summary>
+		public void Bind(ObjectListView olv, IOverlay overlay)
+		{
+			if(this.objectListView != null)
+				this.Unbind();
 
-            if (this.objectListView == null)
-                return;
+			this.objectListView = olv;
+			this.Overlay = overlay;
+			this.mdiClient = null;
+			this.mdiOwner = null;
 
-            // NOTE: If you listen to any events here, you *must* stop listening in Unbind()
+			if(this.objectListView == null)
+				return;
 
-            this.objectListView.Disposed += new EventHandler(objectListView_Disposed);
-            this.objectListView.LocationChanged += new EventHandler(objectListView_LocationChanged);
-            this.objectListView.SizeChanged += new EventHandler(objectListView_SizeChanged);
-            this.objectListView.VisibleChanged += new EventHandler(objectListView_VisibleChanged);
-            this.objectListView.ParentChanged += new EventHandler(objectListView_ParentChanged);
+			// NOTE: If you listen to any events here, you *must* stop listening in Unbind()
 
-            // Collect our ancestors in the widget hierarchy
-            if (this.ancestors == null)
-                this.ancestors = new List<Control>();
-            Control parent = this.objectListView.Parent;
-            while (parent != null) {
-                this.ancestors.Add(parent);
-                parent = parent.Parent;
-            } 
+			this.objectListView.Disposed += new EventHandler(objectListView_Disposed);
+			this.objectListView.LocationChanged += new EventHandler(objectListView_LocationChanged);
+			this.objectListView.SizeChanged += new EventHandler(objectListView_SizeChanged);
+			this.objectListView.VisibleChanged += new EventHandler(objectListView_VisibleChanged);
+			this.objectListView.ParentChanged += new EventHandler(objectListView_ParentChanged);
 
-            // Listen for changes in the hierarchy
-            foreach (Control ancestor in this.ancestors) {
-                ancestor.ParentChanged += new EventHandler(objectListView_ParentChanged);
-                TabControl tabControl = ancestor as TabControl;
-                if (tabControl != null) {
-                    tabControl.Selected += new TabControlEventHandler(tabControl_Selected);
-                }
-            }
+			// Collect our ancestors in the widget hierarchy
+			if(this.ancestors == null)
+				this.ancestors = new List<Control>();
+			Control parent = this.objectListView.Parent;
+			while(parent != null)
+			{
+				this.ancestors.Add(parent);
+				parent = parent.Parent;
+			}
 
-            // Listen for changes in our owning form
-            this.Owner = this.objectListView.FindForm();
-            this.myOwner = this.Owner;
-            if (this.Owner != null) {
-                this.Owner.LocationChanged += new EventHandler(Owner_LocationChanged);
-                this.Owner.SizeChanged += new EventHandler(Owner_SizeChanged);
-                this.Owner.ResizeBegin += new EventHandler(Owner_ResizeBegin);
-                this.Owner.ResizeEnd += new EventHandler(Owner_ResizeEnd);
-                if (this.Owner.TopMost) {
-                    // We can't do this.TopMost = true; since that will activate the panel,
-                    // taking focus away from the owner of the listview
-                    NativeMethods.MakeTopMost(this);
-                }
+			// Listen for changes in the hierarchy
+			foreach(Control ancestor in this.ancestors)
+			{
+				ancestor.ParentChanged += new EventHandler(objectListView_ParentChanged);
+				if(ancestor is TabControl tabControl)
+					tabControl.Selected += new TabControlEventHandler(tabControl_Selected);
+			}
 
-                // We need special code to handle MDI
-                this.mdiOwner = this.Owner.MdiParent;
-                if (this.mdiOwner != null) {
-                    this.mdiOwner.LocationChanged += new EventHandler(Owner_LocationChanged);
-                    this.mdiOwner.SizeChanged += new EventHandler(Owner_SizeChanged);
-                    this.mdiOwner.ResizeBegin += new EventHandler(Owner_ResizeBegin);
-                    this.mdiOwner.ResizeEnd += new EventHandler(Owner_ResizeEnd);
+			// Listen for changes in our owning form
+			this.Owner = this.objectListView.FindForm();
+			this.myOwner = this.Owner;
+			if(this.Owner != null)
+			{
+				this.Owner.LocationChanged += new EventHandler(Owner_LocationChanged);
+				this.Owner.SizeChanged += new EventHandler(Owner_SizeChanged);
+				this.Owner.ResizeBegin += new EventHandler(Owner_ResizeBegin);
+				this.Owner.ResizeEnd += new EventHandler(Owner_ResizeEnd);
+				if(this.Owner.TopMost)
+				{
+					// We can't do this.TopMost = true; since that will activate the panel,
+					// taking focus away from the owner of the listview
+					NativeMethods.MakeTopMost(this);
+				}
 
-                    // Find the MDIClient control, which houses all MDI children
-                    foreach (Control c in this.mdiOwner.Controls) {
-                        this.mdiClient = c as MdiClient;
-                        if (this.mdiClient != null) {
-                            break;
-                        }
-                    }
-                    if (this.mdiClient != null) {
-                        this.mdiClient.ClientSizeChanged += new EventHandler(myMdiClient_ClientSizeChanged);
-                    }
-                }
-            }
+				// We need special code to handle MDI
+				this.mdiOwner = this.Owner.MdiParent;
+				if(this.mdiOwner != null)
+				{
+					this.mdiOwner.LocationChanged += new EventHandler(Owner_LocationChanged);
+					this.mdiOwner.SizeChanged += new EventHandler(Owner_SizeChanged);
+					this.mdiOwner.ResizeBegin += new EventHandler(Owner_ResizeBegin);
+					this.mdiOwner.ResizeEnd += new EventHandler(Owner_ResizeEnd);
 
-            this.UpdateTransparency();
-        }
+					// Find the MDIClient control, which houses all MDI children
+					foreach(Control c in this.mdiOwner.Controls)
+					{
+						this.mdiClient = c as MdiClient;
+						if(this.mdiClient != null)
+							break;
+					}
+					if(this.mdiClient != null)
+						this.mdiClient.ClientSizeChanged += new EventHandler(myMdiClient_ClientSizeChanged);
+				}
+			}
 
-        void myMdiClient_ClientSizeChanged(object sender, EventArgs e) {
-            this.RecalculateBounds();
-            this.Invalidate();
-        }
+			this.UpdateTransparency();
+		}
 
-        /// <summary>
-        /// Made the overlay panel invisible
-        /// </summary>
-        public void HideGlass() {
-            if (!this.isGlassShown)
-                return;
-            this.isGlassShown = false;
-            this.Bounds = new Rectangle(-10000, -10000, 1, 1);
-        }
+		void myMdiClient_ClientSizeChanged(Object sender, EventArgs e)
+		{
+			this.RecalculateBounds();
+			this.Invalidate();
+		}
 
-        /// <summary>
-        /// Show the overlay panel in its correctly location
-        /// </summary>
-        /// <remarks>
-        /// If the panel is always shown, this method does nothing.
-        /// If the panel is being resized, this method also does nothing.
-        /// </remarks>
-        public void ShowGlass() {
-            if (this.isGlassShown || this.isDuringResizeSequence)
-                return;
+		/// <summary>Made the overlay panel invisible</summary>
+		public void HideGlass()
+		{
+			if(!this.isGlassShown)
+				return;
+			this.isGlassShown = false;
+			this.Bounds = new Rectangle(-10000, -10000, 1, 1);
+		}
 
-            this.isGlassShown = true;
-            this.RecalculateBounds();
-        }
+		/// <summary>Show the overlay panel in its correctly location</summary>
+		/// <remarks>
+		/// If the panel is always shown, this method does nothing.
+		/// If the panel is being resized, this method also does nothing.
+		/// </remarks>
+		public void ShowGlass()
+		{
+			if(this.isGlassShown || this.isDuringResizeSequence)
+				return;
 
-        /// <summary>
-        /// Detach this glass panel from its previous ObjectListView
-        /// </summary>        
-        /// <remarks>
-        /// You should unbind the overlay panel before making any changes to the 
-        /// widget hierarchy.
-        /// </remarks>
-        public void Unbind() {
-            if (this.objectListView != null) {
-                this.objectListView.Disposed -= new EventHandler(objectListView_Disposed);
-                this.objectListView.LocationChanged -= new EventHandler(objectListView_LocationChanged);
-                this.objectListView.SizeChanged -= new EventHandler(objectListView_SizeChanged);
-                this.objectListView.VisibleChanged -= new EventHandler(objectListView_VisibleChanged);
-                this.objectListView.ParentChanged -= new EventHandler(objectListView_ParentChanged);
-                this.objectListView = null;
-            }
+			this.isGlassShown = true;
+			this.RecalculateBounds();
+		}
 
-            if (this.ancestors != null) {
-                foreach (Control parent in this.ancestors) {
-                    parent.ParentChanged -= new EventHandler(objectListView_ParentChanged);
-                    TabControl tabControl = parent as TabControl;
-                    if (tabControl != null) {
-                        tabControl.Selected -= new TabControlEventHandler(tabControl_Selected);
-                    }
-                }
-                this.ancestors = null;
-            }
+		/// <summary>Detach this glass panel from its previous ObjectListView</summary>
+		/// <remarks>You should unbind the overlay panel before making any changes to the widget hierarchy.</remarks>
+		public void Unbind()
+		{
+			if(this.objectListView != null)
+			{
+				this.objectListView.Disposed -= new EventHandler(objectListView_Disposed);
+				this.objectListView.LocationChanged -= new EventHandler(objectListView_LocationChanged);
+				this.objectListView.SizeChanged -= new EventHandler(objectListView_SizeChanged);
+				this.objectListView.VisibleChanged -= new EventHandler(objectListView_VisibleChanged);
+				this.objectListView.ParentChanged -= new EventHandler(objectListView_ParentChanged);
+				this.objectListView = null;
+			}
 
-            if (this.myOwner != null) {
-                this.myOwner.LocationChanged -= new EventHandler(Owner_LocationChanged);
-                this.myOwner.SizeChanged -= new EventHandler(Owner_SizeChanged);
-                this.myOwner.ResizeBegin -= new EventHandler(Owner_ResizeBegin);
-                this.myOwner.ResizeEnd -= new EventHandler(Owner_ResizeEnd);
-                this.myOwner = null;
-            }
+			if(this.ancestors != null)
+			{
+				foreach(Control parent in this.ancestors)
+				{
+					parent.ParentChanged -= new EventHandler(objectListView_ParentChanged);
+					if(parent is TabControl tabControl)
+						tabControl.Selected -= new TabControlEventHandler(tabControl_Selected);
+				}
+				this.ancestors = null;
+			}
 
-            if (this.mdiOwner != null) {
-                this.mdiOwner.LocationChanged -= new EventHandler(Owner_LocationChanged);
-                this.mdiOwner.SizeChanged -= new EventHandler(Owner_SizeChanged);
-                this.mdiOwner.ResizeBegin -= new EventHandler(Owner_ResizeBegin);
-                this.mdiOwner.ResizeEnd -= new EventHandler(Owner_ResizeEnd);
-                this.mdiOwner = null;
-            }
+			if(this.myOwner != null)
+			{
+				this.myOwner.LocationChanged -= new EventHandler(Owner_LocationChanged);
+				this.myOwner.SizeChanged -= new EventHandler(Owner_SizeChanged);
+				this.myOwner.ResizeBegin -= new EventHandler(Owner_ResizeBegin);
+				this.myOwner.ResizeEnd -= new EventHandler(Owner_ResizeEnd);
+				this.myOwner = null;
+			}
 
-            if (this.mdiClient != null) {
-                this.mdiClient.ClientSizeChanged -= new EventHandler(myMdiClient_ClientSizeChanged);
-                this.mdiClient = null;
-            }
-        }
+			if(this.mdiOwner != null)
+			{
+				this.mdiOwner.LocationChanged -= new EventHandler(Owner_LocationChanged);
+				this.mdiOwner.SizeChanged -= new EventHandler(Owner_SizeChanged);
+				this.mdiOwner.ResizeBegin -= new EventHandler(Owner_ResizeBegin);
+				this.mdiOwner.ResizeEnd -= new EventHandler(Owner_ResizeEnd);
+				this.mdiOwner = null;
+			}
 
-        #endregion
+			if(this.mdiClient != null)
+			{
+				this.mdiClient.ClientSizeChanged -= new EventHandler(myMdiClient_ClientSizeChanged);
+				this.mdiClient = null;
+			}
+		}
 
-        #region Event Handlers
+		#endregion
 
-        void objectListView_Disposed(object sender, EventArgs e) {
-            this.Unbind();
-        }
+		#region Event Handlers
 
-        /// <summary>
-        /// Handle when the form that owns the ObjectListView begins to be resized
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void Owner_ResizeBegin(object sender, EventArgs e) {
-            // When the top level window is being resized, we just want to hide
-            // the overlay window. When the resizing finishes, we want to show
-            // the overlay window, if it was shown before the resize started.
-            this.isDuringResizeSequence = true;
-            this.wasGlassShownBeforeResize = this.isGlassShown;
-        }
+		void objectListView_Disposed(Object sender, EventArgs e)
+			=> this.Unbind();
 
-        /// <summary>
-        /// Handle when the form that owns the ObjectListView finished to be resized
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void Owner_ResizeEnd(object sender, EventArgs e) {
-            this.isDuringResizeSequence = false;
-            if (this.wasGlassShownBeforeResize)
-                this.ShowGlass();
-        }
+		/// <summary>Handle when the form that owns the ObjectListView begins to be resized</summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void Owner_ResizeBegin(Object sender, EventArgs e)
+		{
+			// When the top level window is being resized, we just want to hide
+			// the overlay window. When the resizing finishes, we want to show
+			// the overlay window, if it was shown before the resize started.
+			this.isDuringResizeSequence = true;
+			this.wasGlassShownBeforeResize = this.isGlassShown;
+		}
 
-        /// <summary>
-        /// The owning form has moved. Move the overlay panel too.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void Owner_LocationChanged(object sender, EventArgs e) {
-            if (this.mdiOwner != null)
-                this.HideGlass();
-            else
-                this.RecalculateBounds();
-        }
+		/// <summary>Handle when the form that owns the ObjectListView finished to be resized</summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void Owner_ResizeEnd(Object sender, EventArgs e)
+		{
+			this.isDuringResizeSequence = false;
+			if(this.wasGlassShownBeforeResize)
+				this.ShowGlass();
+		}
 
-        /// <summary>
-        /// The owning form is resizing. Hide our overlay panel until the resizing stops
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void Owner_SizeChanged(object sender, EventArgs e) {
-            this.HideGlass();
-        }
+		/// <summary>The owning form has moved. Move the overlay panel too.</summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void Owner_LocationChanged(Object sender, EventArgs e)
+		{
+			if(this.mdiOwner != null)
+				this.HideGlass();
+			else
+				this.RecalculateBounds();
+		}
 
+		/// <summary>The owning form is resizing. Hide our overlay panel until the resizing stops</summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void Owner_SizeChanged(Object sender, EventArgs e)
+			=> this.HideGlass();
 
-        /// <summary>
-        /// Handle when the bound OLV changes its location. The overlay panel must 
-        /// be moved too, IFF it is currently visible.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void objectListView_LocationChanged(object sender, EventArgs e) {
-            if (this.isGlassShown) {
-                this.RecalculateBounds();
-            }
-        }
+		/// <summary>Handle when the bound OLV changes its location. The overlay panel must be moved too, IFF it is currently visible.</summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void objectListView_LocationChanged(Object sender, EventArgs e)
+		{
+			if(this.isGlassShown)
+				this.RecalculateBounds();
+		}
 
-        /// <summary>
-        /// Handle when the bound OLV changes size. The overlay panel must 
-        /// resize too, IFF it is currently visible.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void objectListView_SizeChanged(object sender, EventArgs e) {
-            // This event is triggered in all sorts of places, and not always when the size changes.
-            //if (this.isGlassShown) {
-            //    this.Size = this.objectListView.ClientSize;
-            //}
-        }
+		/// <summary>
+		/// Handle when the bound OLV changes size.
+		/// The overlay panel must resize too, IFF it is currently visible.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void objectListView_SizeChanged(Object sender, EventArgs e)
+		{
+			// This event is triggered in all sorts of places, and not always when the size changes.
+			//if (this.isGlassShown) {
+			//    this.Size = this.objectListView.ClientSize;
+			//}
+		}
 
-        /// <summary>
-        /// Handle when the bound OLV is part of a TabControl and that
-        /// TabControl changes tabs. The overlay panel is hidden. The
-        /// first time the bound OLV is redrawn, the overlay panel will
-        /// be shown again.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void tabControl_Selected(object sender, TabControlEventArgs e) {
-            this.HideGlass();
-        }
+		/// <summary>
+		/// Handle when the bound OLV is part of a TabControl and that
+		/// TabControl changes tabs. The overlay panel is hidden. The
+		/// first time the bound OLV is redrawn, the overlay panel will
+		/// be shown again.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void tabControl_Selected(Object sender, TabControlEventArgs e)
+			=> this.HideGlass();
 
-        /// <summary>
-        /// Somewhere the parent of the bound OLV has changed. Update
-        /// our events.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void objectListView_ParentChanged(object sender, EventArgs e) {
-            ObjectListView olv = this.objectListView;
-            IOverlay overlay = this.Overlay;
-            this.Unbind();
-            this.Bind(olv, overlay);
-        }
+		/// <summary>Somewhere the parent of the bound OLV has changed. Update our events.</summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void objectListView_ParentChanged(Object sender, EventArgs e)
+		{
+			ObjectListView olv = this.objectListView;
+			IOverlay overlay = this.Overlay;
+			this.Unbind();
+			this.Bind(olv, overlay);
+		}
 
-        /// <summary>
-        /// Handle when the bound OLV changes its visibility.
-        /// The overlay panel should match the OLV's visibility.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void objectListView_VisibleChanged(object sender, EventArgs e) {
-            if (this.objectListView.Visible)
-                this.ShowGlass();
-            else
-                this.HideGlass();
-        }
+		/// <summary>
+		/// Handle when the bound OLV changes its visibility.
+		/// The overlay panel should match the OLV's visibility.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void objectListView_VisibleChanged(Object sender, EventArgs e)
+		{
+			if(this.objectListView.Visible)
+				this.ShowGlass();
+			else
+				this.HideGlass();
+		}
 
-        #endregion
+		#endregion
 
-        #region Implementation
+		#region Implementation
 
-        protected override void OnPaint(PaintEventArgs e) {
-            if (this.objectListView == null || this.Overlay == null)
-                return;
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			if(this.objectListView == null || this.Overlay == null)
+				return;
 
-            Graphics g = e.Graphics;
-            g.TextRenderingHint = ObjectListView.TextRenderingHint;
-            g.SmoothingMode = ObjectListView.SmoothingMode;
-            //g.DrawRectangle(new Pen(Color.Green, 4.0f), this.ClientRectangle);
+			Graphics g = e.Graphics;
+			g.TextRenderingHint = ObjectListView.TextRenderingHint;
+			g.SmoothingMode = ObjectListView.SmoothingMode;
+			//g.DrawRectangle(new Pen(Color.Green, 4.0f), this.ClientRectangle);
 
-            // If we are part of an MDI app, make sure we don't draw outside the bounds
-            if (this.mdiClient != null) {
-                Rectangle r = mdiClient.RectangleToScreen(mdiClient.ClientRectangle);
-                Rectangle r2 = this.objectListView.RectangleToClient(r);
-                g.SetClip(r2, System.Drawing.Drawing2D.CombineMode.Intersect);
-            }
+			// If we are part of an MDI app, make sure we don't draw outside the bounds
+			if(this.mdiClient != null)
+			{
+				Rectangle r = mdiClient.RectangleToScreen(mdiClient.ClientRectangle);
+				Rectangle r2 = this.objectListView.RectangleToClient(r);
+				g.SetClip(r2, System.Drawing.Drawing2D.CombineMode.Intersect);
+			}
 
-            this.Overlay.Draw(this.objectListView, g, this.objectListView.ClientRectangle);
-        }
+			this.Overlay.Draw(this.objectListView, g, this.objectListView.ClientRectangle);
+		}
 
-        protected void RecalculateBounds() {
-            if (!this.isGlassShown)
-                return;
+		protected void RecalculateBounds()
+		{
+			if(!this.isGlassShown)
+				return;
 
-            Rectangle rect = this.objectListView.ClientRectangle;
-            rect.X = 0;
-            rect.Y = 0;
-            this.Bounds = this.objectListView.RectangleToScreen(rect);
-        }
+			Rectangle rect = this.objectListView.ClientRectangle;
+			rect.X = 0;
+			rect.Y = 0;
+			this.Bounds = this.objectListView.RectangleToScreen(rect);
+		}
 
-        internal void UpdateTransparency() {
-            ITransparentOverlay transparentOverlay = this.Overlay as ITransparentOverlay;
-            if (transparentOverlay == null)
-                this.Opacity = this.objectListView.OverlayTransparency / 255.0f;
-            else
-                this.Opacity = transparentOverlay.Transparency / 255.0f;
-        }
+		internal void UpdateTransparency()
+			=> this.Opacity = this.Overlay is ITransparentOverlay transparentOverlay
+				? transparentOverlay.Transparency / 255.0f
+				: this.objectListView.OverlayTransparency / 255.0f;
 
-        protected override void WndProc(ref Message m) {
-            const int WM_NCHITTEST = 132;
-            const int HTTRANSPARENT = -1;
-            switch (m.Msg) {
-                // Ignore all mouse interactions
-                case WM_NCHITTEST:
-                    m.Result = (IntPtr)HTTRANSPARENT;
-                    break;
-            }
-            base.WndProc(ref m);
-        }
+		protected override void WndProc(ref Message m)
+		{
+			const Int32 WM_NCHITTEST = 132;
+			const Int32 HTTRANSPARENT = -1;
+			switch(m.Msg)
+			{
+			// Ignore all mouse interactions
+			case WM_NCHITTEST:
+				m.Result = (IntPtr)HTTRANSPARENT;
+				break;
+			}
+			base.WndProc(ref m);
+		}
 
-        #endregion
-        
-        #region Implementation variables
+		#endregion
 
-        internal IOverlay Overlay;
+		#region Implementation variables
 
-        #endregion
+		internal IOverlay Overlay;
 
-        #region Private variables
+		#endregion
 
-        private ObjectListView objectListView;
-        private bool isDuringResizeSequence;
-        private bool isGlassShown;
-        private bool wasGlassShownBeforeResize;
+		#region Private variables
 
-        // Cache these so we can unsubscribe from events even when the OLV has been disposed.
-        private Form myOwner;
-        private Form mdiOwner;
-        private List<Control> ancestors;
-        MdiClient mdiClient;
+		private ObjectListView objectListView;
+		private Boolean isDuringResizeSequence;
+		private Boolean isGlassShown;
+		private Boolean wasGlassShownBeforeResize;
 
-        #endregion
+		// Cache these so we can unsubscribe from events even when the OLV has been disposed.
+		private Form myOwner;
+		private Form mdiOwner;
+		private List<Control> ancestors;
+		MdiClient mdiClient;
 
-    }
+		#endregion
+
+	}
 }

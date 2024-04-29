@@ -192,7 +192,7 @@ namespace BrightIdeasSoftware {
     /// operation.
     /// </summary>
     /// <remarks>Custom renderers can use HitTestLocation.UserDefined and the UserData
-    /// object to store more specific locations for use during event handlers.</remarks>
+    /// Object to store more specific locations for use during event handlers.</remarks>
     public class OlvListViewHitTestInfo {
 
         /// <summary>
@@ -320,7 +320,7 @@ namespace BrightIdeasSoftware {
         private ObjectListView listView;
 
         /// <summary>
-        /// Gets the model object that was hit
+        /// Gets the model Object that was hit
         /// </summary>
         public Object RowObject {
             get {
@@ -366,15 +366,15 @@ namespace BrightIdeasSoftware {
         #endregion
 
         /// <summary>
-        /// Returns a string that represents the current object.
+        /// Returns a String that represents the current Object.
         /// </summary>
         /// <returns>
-        /// A string that represents the current object.
+        /// A String that represents the current Object.
         /// </returns>
         /// <filterpriority>2</filterpriority>
-        public override string ToString()
+        public override String ToString()
         {
-            return string.Format("HitTestLocation: {0}, HitTestLocationEx: {1}, Item: {2}, SubItem: {3}, Location: {4}, Group: {5}, ColumnIndex: {6}", 
+            return String.Format("HitTestLocation: {0}, HitTestLocationEx: {1}, Item: {2}, SubItem: {3}, Location: {4}, Group: {5}, ColumnIndex: {6}", 
                 this.HitTestLocation, this.HitTestLocationEx, this.item, this.subItem, this.location, this.Group, this.ColumnIndex);
         }
 

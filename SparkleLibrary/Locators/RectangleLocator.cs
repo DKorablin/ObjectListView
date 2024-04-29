@@ -27,179 +27,169 @@
  * If you wish to use this code in a closed source application, please contact phillip.piper@gmail.com.
  */
 
+using System;
 using System.Drawing;
 
 namespace BrightIdeasSoftware
 {
-    /// <summary>
-    /// A IRectangleLocator calculates a rectangle
-    /// </summary>
-    public interface IRectangleLocator
-    {
-        ISprite Sprite { get; set; }
-        Rectangle GetRectangle();
-    }
+	/// <summary>A IRectangleLocator calculates a rectangle</summary>
+	public interface IRectangleLocator
+	{
+		ISprite Sprite { get; set; }
+		Rectangle GetRectangle();
+	}
 
-    /// <summary>
-    /// A safe do-nothing implementation of IRectangleLocator plus some useful utilities
-    /// </summary>
-    public class AbstractRectangleLocator : IRectangleLocator
-    {
-        #region Properties
+	/// <summary>A safe do-nothing implementation of IRectangleLocator plus some useful utilities</summary>
+	public class AbstractRectangleLocator : IRectangleLocator
+	{
+		#region Properties
 
-        public Point Expansion ;
+		public Point Expansion;
 
-        public ISprite Sprite {
-            get { return this.sprite; }
-            set {
-                this.sprite = value;
-                this.InitializeSublocators();
-            }
-        }
-        private ISprite sprite; 
+		public ISprite Sprite
+		{
+			get => this._sprite;
+			set
+			{
+				this._sprite = value;
+				this.InitializeSublocators();
+			}
+		}
+		private ISprite _sprite;
 
-        #endregion
+		#endregion
 
-        #region Public interface
+		#region Public interface
 
-        public virtual Rectangle GetRectangle() {
-            return Rectangle.Empty;
-        }
+		public virtual Rectangle GetRectangle()
+			=> Rectangle.Empty;
 
-        #endregion
+		#endregion
 
-        #region Utilities
+		#region Utilities
 
-        protected Rectangle Expand(Rectangle r) {
-            if (this.Expansion == Point.Empty)
-                return r;
+		protected Rectangle Expand(Rectangle r)
+		{
+			if(this.Expansion == Point.Empty)
+				return r;
 
-            Rectangle r2 = r;
-            r2.Inflate(this.Expansion.X, this.Expansion.Y);
-            return r2;
-        }
+			Rectangle r2 = r;
+			r2.Inflate(this.Expansion.X, this.Expansion.Y);
+			return r2;
+		}
 
-        /// <summary>
-        /// The sprite associate with this locator has changed. 
-        /// Make sure any dependent locators are updated
-        /// </summary>
-        protected virtual void InitializeSublocators() {
-        }
+		/// <summary>The sprite associate with this locator has changed.</summary>
+		/// <remarks>Make sure any dependent locators are updated</remarks>
+		protected virtual void InitializeSublocators()
+		{
+		}
 
-        protected void InitializeLocator(IPointLocator locator) {
-            if (locator != null && locator.Sprite == null)
-                locator.Sprite = this.Sprite;
-        }
+		protected void InitializeLocator(IPointLocator locator)
+		{
+			if(locator != null && locator.Sprite == null)
+				locator.Sprite = this.Sprite;
+		}
 
-        protected void InitializeLocator(IRectangleLocator locator) {
-            if (locator != null && locator.Sprite == null)
-                locator.Sprite = this.Sprite;
-        }
+		protected void InitializeLocator(IRectangleLocator locator)
+		{
+			if(locator != null && locator.Sprite == null)
+				locator.Sprite = this.Sprite;
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 
-    /// <summary>
-    /// A SpritePointLocator calculates a point relative to
-    /// the reference bound of sprite.
-    /// </summary>
-    public class SpriteBoundsLocator : AbstractRectangleLocator
-    {
-        public SpriteBoundsLocator() {
-        }
+	/// <summary>A SpritePointLocator calculates a point relative to the reference bound of sprite.</summary>
+	public class SpriteBoundsLocator : AbstractRectangleLocator
+	{
+		public SpriteBoundsLocator()
+		{
+		}
 
-        public SpriteBoundsLocator(ISprite sprite) {
-            this.Sprite = sprite;
-        }
+		public SpriteBoundsLocator(ISprite sprite)
+			=> this.Sprite = sprite;
 
-        public SpriteBoundsLocator(int expandX, int expandY) {
-            this.Expansion = new Point(expandX, expandY);
-        }
+		public SpriteBoundsLocator(Int32 expandX, Int32 expandY)
+			=> this.Expansion = new Point(expandX, expandY);
 
-        public override Rectangle GetRectangle() {
-            return this.Expand(this.Sprite.Bounds);
-        }
-    }
+		public override Rectangle GetRectangle()
+			=> this.Expand(this.Sprite.Bounds);
+	}
 
-    /// <summary>
-    /// A AnimationBoundsLocator calculates a point 
-    /// on the bounds of whole animation.
-    /// </summary>
-    public class AnimationBoundsLocator : AbstractRectangleLocator
-    {
-        public AnimationBoundsLocator() {
-        }
+	/// <summary>A AnimationBoundsLocator calculates a point on the bounds of whole animation.</summary>
+	public class AnimationBoundsLocator : AbstractRectangleLocator
+	{
+		public AnimationBoundsLocator()
+		{
+		}
 
-        public AnimationBoundsLocator(int expandX, int expandY) {
-            this.Expansion = new Point(expandX, expandY);
-        }
+		public AnimationBoundsLocator(Int32 expandX, Int32 expandY)
+			=> this.Expansion = new Point(expandX, expandY);
 
-        public override Rectangle GetRectangle() {
-            return this.Expand(this.Sprite.OuterBounds);
-        }
-    }
+		public override Rectangle GetRectangle()
+			=> this.Expand(this.Sprite.OuterBounds);
+	}
 
-    /// <summary>
-    /// A RectangleFromCornersLocator calculates its rectangle through two point locators,
-    /// one for the top left, the other for the bottom right. The rectangle
-    /// can also be expanded by a fixed amount.
-    /// </summary>
-    public class RectangleFromCornersLocator : AbstractRectangleLocator
-    {
-        #region Life and death
+	/// <summary>
+	/// A RectangleFromCornersLocator calculates its rectangle through two point locators,
+	/// one for the top left, the other for the bottom right. The rectangle
+	/// can also be expanded by a fixed amount.
+	/// </summary>
+	public class RectangleFromCornersLocator : AbstractRectangleLocator
+	{
+		#region Life and death
 
-        public RectangleFromCornersLocator(IPointLocator topLeftLocator, IPointLocator bottomRightLocator) :
-            this(topLeftLocator, bottomRightLocator, Point.Empty) {
-        }
+		public RectangleFromCornersLocator(IPointLocator topLeftLocator, IPointLocator bottomRightLocator) :
+			this(topLeftLocator, bottomRightLocator, Point.Empty)
+		{
+		}
 
-        public RectangleFromCornersLocator(IPointLocator topLeftLocator, IPointLocator bottomRightLocator, Point expand) {
-            this.TopLeftLocator = topLeftLocator;
-            this.BottomRightLocator = bottomRightLocator;
-            this.Expansion = expand;
-        }
+		public RectangleFromCornersLocator(IPointLocator topLeftLocator, IPointLocator bottomRightLocator, Point expand)
+		{
+			this.TopLeftLocator = topLeftLocator;
+			this.BottomRightLocator = bottomRightLocator;
+			this.Expansion = expand;
+		}
 
-        #endregion
+		#endregion
 
-        #region Configuration properties
+		#region Configuration properties
 
-        protected IPointLocator TopLeftLocator ;
-        protected IPointLocator BottomRightLocator ;
+		protected IPointLocator TopLeftLocator;
+		protected IPointLocator BottomRightLocator;
 
-        #endregion
+		#endregion
 
-        #region Public methods
+		#region Public methods
 
-        public override Rectangle GetRectangle() {
-            Point topLeft = this.TopLeftLocator.GetPoint();
-            Point bottomRight = this.BottomRightLocator.GetPoint();
-            return this.Expand(Rectangle.FromLTRB(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y));
-        }
+		public override Rectangle GetRectangle()
+		{
+			Point topLeft = this.TopLeftLocator.GetPoint();
+			Point bottomRight = this.BottomRightLocator.GetPoint();
+			return this.Expand(Rectangle.FromLTRB(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y));
+		}
 
-        #endregion
+		#endregion
 
-        protected override void InitializeSublocators() {
-            this.InitializeLocator(this.TopLeftLocator);
-            this.InitializeLocator(this.BottomRightLocator);
-        }
-    }
+		protected override void InitializeSublocators()
+		{
+			this.InitializeLocator(this.TopLeftLocator);
+			this.InitializeLocator(this.BottomRightLocator);
+		}
+	}
 
-    /// <summary>
-    /// A FixedRectangleLocator simply returns the rectangle with which it was initialized
-    /// </summary>
-    public class FixedRectangleLocator : AbstractRectangleLocator
-    {
-        public FixedRectangleLocator(Rectangle r) {
-            this.Rectangle = r;
-        }
+	/// <summary>A FixedRectangleLocator simply returns the rectangle with which it was initialized</summary>
+	public class FixedRectangleLocator : AbstractRectangleLocator
+	{
+		public FixedRectangleLocator(Rectangle r)
+			=> this.Rectangle = r;
 
-        public FixedRectangleLocator(int x, int y, int width, int height) {
-            this.Rectangle = new Rectangle(x, y, width, height);
-        }
+		public FixedRectangleLocator(Int32 x, Int32 y, Int32 width, Int32 height)
+			=> this.Rectangle = new Rectangle(x, y, width, height);
 
-        protected Rectangle Rectangle ;
+		protected Rectangle Rectangle;
 
-        public override Rectangle GetRectangle() {
-            return this.Expand(this.Rectangle);
-        }
-    }
+		public override Rectangle GetRectangle()
+			=> this.Expand(this.Rectangle);
+	}
 }

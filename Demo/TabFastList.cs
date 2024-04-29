@@ -9,229 +9,219 @@ using ObjectListViewDemo.Properties;
 
 namespace ObjectListViewDemo
 {
-    public partial class TabFastList : OlvDemoTab {
+	public partial class TabFastList : OlvDemoTab
+	{
+		public TabFastList()
+		{
+			this.InitializeComponent();
+			this.ListView = this.olvFast;
+		}
 
-        public TabFastList()
-        {
-            InitializeComponent();
-            this.ListView = this.olvFast;
-        }
+		protected override void InitializeTab()
+		{
+			this.SetupControls();
+			this.SetupColumns();
 
-        protected override void InitializeTab() {
+			this.olvFast.SetObjects(Coordinator.PersonList);
+		}
 
-            SetupControls();
-            SetupColumns();
+		private void SetupControls()
+		{
+			comboBoxFilterType.SelectedIndex = 2;
+			comboBoxEditable.SelectedIndex = 0;
+			comboBoxView.SelectedIndex = 4;
+		}
 
-            this.olvFast.SetObjects(Coordinator.PersonList);
-        }
+		private void SetupColumns()
+		{
 
-        private void SetupControls() {
-            comboBoxFilterType.SelectedIndex = 2;
-            comboBoxEditable.SelectedIndex = 0;
-            comboBoxView.SelectedIndex = 4;
-        }
+			// Setup all the columns for the control.
+			// Using a FastObjectListView is almost identical to using a normal ObjectListView.
+			// So almost all the setup here is the same as the setup for the Complex tab.
 
-        private void SetupColumns() {
+			// One difference is that I've written AspectGetters for each column.
+			// AspectGetters are always much faster than using AspectNames, and the whole point
+			// of using a FastObjectListView is to be, well, faster. 
 
-            // Setup all the columns for the control.
-            // Using a FastObjectListView is almost identical to using a normal ObjectListView.
-            // So almost all the setup here is the same as the setup for the Complex tab.
+			this.olvColumn18.AspectGetter = (x) => ((Person)x).Name;
 
-            // One difference is that I've written AspectGetters for each column.
-            // AspectGetters are always much faster than using AspectNames, and the whole point
-            // of using a FastObjectListView is to be, well, faster. 
+			this.olvColumn18.ImageGetter = (row) =>
+			{
+				// People whose names start with a vowel get a star,
+				// otherwise the first half of the alphabet gets hearts
+				// and the second half gets music
+				Person person = (Person)row;
+				if("AEIOU".Contains(person.Name.Substring(0, 1)))
+					return 0; // star
+				if(person.Name.CompareTo("N") < 0)
+					return 1; // heart
+				return 2; // music
+			};
 
-            this.olvColumn18.AspectGetter = delegate(object x) { return ((Person) x).Name; };
+			this.olvColumn19.AspectGetter = (x) => ((Person)x).Occupation;
+			this.olvColumn26.AspectGetter = (x) => ((Person)x).CulinaryRating;
+			this.olvColumn26.Renderer = new MultiImageRenderer(Resource.star16, 5, 0, 40);
+			this.olvColumn26.MakeGroupies(
+				new Object[] { 10, 20, 30, 40 },
+				new String[] { "Pay to eat out", "Suggest take-away", "Passable", "Seek dinner invitation", "Hire as chef" },
+				new String[] { "not", "hamburger", "toast", "beef", "chef" },
+				new String[] {
+					"Pay good money -- or flee the house -- rather than eat their homecooked food",
+					"Offer to buy takeaway rather than risk what may appear on your plate",
+					"Neither spectacular nor dangerous",
+					"Try to visit at dinner time to wrangle an invitation to dinner",
+					"Do whatever is necessary to procure their services"
+				},
+				new String[] { "Call 911", "Phone PizzaHut", "", "Open calendar", "Check bank balance" }
+				);
 
-            this.olvColumn18.ImageGetter = delegate(object row) {
-                // People whose names start with a vowel get a star,
-                // otherwise the first half of the alphabet gets hearts
-                // and the second half gets music
-                Person person = ((Person) row);
-                if ("AEIOU".Contains(person.Name.Substring(0, 1)))
-                    return 0; // star
-                if (person.Name.CompareTo("N") < 0)
-                    return 1; // heart
-                return 2; // music
-            };
+			this.olvColumn27.AspectGetter = (x) => ((Person)x).YearOfBirth;
 
-            this.olvColumn19.AspectGetter = delegate(object x) { return ((Person) x).Occupation; };
-            this.olvColumn26.AspectGetter = delegate(object x) { return ((Person) x).CulinaryRating; };
-            this.olvColumn26.Renderer = new MultiImageRenderer(Resource1.star16, 5, 0, 40);
-            this.olvColumn26.MakeGroupies(
-                new object[] {10, 20, 30, 40},
-                new string[] {"Pay to eat out", "Suggest take-away", "Passable", "Seek dinner invitation", "Hire as chef"},
-                new string[] {"not", "hamburger", "toast", "beef", "chef"},
-                new string[] {
-                    "Pay good money -- or flee the house -- rather than eat their homecooked food",
-                    "Offer to buy takeaway rather than risk what may appear on your plate",
-                    "Neither spectacular nor dangerous",
-                    "Try to visit at dinner time to wrangle an invitation to dinner",
-                    "Do whatever is necessary to procure their services"
-                },
-                new string[] {"Call 911", "Phone PizzaHut", "", "Open calendar", "Check bank balance"}
-                );
+			this.olvColumn28.AspectGetter = (x) => ((Person)x).BirthDate;
+			this.olvColumn28.ImageGetter = (row) =>
+			{
+				Person p = (Person)row;
+				if((p.BirthDate.Year % 10) == 4)
+					return 3;
+				return -1; // no image
+			};
 
-            this.olvColumn27.AspectGetter = delegate(object x) { return ((Person) x).YearOfBirth; };
+			this.olvColumn29.AspectGetter = (x) => ((Person)x).GetRate();
+			this.olvColumn29.AspectPutter = (x, newValue) => ((Person)x).SetRate((Double)newValue);
 
-            this.olvColumn28.AspectGetter = delegate(object x) { return ((Person) x).BirthDate; };
-            this.olvColumn28.ImageGetter = delegate(object row) {
-                Person p = (Person) row;
-                if ((p.BirthDate.Year % 10) == 4)
-                    return 3;
-                return -1; // no image
-            };
+			this.olvColumn31.AspectGetter = (row) =>
+			{
+				if(((Person)row).GetRate() < 100)
+					return "Little";
+				if(((Person)row).GetRate() > 1000)
+					return "Lots";
+				return "Medium";
+			};
+			this.olvColumn31.Renderer = new MappedImageRenderer(new Object[] { "Little", Resource.down16, "Medium", Resource.tick16, "Lots", Resource.star16 });
 
-            this.olvColumn29.AspectGetter = delegate(object x) { return ((Person) x).GetRate(); };
-            this.olvColumn29.AspectPutter = delegate(object x, object newValue) { ((Person) x).SetRate((double) newValue); };
+			this.olvColumn32.AspectGetter = (row) => DateTime.Now - ((Person)row).BirthDate;
+			this.olvColumn32.AspectToStringConverter = (aspect) => ((TimeSpan)aspect).Days.ToString("#,##0");
 
-            this.olvColumn31.AspectGetter = delegate(object row) {
-                if (((Person) row).GetRate() < 100)
-                    return "Little";
-                if (((Person) row).GetRate() > 1000)
-                    return "Lots";
-                return "Medium";
-            };
-            this.olvColumn31.Renderer = new MappedImageRenderer(new Object[] {"Little", Resource1.down16, "Medium", Resource1.tick16, "Lots", Resource1.star16});
+			this.olvColumn33.AspectGetter = (row) => ((Person)row).CanTellJokes;
+		}
 
-            this.olvColumn32.AspectGetter = delegate(object row) { return DateTime.Now - ((Person) row).BirthDate; };
-            this.olvColumn32.AspectToStringConverter = delegate(object aspect) { return ((TimeSpan) aspect).Days.ToString("#,##0"); };
-            
-            this.olvColumn33.AspectGetter = delegate(object row) { return ((Person) row).CanTellJokes; };
-        }
+		#region UI event handlers
 
-        #region UI event handlers
+		private void textBoxFilterFast_TextChanged(Object sender, EventArgs e)
+			=> this.Coordinator.TimedFilter(this.ListView, ((TextBox)sender).Text, this.comboBoxFilterType.SelectedIndex);
 
-        private void textBoxFilterFast_TextChanged(object sender, EventArgs e)
-        {
-            Coordinator.TimedFilter(this.ListView, ((TextBox)sender).Text, this.comboBoxFilterType.SelectedIndex);
-        }
+		private void comboBoxFilterType_SelectedIndexChanged(Object sender, EventArgs e)
+			=> this.Coordinator.TimedFilter(this.ListView, this.textBoxFilterFast.Text, this.comboBoxFilterType.SelectedIndex);
 
-        private void comboBoxFilterType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Coordinator.TimedFilter(this.ListView, this.textBoxFilterFast.Text, this.comboBoxFilterType.SelectedIndex);
-        }
+		private void checkBoxGroups_CheckedChanged(Object sender, EventArgs e)
+			=> this.Coordinator.ShowGroupsChecked(this.ListView, (CheckBox)sender);
 
-        private void checkBoxGroups_CheckedChanged(object sender, EventArgs e)
-        {
-            Coordinator.ShowGroupsChecked(this.ListView, (CheckBox)sender);
-        }
+		private void checkBoxCheckboxes_CheckedChanged(Object sender, EventArgs e)
+			=> this.ListView.CheckBoxes = ((CheckBox)sender).Checked;
 
-        private void checkBoxCheckboxes_CheckedChanged(object sender, EventArgs e) {
-            this.ListView.CheckBoxes = ((CheckBox) sender).Checked;
-        }
+		private void comboBoxEditable_SelectedIndexChanged(Object sender, EventArgs e)
+			=> this.Coordinator.ChangeEditable(this.ListView, (ComboBox)sender);
 
-        private void comboBoxEditable_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Coordinator.ChangeEditable(this.ListView, (ComboBox)sender);
-        }
+		private void comboBoxView_SelectedIndexChanged(Object sender, EventArgs e)
+			=> this.Coordinator.ChangeView(this.ListView, (ComboBox)sender);
 
-        private void comboBoxView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Coordinator.ChangeView(this.ListView, (ComboBox)sender);
-        }
+		private void buttonCopy_Click(Object sender, EventArgs e)
+			=> this.ListView.CopyObjectsToClipboard(this.ListView.CheckedObjects);
 
-        private void buttonCopy_Click(object sender, EventArgs e)
-        {
-            this.ListView.CopyObjectsToClipboard(this.ListView.CheckedObjects);
-        }
+		private void buttonDisable_Click(Object sender, EventArgs e)
+		{
+			Stopwatch ts = Stopwatch.StartNew();
 
-        private void buttonDisable_Click(object sender, EventArgs e)
-        {
-            Stopwatch ts = Stopwatch.StartNew();
+			Boolean isControlKeyDown = ((Control.ModifierKeys & Keys.Control) == Keys.Control);
+			if(isControlKeyDown)
+				this.ListView.EnableObjects(this.ListView.DisabledObjects);
+			else
+				this.ListView.DisableObjects(this.ListView.SelectedObjects);
 
-            bool isControlKeyDown = ((Control.ModifierKeys & Keys.Control) == Keys.Control);
-            if (isControlKeyDown)
-                this.ListView.EnableObjects(this.ListView.DisabledObjects);
-            else
-                this.ListView.DisableObjects(this.ListView.SelectedObjects);
+			Debug.WriteLine(String.Format("Disable UI action took {0} ms", ts.Elapsed.TotalMilliseconds));
+		}
 
-            System.Diagnostics.Debug.WriteLine(String.Format("Disable UI action took {0} ms", ts.Elapsed.TotalMilliseconds));
-        }
+		private void buttonRemove_Click(Object sender, EventArgs e)
+		{
+			Boolean isControlKeyDown = ((Control.ModifierKeys & Keys.Control) == Keys.Control);
+			if(isControlKeyDown)
+				this.ListView.ClearObjects();
+			else
+				this.ListView.RemoveObjects(this.ListView.SelectedObjects);
+		}
 
-        private void buttonRemove_Click(object sender, EventArgs e)
-        {
-            bool isControlKeyDown = ((Control.ModifierKeys & Keys.Control) == Keys.Control);
-            if (isControlKeyDown)
-                this.ListView.ClearObjects();
-            else
-                this.ListView.RemoveObjects(this.ListView.SelectedObjects);
-        }
+		private void buttonAdd_Click(Object sender, EventArgs e)
+		{
+			ArrayList l = new ArrayList();
+			while(l.Count < 1000)
+			{
+				Person x = this.Coordinator.PersonList[l.Count % Coordinator.PersonList.Count];
+				l.Add(new Person(x));
+			}
 
-        private void buttonAdd_Click(object sender, EventArgs e) {
-            ArrayList l = new ArrayList();
-            while (l.Count < 1000) {
-                Person x = Coordinator.PersonList[l.Count % Coordinator.PersonList.Count];
-                l.Add(new Person(x));
-            }
+			Stopwatch stopWatch = new Stopwatch();
+			try
+			{
+				this.Cursor = Cursors.WaitCursor;
+				stopWatch.Start();
+				this.olvFast.AddObjects(l);
+			} finally
+			{
+				stopWatch.Stop();
+				this.Cursor = Cursors.Default;
+			}
 
-            Stopwatch stopWatch = new Stopwatch();
-            try {
-                this.Cursor = Cursors.WaitCursor;
-                stopWatch.Start();
-                this.olvFast.AddObjects(l);
-            }
-            finally {
-                stopWatch.Stop();
-                this.Cursor = Cursors.Default;
-            }
+			this.Coordinator.ToolStripStatus1 =
+				String.Format("Build time: {0} items in {1}ms, average per item: {2:F}ms",
+					this.olvFast.Items.Count,
+					stopWatch.ElapsedMilliseconds,
+					(Single)stopWatch.ElapsedMilliseconds / this.olvFast.Items.Count);
+		}
 
-            Coordinator.ToolStripStatus1 =
-                String.Format("Build time: {0} items in {1}ms, average per item: {2:F}ms",
-                    this.olvFast.Items.Count,
-                    stopWatch.ElapsedMilliseconds,
-                    (float) stopWatch.ElapsedMilliseconds / this.olvFast.Items.Count);
-        }
+		#endregion
 
-        #endregion
+		/// <summary>Add this decoration as a cell decoration to your ListView to give a grid line effect.</summary>
+		/// <remarks>
+		/// Setting GridLines = true works fine, EXCEPT when the ListView
+		/// is grouped -- in which cause there are no grid lines.
+		/// This decoration will work in either mode.
+		/// </remarks>
+		/// <example>
+		/// this.olv.UseCellFormatEvents = true;
+		/// var gridLineCellDecoration = new GridLineCellDecoration();
+		/// this.olv.FormatCell += delegate(Object sender, FormatCellEventArgs args) {
+		///     args.SubItem.Decoration = gridLineCellDecoration;
+		/// };
+		/// </example>
+		public class GridLineCellDecoration : CellBorderDecoration
+		{
+			public GridLineCellDecoration()
+				=> this.BorderPen = new Pen(Color.FromArgb(255, 0xE0, 0xEC, 0xEF), 1);
 
-        /// <summary>
-        /// Add this decoration as a cell decoration to your ListView to 
-        /// give a grid line effect.
-        /// </summary>
-        /// <remarks>
-        /// Setting GridLines = true works fine, EXCEPT when the ListView
-        /// is grouped -- in which cause there are no grid lines.
-        /// This decoration will work in either mode.
-        /// </remarks>
-        /// <example>
-        /// this.olv.UseCellFormatEvents = true;
-        /// var gridLineCellDecoration = new GridLineCellDecoration();
-        /// this.olv.FormatCell += delegate(object sender, FormatCellEventArgs args) {
-        ///     args.SubItem.Decoration = gridLineCellDecoration;
-        /// };
-        /// </example>
-        public class GridLineCellDecoration : CellBorderDecoration
-        {
-            public GridLineCellDecoration()
-            {
-                this.BorderPen = new Pen(Color.FromArgb(255, 0xE0, 0xEC, 0xEF), 1);
-            }
+			protected override Rectangle CalculateBounds()
+			{
+				Rectangle bounds = this.CellBounds;
+				if(bounds.IsEmpty)
+					return bounds;
 
-            protected override Rectangle CalculateBounds()
-            {
-                Rectangle bounds = this.CellBounds;
-                if (bounds.IsEmpty)
-                    return bounds;
+				// It seems cell 0 is off by 1 on the x-axis
+				if(this.ListItem.SubItems[0] == this.SubItem)
+					bounds.X -= 1;
 
-                // It seems cell 0 is off by 1 on the x-axis
-                if (this.ListItem.SubItems[0] == this.SubItem)
-                    bounds.X -= 1;
+				// We want the grid of one cell to overlap with the bottom of the previous cell,
+				// so we move the top up by one but don't move the bottom
+				bounds.Y -= 1;
+				bounds.Height += 1;
 
-                // We want the grid of one cell to overlap with the bottom of the previous cell,
-                // so we move the top up by one but don't move the bottom
-                bounds.Y -= 1;
-                bounds.Height += 1;
+				return bounds;
+			}
 
-                return bounds;
-            }
-
-            public override void Draw(ObjectListView olv, Graphics g, Rectangle r)
-            {
-                Rectangle bounds = this.CalculateBounds();
-                if (!bounds.IsEmpty && this.BorderPen != null)
-                    g.DrawRectangle(this.BorderPen, bounds);
-            }
-        }
-    }
+			public override void Draw(ObjectListView olv, Graphics g, Rectangle r)
+			{
+				Rectangle bounds = this.CalculateBounds();
+				if(!bounds.IsEmpty && this.BorderPen != null)
+					g.DrawRectangle(this.BorderPen, bounds);
+			}
+		}
+	}
 }

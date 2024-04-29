@@ -156,11 +156,11 @@ namespace BrightIdeasSoftware
 
             // Separate the list view items into groups, using the group key as the descrimanent
             int objectCount = 0;
-            NullableDictionary<object, List<object>> map = new NullableDictionary<object, List<object>>();
-            foreach (object model in folv.FilteredObjects) {
-                object key = parameters.GroupByColumn.GetGroupKey(model);
+            NullableDictionary<Object, List<Object>> map = new NullableDictionary<Object, List<Object>>();
+            foreach (Object model in folv.FilteredObjects) {
+                Object key = parameters.GroupByColumn.GetGroupKey(model);
                 if (!map.ContainsKey(key))
-                    map[key] = new List<object>();
+                    map[key] = new List<Object>();
                 map[key].Add(model);
                 objectCount++;
             }
@@ -169,15 +169,15 @@ namespace BrightIdeasSoftware
             OLVColumn primarySortColumn = parameters.SortItemsByPrimaryColumn ? parameters.ListView.GetColumn(0) : parameters.PrimarySort;
             ModelObjectComparer sorter = new ModelObjectComparer(primarySortColumn, parameters.PrimarySortOrder,
                 parameters.SecondarySort, parameters.SecondarySortOrder);
-            foreach (object key in map.Keys) {
+            foreach (Object key in map.Keys) {
                 map[key].Sort(sorter);
             }
 
             // Make a list of the required groups
             List<OLVGroup> groups = new List<OLVGroup>();
-            foreach (object key in map.Keys) {
+            foreach (Object key in map.Keys) {
                 OLVGroup lvg = parameters.CreateGroup(key, map[key].Count, folv.HasCollapsibleGroups);
-                lvg.Contents = map[key].ConvertAll<int>(delegate(object x) { return folv.IndexOf(x); });
+                lvg.Contents = map[key].ConvertAll<int>(delegate(Object x) { return folv.IndexOf(x); });
                 lvg.VirtualItemCount = map[key].Count;
                 if (parameters.GroupByColumn.GroupFormatter != null)
                     parameters.GroupByColumn.GroupFormatter(lvg, parameters);

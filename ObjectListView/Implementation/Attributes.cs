@@ -67,7 +67,7 @@ namespace BrightIdeasSoftware
         /// Create a new OLVColumnAttribute with the given title
         /// </summary>
         /// <param name="title">The title of the column</param>
-        public OLVColumnAttribute(string title) {
+        public OLVColumnAttribute(String title) {
             this.Title = title;
         }
 
@@ -78,11 +78,11 @@ namespace BrightIdeasSoftware
         /// <summary>
         /// 
         /// </summary>
-        public string AspectToStringFormat {
+        public String AspectToStringFormat {
             get { return aspectToStringFormat; }
             set { aspectToStringFormat = value; }
         }
-        private string aspectToStringFormat;
+        private String aspectToStringFormat;
 
         /// <summary>
         /// 
@@ -132,38 +132,38 @@ namespace BrightIdeasSoftware
         /// An array of IComparables that mark the cutoff points for values when
         /// grouping on this column. 
         /// </summary>
-        public object[] GroupCutoffs {
+        public Object[] GroupCutoffs {
             get { return groupCutoffs; }
             set { groupCutoffs = value; }
         }
-        private object[] groupCutoffs;
+        private Object[] groupCutoffs;
 
         /// <summary>
         /// 
         /// </summary>
-        public string[] GroupDescriptions {
+        public String[] GroupDescriptions {
             get { return groupDescriptions; }
             set { groupDescriptions = value; }
         }
-        private string[] groupDescriptions;
+        private String[] groupDescriptions;
 
         /// <summary>
         /// 
         /// </summary>
-        public string GroupWithItemCountFormat {
+        public String GroupWithItemCountFormat {
             get { return groupWithItemCountFormat; }
             set { groupWithItemCountFormat = value; }
         }
-        private string groupWithItemCountFormat;
+        private String groupWithItemCountFormat;
 
         /// <summary>
         /// 
         /// </summary>
-        public string GroupWithItemCountSingularFormat {
+        public String GroupWithItemCountSingularFormat {
             get { return groupWithItemCountSingularFormat; }
             set { groupWithItemCountSingularFormat = value; }
         }
-        private string groupWithItemCountSingularFormat;
+        private String groupWithItemCountSingularFormat;
 
         /// <summary>
         /// 
@@ -177,11 +177,11 @@ namespace BrightIdeasSoftware
         /// <summary>
         /// 
         /// </summary>
-        public string ImageAspectName {
+        public String ImageAspectName {
             get { return imageAspectName; }
             set { imageAspectName = value; }
         }
-        private string imageAspectName;
+        private String imageAspectName;
 
         /// <summary>
         /// 

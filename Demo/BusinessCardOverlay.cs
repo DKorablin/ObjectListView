@@ -2,10 +2,10 @@ using System.Drawing;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 
-namespace ObjectListViewDemo {
-    /// <summary>
-    /// This simple class just shows how an overlay can be drawn when the hot item changes.
-    /// </summary>
+namespace ObjectListViewDemo
+{
+
+    /// <summary>This simple class just shows how an overlay can be drawn when the hot item changes.</summary>
     internal class BusinessCardOverlay : AbstractOverlay
     {
         public BusinessCardOverlay()
@@ -14,18 +14,19 @@ namespace ObjectListViewDemo {
             this.businessCardRenderer.BorderPen = new Pen(Color.DarkBlue, 2);
             this.Transparency = 255;
         }
+
         #region IOverlay Members
 
         public override void Draw(ObjectListView olv, Graphics g, Rectangle r)
         {
-            if (olv.HotRowIndex < 0)
+            if(olv.HotRowIndex < 0)
                 return;
 
-            if (olv.View == View.Tile)
+            if(olv.View == View.Tile)
                 return;
 
             OLVListItem item = olv.GetItem(olv.HotRowIndex);
-            if (item == null)
+            if(item == null)
                 return;
 
             Size cardSize = new Size(250, 120);

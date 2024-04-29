@@ -48,9 +48,9 @@ namespace BrightIdeasSoftware {
         }
 
         /// <summary>
-        /// Create a OLVListSubItem that shows the given string and image
+        /// Create a OLVListSubItem that shows the given String and image
         /// </summary>
-        public OLVListSubItem(object modelValue, string text, Object image) {
+        public OLVListSubItem(Object modelValue, String text, Object image) {
             this.ModelValue = modelValue;
             this.Text = text;
             this.ImageSelector = image;
@@ -83,12 +83,12 @@ namespace BrightIdeasSoftware {
         /// <summary>
         /// Gets or sets the model value is being displayed by this subitem.
         /// </summary>
-        public object ModelValue
+        public Object ModelValue
         {
             get { return modelValue; }
             private set { modelValue = value; }
         }
-        private object modelValue;
+        private Object modelValue;
 
         /// <summary>
         /// Gets if this subitem has any decorations set for it.
@@ -129,7 +129,7 @@ namespace BrightIdeasSoftware {
         /// <summary>
         /// Get or set the image that should be shown against this item
         /// </summary>
-        /// <remarks><para>This can be an Image, a string or an int. A string or an int will
+        /// <remarks><para>This can be an Image, a String or an int. A String or an int will
         /// be used as an index into the small image list.</para></remarks>
         public Object ImageSelector {
             get { return imageSelector; }
@@ -140,12 +140,12 @@ namespace BrightIdeasSoftware {
         /// <summary>
         /// Gets or sets the url that should be invoked when this subitem is clicked
         /// </summary>
-        public string Url
+        public String Url
         {
             get { return this.url; }
             set { this.url = value; }
         }
-        private string url;
+        private String url;
 
         /// <summary>
         /// Gets or sets whether this cell is selected

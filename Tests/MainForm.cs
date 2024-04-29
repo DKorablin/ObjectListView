@@ -13,9 +13,7 @@ using System.Windows.Forms;
 
 namespace BrightIdeasSoftware.Tests
 {
-    /// <summary>
-	/// Description of MainForm.
-	/// </summary>
+	/// <summary>Description of MainForm.</summary>
 	public partial class MainForm : Form
 	{
 		public MainForm()
@@ -25,9 +23,9 @@ namespace BrightIdeasSoftware.Tests
 			//
 			InitializeComponent();
 
-		    //
-		    // TODO: Add constructor code after the InitializeComponent() call.
-		    //
+			//
+			// TODO: Add constructor code after the InitializeComponent() call.
+			//
 		}
 	}
 }

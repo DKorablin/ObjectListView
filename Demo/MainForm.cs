@@ -18,21 +18,23 @@ using System.Drawing;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 
-namespace ObjectListViewDemo {
+namespace ObjectListViewDemo
+{
 
-    public partial class MainForm {
+    public partial class MainForm
+    {
 
         [STAThread]
-        public static void Main(string[] args) {
+        public static void Main(String[] args)
+        {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        public MainForm() {
+        /// <summary></summary>
+        public MainForm()
+        {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
@@ -40,11 +42,12 @@ namespace ObjectListViewDemo {
             InitializeExamples();
         }
 
-        void InitializeExamples() {
+        void InitializeExamples()
+        {
             // Use different font under Vista
-            if (ObjectListView.IsVistaOrLater)
+            if(ObjectListView.IsVistaOrLater)
                 this.Font = new Font("Segoe UI", 9);
-             
+
             OLVDemoCoordinator coordinator = new OLVDemoCoordinator(this);
 
             this.tabSimple.Coordinator = coordinator;
@@ -68,9 +71,9 @@ namespace ObjectListViewDemo {
             //this.tabControl1.SelectTab(this.tabDescribedTasks);
         }
 
-        private void tabControl1_Selected(object sender, TabControlEventArgs e)
+        private void tabControl1_Selected(Object sender, TabControlEventArgs e)
         {
-            if (tabControl1.TabPages[e.TabPageIndex].Name == "tabPagePrinting")
+            if(tabControl1.TabPages[e.TabPageIndex].Name == "tabPagePrinting")
                 this.tabPrinting1.UpdatePrintPreview();
         }
     }

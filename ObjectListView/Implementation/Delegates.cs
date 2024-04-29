@@ -37,20 +37,20 @@ namespace BrightIdeasSoftware {
     #region Delegate declarations
 
     /// <summary>
-    /// These delegates are used to extract an aspect from a row object
+    /// These delegates are used to extract an aspect from a row Object
     /// </summary>
     public delegate Object AspectGetterDelegate(Object rowObject);
 
     /// <summary>
-    /// These delegates are used to put a changed value back into a model object
+    /// These delegates are used to put a changed value back into a model Object
     /// </summary>
     public delegate void AspectPutterDelegate(Object rowObject, Object newValue);
 
     /// <summary>
-    /// These delegates can be used to convert an aspect value to a display string,
+    /// These delegates can be used to convert an aspect value to a display String,
     /// instead of using the default ToString()
     /// </summary>
-    public delegate string AspectToStringConverterDelegate(Object value);
+    public delegate String AspectToStringConverterDelegate(Object value);
 
     /// <summary>
     /// These delegates are used to get the tooltip for a cell
@@ -58,7 +58,7 @@ namespace BrightIdeasSoftware {
     public delegate String CellToolTipGetterDelegate(OLVColumn column, Object modelObject);
 
     /// <summary>
-    /// These delegates are used to the state of the checkbox for a row object.
+    /// These delegates are used to the state of the checkbox for a row Object.
     /// </summary>
     /// <remarks><para>
     /// For reasons known only to someone in Microsoft, we can only set
@@ -71,19 +71,19 @@ namespace BrightIdeasSoftware {
     public delegate CheckState CheckStateGetterDelegate(Object rowObject);
 
     /// <summary>
-    /// These delegates are used to get the state of the checkbox for a row object.
+    /// These delegates are used to get the state of the checkbox for a row Object.
     /// </summary>
     /// <param name="rowObject"></param>
     /// <returns></returns>
     public delegate bool BooleanCheckStateGetterDelegate(Object rowObject);
 
     /// <summary>
-    /// These delegates are used to put a changed check state back into a model object
+    /// These delegates are used to put a changed check state back into a model Object
     /// </summary>
     public delegate CheckState CheckStatePutterDelegate(Object rowObject, CheckState newValue);
 
     /// <summary>
-    /// These delegates are used to put a changed check state back into a model object
+    /// These delegates are used to put a changed check state back into a model Object
     /// </summary>
     /// <param name="rowObject"></param>
     /// <param name="newValue"></param>
@@ -98,7 +98,7 @@ namespace BrightIdeasSoftware {
     /// <summary>
     /// The callbacks for RightColumnClick events
     /// </summary>
-    public delegate void ColumnRightClickEventHandler(object sender, ColumnClickEventArgs e);
+    public delegate void ColumnRightClickEventHandler(Object sender, ColumnClickEventArgs e);
 
     /// <summary>
     /// This delegate will be used to own draw header column.
@@ -113,14 +113,14 @@ namespace BrightIdeasSoftware {
     public delegate void GroupFormatterDelegate(OLVGroup group, GroupingParameters parms);
 
     /// <summary>
-    /// These delegates are used to retrieve the object that is the key of the group to which the given row belongs.
+    /// These delegates are used to retrieve the Object that is the key of the group to which the given row belongs.
     /// </summary>
     public delegate Object GroupKeyGetterDelegate(Object rowObject);
 
     /// <summary>
     /// These delegates are used to convert a group key into a title for the group
     /// </summary>
-    public delegate string GroupKeyToTitleConverterDelegate(Object groupKey);
+    public delegate String GroupKeyToTitleConverterDelegate(Object groupKey);
 
     /// <summary>
     /// These delegates are used to get the tooltip for a column header
@@ -139,7 +139,7 @@ namespace BrightIdeasSoftware {
     public delegate bool RenderDelegate(EventArgs e, Graphics g, Rectangle r, Object rowObject);
 
     /// <summary>
-    /// These delegates are used to fetch a row object for virtual lists
+    /// These delegates are used to fetch a row Object for virtual lists
     /// </summary>
     public delegate Object RowGetterDelegate(int rowIndex);
 
@@ -151,7 +151,7 @@ namespace BrightIdeasSoftware {
     /// <summary>
     /// These delegates can be used to return the array of texts that should be searched for text filtering
     /// </summary>
-    public delegate string[] SearchValueGetterDelegate(Object value);
+    public delegate String[] SearchValueGetterDelegate(Object value);
 
     /// <summary>
     /// These delegates are used to sort the listview in some custom fashion
@@ -162,7 +162,7 @@ namespace BrightIdeasSoftware {
     /// These delegates are used to order two strings.
     /// x cannot be null. y can be null.
     /// </summary>
-    public delegate int StringCompareDelegate(string x, string y);
+    public delegate int StringCompareDelegate(String x, String y);
 
     #endregion
 }

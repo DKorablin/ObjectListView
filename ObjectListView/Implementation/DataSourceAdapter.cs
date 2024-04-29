@@ -63,7 +63,7 @@ namespace BrightIdeasSoftware
         }
 
         /// <summary>
-        /// Finalize this object
+        /// Finalize this Object
         /// </summary>
         ~DataSourceAdapter() {
             this.Dispose(false);
@@ -116,7 +116,7 @@ namespace BrightIdeasSoftware
         /// Gets or sets the name of the list or table in the data source for which the DataListView is displaying data.
         /// </summary>
         /// <remarks>If the data source is not a DataSet or DataViewManager, this property has no effect</remarks>
-        public virtual string DataMember {
+        public virtual String DataMember {
             get { return dataMember; }
             set {
                 if (dataMember != value) {
@@ -125,7 +125,7 @@ namespace BrightIdeasSoftware
                 }
             }
         }
-        private string dataMember = "";
+        private String dataMember = "";
 
         /// <summary>
         /// Gets the ObjectListView upon which this adaptor will operate
@@ -351,7 +351,7 @@ namespace BrightIdeasSoftware
             foreach (OLVColumn x in this.ListView.AllColumns) {
                 OLVColumn column = x; // stack based variable accessible from closures
                 if (column.AspectGetter == null && !String.IsNullOrEmpty(column.AspectName)) {
-                    column.AspectGetter = delegate(object row) {
+                    column.AspectGetter = delegate(Object row) {
                         // In most cases, rows will be DataRowView objects
                         DataRowView drv = row as DataRowView;
                         if (drv == null) 
@@ -360,7 +360,7 @@ namespace BrightIdeasSoftware
                     };
                 }
                 if (column.IsEditable && column.AspectPutter == null && !String.IsNullOrEmpty(column.AspectName)) {
-                    column.AspectPutter = delegate(object row, object newValue) {
+                    column.AspectPutter = delegate(Object row, Object newValue) {
                         // In most cases, rows will be DataRowView objects
                         DataRowView drv = row as DataRowView;
                         if (drv == null)
@@ -389,7 +389,7 @@ namespace BrightIdeasSoftware
         /// </remarks>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected virtual void CurrencyManagerListChanged(object sender, ListChangedEventArgs e) {
+        protected virtual void CurrencyManagerListChanged(Object sender, ListChangedEventArgs e) {
             Debug.Assert(sender == this.CurrencyManager);
 
             // Ignore changes make while frozen, since we will do a complete rebuild when we unfreeze
@@ -514,7 +514,7 @@ namespace BrightIdeasSoftware
         /// <remarks>
         /// CHECK: Do we need this if we are handle ListChanged metadata events?
         /// </remarks>
-        protected virtual void HandleCurrencyManagerMetaDataChanged(object sender, EventArgs e) {
+        protected virtual void HandleCurrencyManagerMetaDataChanged(Object sender, EventArgs e) {
             this.InitializeDataSource();
         }
 
@@ -525,7 +525,7 @@ namespace BrightIdeasSoftware
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected virtual void HandleCurrencyManagerPositionChanged(object sender, EventArgs e) {
+        protected virtual void HandleCurrencyManagerPositionChanged(Object sender, EventArgs e) {
             int index = this.CurrencyManager.Position;
 
             // Make sure the index is sane (-1 pops up from time to time)
@@ -571,7 +571,7 @@ namespace BrightIdeasSoftware
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected virtual void HandleListViewSelectionChanged(object sender, EventArgs e) {
+        protected virtual void HandleListViewSelectionChanged(Object sender, EventArgs e) {
             // Prevent recursion
             if (this.isChangingIndex)
                 return;
@@ -590,7 +590,7 @@ namespace BrightIdeasSoftware
                 this.isChangingIndex = true;
 
                 // We can't use the selectedIndex directly, since our listview may be sorted and/or filtered
-                // So we have to find the index of the selected object within the original list.
+                // So we have to find the index of the selected Object within the original list.
                 this.CurrencyManager.Position = this.CurrencyManager.List.IndexOf(this.ListView.SelectedObject);
             } finally {
                 this.isChangingIndex = false;
@@ -602,7 +602,7 @@ namespace BrightIdeasSoftware
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected virtual void HandleListViewFreezing(object sender, FreezeEventArgs e) {
+        protected virtual void HandleListViewFreezing(Object sender, FreezeEventArgs e) {
             if (!alreadyFreezing && e.FreezeLevel == 0) {
                 try {
                     alreadyFreezing = true;
@@ -619,7 +619,7 @@ namespace BrightIdeasSoftware
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected virtual void HandleListViewBindingContextChanged(object sender, EventArgs e) {
+        protected virtual void HandleListViewBindingContextChanged(Object sender, EventArgs e) {
             this.RebindDataSource(false);
         }
 

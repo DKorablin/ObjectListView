@@ -39,7 +39,7 @@ namespace BrightIdeasSoftware
         /// </para>
         /// <para>Null cannot be a valid key value.</para>
         /// </remarks>
-        public virtual string KeyAspectName {
+        public virtual String KeyAspectName {
             get { return keyAspectName; }
             set {
                 if (keyAspectName == value)
@@ -49,7 +49,7 @@ namespace BrightIdeasSoftware
                 this.InitializeDataSource();
             }
         }
-        private string keyAspectName;
+        private String keyAspectName;
 
         /// <summary>
         /// Gets or sets the name of the property/column that contains the key of
@@ -66,7 +66,7 @@ namespace BrightIdeasSoftware
         /// <para>Unlike key value, parent keys can be null but a null parent key can only be used
         /// to identify root objects.</para>
         /// </remarks>
-        public virtual string ParentKeyAspectName {
+        public virtual String ParentKeyAspectName {
             get { return parentKeyAspectName; }
             set {
                 if (parentKeyAspectName == value)
@@ -76,16 +76,16 @@ namespace BrightIdeasSoftware
                 this.InitializeDataSource();
             }
         }
-        private string parentKeyAspectName;
+        private String parentKeyAspectName;
 
         /// <summary>
-        /// Gets or sets the value that identifies a row as a root object.
+        /// Gets or sets the value that identifies a row as a root Object.
         /// When the ParentKey of a row equals the RootKeyValue, that row will
         /// be treated as root of the TreeListView.
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The test condition for deciding a root object is functionally
+        /// The test condition for deciding a root Object is functionally
         /// equivalent to this:
         /// <code>
         /// Object.Equals(candidateRow[this.ParentKeyAspectName], this.RootKeyValue)
@@ -93,7 +93,7 @@ namespace BrightIdeasSoftware
         /// </para>
         /// <para>The RootKeyValue can be null.</para>
         /// </remarks>
-        public virtual object RootKeyValue {
+        public virtual Object RootKeyValue {
             get { return rootKeyValue; }
             set {
                 if (Equals(rootKeyValue, value))
@@ -102,7 +102,7 @@ namespace BrightIdeasSoftware
                 this.InitializeDataSource();
             }
         }
-        private object rootKeyValue;
+        private Object rootKeyValue;
 
         /// <summary>
         /// Gets or sets whether or not the key columns (id and parent id) should
@@ -191,8 +191,8 @@ namespace BrightIdeasSoftware
 
             // To display the n'th row, we have to make sure that all its ancestors
             // are expanded. Then we will be able to select it.
-            object model = this.CurrencyManager.List[index];
-            object parent = this.CalculateParent(model);
+            Object model = this.CurrencyManager.List[index];
+            Object parent = this.CalculateParent(model);
             while (parent != null && !this.TreeListView.IsExpanded(parent)) {
                 this.TreeListView.Expand(parent);
                 parent = this.CalculateParent(parent);
@@ -202,55 +202,55 @@ namespace BrightIdeasSoftware
         }
 
         private IEnumerable CalculateRoots() {
-            foreach (object x in this.CurrencyManager.List) {
-                object parentKey = this.GetParentValue(x);
+            foreach (Object x in this.CurrencyManager.List) {
+                Object parentKey = this.GetParentValue(x);
                 if (Object.Equals(this.RootKeyValue, parentKey))
                     yield return x;
             }
         }
 
-        private bool CalculateHasChildren(object model) {
-            object keyValue = this.GetKeyValue(model);
+        private bool CalculateHasChildren(Object model) {
+            Object keyValue = this.GetKeyValue(model);
             if (keyValue == null)
                 return false;
 
-            foreach (object x in this.CurrencyManager.List) {
-                object parentKey = this.GetParentValue(x);
+            foreach (Object x in this.CurrencyManager.List) {
+                Object parentKey = this.GetParentValue(x);
                 if (Object.Equals(keyValue, parentKey))
                     return true;
             }
             return false;
         }
 
-        private IEnumerable CalculateChildren(object model) {
-            object keyValue = this.GetKeyValue(model);
+        private IEnumerable CalculateChildren(Object model) {
+            Object keyValue = this.GetKeyValue(model);
             if (keyValue != null) {
-                foreach (object x in this.CurrencyManager.List) {
-                    object parentKey = this.GetParentValue(x);
+                foreach (Object x in this.CurrencyManager.List) {
+                    Object parentKey = this.GetParentValue(x);
                     if (Object.Equals(keyValue, parentKey))
                         yield return x;
                 }
             }
         }
 
-        private object CalculateParent(object model) {
-            object parentValue = this.GetParentValue(model);
+        private Object CalculateParent(Object model) {
+            Object parentValue = this.GetParentValue(model);
             if (parentValue == null) 
                 return null;
 
-            foreach (object x in this.CurrencyManager.List) {
-                object key = this.GetKeyValue(x);
+            foreach (Object x in this.CurrencyManager.List) {
+                Object key = this.GetKeyValue(x);
                 if (Object.Equals(parentValue, key))
                     return x;
             }
             return null;
         }
 
-        private object GetKeyValue(object model) {
+        private Object GetKeyValue(Object model) {
             return this.keyMunger == null ? null : this.keyMunger.GetValue(model);
         }
 
-        private object GetParentValue(object model) {
+        private Object GetParentValue(Object model) {
             return this.parentKeyMunger == null ? null : this.parentKeyMunger.GetValue(model);
         }
 

@@ -1,72 +1,68 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
-using BrightIdeasSoftware;
 
 namespace ObjectListViewDemo
 {
-    public partial class TabDataTreeListView : OlvDemoTab {
+	public partial class TabDataTreeListView : OlvDemoTab
+	{
+		public TabDataTreeListView()
+		{
+			this.InitializeComponent();
+			this.ListView = this.olvDataTree;
+		}
 
-        public TabDataTreeListView()
-        {
-            InitializeComponent();
-            this.ListView = this.olvDataTree;
-        }
+		protected override void InitializeTab()
+		{
+			// The whole point of a DataTreeListView is to write no code. So there is very little code here.
 
-        protected override void InitializeTab() {
+			// Put some images against each row
+			this.olvColumn41.ImageGetter = (row) => "user";
 
-            // The whole point of a DataTreeListView is to write no code. So there is very little code here.
+			// The DataTreeListView needs to know the key that identifies root level objects.
+			// DataTreeListView can handle that key being any data type, but the Designer only deals in strings.
+			// Since we want a non-String value to identify keys, we have to set it explicitly here.
+			this.olvDataTree.RootKeyValue = 0u;
 
-            // Put some images against each row
-            this.olvColumn41.ImageGetter = delegate(object row) { return "user"; };
+			// Finally load the data into the UI
+			this.LoadXmlIntoTreeDataListView();
 
-            // The DataTreeListView needs to know the key that identifies root level objects.
-            // DataTreeListView can handle that key being any data type, but the Designer only deals in strings.
-            // Since we want a non-string value to identify keys, we have to set it explicitly here.
-            this.olvDataTree.RootKeyValue = 0u;
+			// This does a better job of auto sizing the columns
+			this.olvDataTree.AutoResizeColumns();
+		}
 
-            // Finally load the data into the UI
-            LoadXmlIntoTreeDataListView();
+		private void LoadXmlIntoTreeDataListView()
+		{
+			DataSet ds = this.Coordinator.LoadDatasetFromXml(@"Data\FamilyTree.xml");
 
-            // This does a better job of auto sizing the columns
-            this.olvDataTree.AutoResizeColumns();
-        }
+			if(ds.Tables.Count <= 0)
+			{
+				this.Coordinator.ShowMessage(@"Failed to load data set from Data\FamilyTree.xml");
+				return;
+			}
 
-        private void LoadXmlIntoTreeDataListView() {
-            DataSet ds = Coordinator.LoadDatasetFromXml(@"Data\FamilyTree.xml");
+			this.dataGridView2.DataSource = ds;
+			this.dataGridView2.DataMember = "Person";
 
-            if (ds.Tables.Count <= 0) {
-                Coordinator.ShowMessage(@"Failed to load data set from Data\FamilyTree.xml");
-                return;
-            }
+			// Like DataListView, the DataTreeListView can handle binding to a variety of sources
+			// And again, you could create a BindingSource in the designer, and assign that BindingSource
+			// to DataSource, removing the need to even write these few lines of code.
 
-            this.dataGridView2.DataSource = ds;
-            this.dataGridView2.DataMember = "Person";
+			//this.olvDataTree.DataSource = new BindingSource(ds, "Person");
+			//this.olvDataTree.DataSource = ds.Tables["Person"];
+			//this.olvDataTree.DataSource = new DataView(ds.Tables["Person"]);
+			//this.olvDataTree.DataMember = "Person"; this.olvDataTree.DataSource = ds;
+			this.olvDataTree.DataMember = "Person";
+			this.olvDataTree.DataSource = new DataViewManager(ds);
+		}
 
-            // Like DataListView, the DataTreeListView can handle binding to a variety of sources
-            // And again, you could create a BindingSource in the designer, and assign that BindingSource
-            // to DataSource, removing the need to even write these few lines of code.
+		#region UI event handlers
 
-            //this.olvDataTree.DataSource = new BindingSource(ds, "Person");
-            //this.olvDataTree.DataSource = ds.Tables["Person"];
-            //this.olvDataTree.DataSource = new DataView(ds.Tables["Person"]);
-            //this.olvDataTree.DataMember = "Person"; this.olvDataTree.DataSource = ds;
-            this.olvDataTree.DataMember = "Person";
-            this.olvDataTree.DataSource = new DataViewManager(ds);
-        }
+		private void filterTextBox_TextChanged(Object sender, EventArgs e)
+			=> this.Coordinator.TimedFilter(this.ListView, ((TextBox)sender).Text);
 
-        #region UI event handlers
-
-        private void filterTextBox_TextChanged(object sender, EventArgs e)
-        {
-            Coordinator.TimedFilter(this.ListView, ((TextBox)sender).Text);
-        }
-
-        private void buttonResetData_Click(object sender, EventArgs e)
-        {
-            LoadXmlIntoTreeDataListView();
-        }
-
-        #endregion
-    }
+		private void buttonResetData_Click(Object sender, EventArgs e)
+			=> this.LoadXmlIntoTreeDataListView();
+		#endregion
+	}
 }

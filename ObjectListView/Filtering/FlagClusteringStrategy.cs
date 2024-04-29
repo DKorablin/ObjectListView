@@ -31,130 +31,112 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace BrightIdeasSoftware {
+namespace BrightIdeasSoftware
+{
 
-    /// <summary>
-    /// Instances of this class cluster model objects on the basis of a
-    /// property that holds an xor-ed collection of bit flags.
-    /// </summary>
-    public class FlagClusteringStrategy : ClusteringStrategy
-    {
-        #region Life and death
+	/// <summary>
+	/// Instances of this class cluster model objects on the basis of a
+	/// property that holds an xor-ed collection of bit flags.
+	/// </summary>
+	public class FlagClusteringStrategy : ClusteringStrategy
+	{
+		#region Life and death
 
-        /// <summary>
-        /// Create a clustering strategy that operates on the flags of the given enum
-        /// </summary>
-        /// <param name="enumType"></param>
-        public FlagClusteringStrategy(Type enumType) {
-            if (enumType == null) throw new ArgumentNullException("enumType");
-            if (!enumType.IsEnum) throw new ArgumentException("Type must be enum", "enumType");
-            if (enumType.GetCustomAttributes(typeof(FlagsAttribute), false) == null) throw new ArgumentException("Type must have [Flags] attribute", "enumType");
+		/// <summary>Create a clustering strategy that operates on the flags of the given enum</summary>
+		/// <param name="enumType"></param>
+		public FlagClusteringStrategy(Type enumType)
+		{
+			_ = enumType ?? throw new ArgumentNullException(nameof(enumType));
+			if(!enumType.IsEnum) throw new ArgumentException("Type must be enum", "enumType");
+			if(enumType.GetCustomAttributes(typeof(FlagsAttribute), false) == null) throw new ArgumentException("Type must have [Flags] attribute", "enumType");
 
-            List<long> flags = new List<long>();
-            foreach (object x in Enum.GetValues(enumType))
-                flags.Add(Convert.ToInt64(x));
+			List<Int64> flags = new List<Int64>();
+			foreach(Object x in Enum.GetValues(enumType))
+				flags.Add(Convert.ToInt64(x));
 
-            List<string> flagLabels = new List<string>();
-            foreach (string x in Enum.GetNames(enumType))
-                flagLabels.Add(x);
+			List<String> flagLabels = new List<String>();
+			foreach(String x in Enum.GetNames(enumType))
+				flagLabels.Add(x);
 
-            this.SetValues(flags.ToArray(), flagLabels.ToArray());
-        }
+			this.SetValues(flags.ToArray(), flagLabels.ToArray());
+		}
 
-        /// <summary>
-        /// Create a clustering strategy around the given collections of flags and their display labels.
-        /// There must be the same number of elements in both collections.
-        /// </summary>
-        /// <param name="values">The list of flags. </param>
-        /// <param name="labels"></param>
-        public FlagClusteringStrategy(long[] values, string[] labels) {
-            this.SetValues(values, labels);
-        }
+		/// <summary>
+		/// Create a clustering strategy around the given collections of flags and their display labels.
+		/// There must be the same number of elements in both collections.
+		/// </summary>
+		/// <param name="values">The list of flags. </param>
+		/// <param name="labels"></param>
+		public FlagClusteringStrategy(Int64[] values, String[] labels)
+			=> this.SetValues(values, labels);
 
-        #endregion
+		#endregion
 
-        #region Implementation
+		#region Implementation
 
-        /// <summary>
-        /// Gets the value that will be xor-ed to test for the presence of a particular value.
-        /// </summary>
-        public long[] Values {
-            get { return this.values; }
-            private set { this.values = value; }
-        }
-        private long[] values;
+		/// <summary>Gets the value that will be xor-ed to test for the presence of a particular value.</summary>
+		public Int64[] Values { get; private set; }
 
-        /// <summary>
-        /// Gets the labels that will be used when the corresponding Value is XOR present in the data.
-        /// </summary>
-        public string[] Labels {
-            get { return this.labels; }
-            private set { this.labels = value; }
-        }
-        private string[] labels;
+		/// <summary>Gets the labels that will be used when the corresponding Value is XOR present in the data.</summary>
+		public String[] Labels { get; private set; }
 
-        private void SetValues(long[] flags, string[] flagLabels) {
-            if (flags == null || flags.Length == 0) throw new ArgumentNullException("flags");
-            if (flagLabels == null || flagLabels.Length == 0) throw new ArgumentNullException("flagLabels");
-            if (flags.Length != flagLabels.Length) throw new ArgumentException("values and labels must have the same number of entries", "flags");
+		private void SetValues(Int64[] flags, String[] flagLabels)
+		{
+			if(flags == null || flags.Length == 0) throw new ArgumentNullException(nameof(flags));
+			if(flagLabels == null || flagLabels.Length == 0) throw new ArgumentNullException(nameof(flagLabels));
+			if(flags.Length != flagLabels.Length) throw new ArgumentException("values and labels must have the same number of entries", "flags");
 
-            this.Values = flags;
-            this.Labels = flagLabels;
-        }
+			this.Values = flags;
+			this.Labels = flagLabels;
+		}
 
-        #endregion
+		#endregion
 
-        #region Implementation of IClusteringStrategy
+		#region Implementation of IClusteringStrategy
 
-        /// <summary>
-        /// Get the cluster key by which the given model will be partitioned by this strategy
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public override object GetClusterKey(object model) {
-            List<long> flags = new List<long>();
-            try {
-                long modelValue = Convert.ToInt64(this.Column.GetValue(model));
-                foreach (long x in this.Values) {
-                    if ((x & modelValue) == x)
-                        flags.Add(x);
-                }
-                return flags;
-            }
-            catch (InvalidCastException ex) {
-                System.Diagnostics.Debug.Write(ex);
-                return flags;
-            }
-            catch (FormatException ex) {
-                System.Diagnostics.Debug.Write(ex);
-                return flags;
-            }
-        }
+		/// <summary>Get the cluster key by which the given model will be partitioned by this strategy</summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		public override Object GetClusterKey(Object model)
+		{
+			List<Int64> flags = new List<Int64>();
+			try
+			{
+				Int64 modelValue = Convert.ToInt64(this.Column.GetValue(model));
+				foreach(Int64 x in this.Values)
+					if((x & modelValue) == x)
+						flags.Add(x);
+				return flags;
+			} catch(InvalidCastException ex)
+			{
+				System.Diagnostics.Debug.Write(ex);
+				return flags;
+			} catch(FormatException ex)
+			{
+				System.Diagnostics.Debug.Write(ex);
+				return flags;
+			}
+		}
 
-        /// <summary>
-        /// Gets the display label that the given cluster should use
-        /// </summary>
-        /// <param name="cluster"></param>
-        /// <returns></returns>
-        public override string GetClusterDisplayLabel(ICluster cluster) {
-            long clusterKeyAsUlong = Convert.ToInt64(cluster.ClusterKey);
-            for (int i = 0; i < this.Values.Length; i++ ) {
-                if (clusterKeyAsUlong == this.Values[i])
-                    return this.ApplyDisplayFormat(cluster, this.Labels[i]);
-            }
-            return this.ApplyDisplayFormat(cluster, clusterKeyAsUlong.ToString(CultureInfo.CurrentUICulture));
-        }
+		/// <summary>Gets the display label that the given cluster should use</summary>
+		/// <param name="cluster"></param>
+		/// <returns></returns>
+		public override String GetClusterDisplayLabel(ICluster cluster)
+		{
+			Int64 clusterKeyAsUlong = Convert.ToInt64(cluster.ClusterKey);
+			for(Int32 i = 0; i < this.Values.Length; i++)
+				if(clusterKeyAsUlong == this.Values[i])
+					return this.ApplyDisplayFormat(cluster, this.Labels[i]);
 
-        /// <summary>
-        /// Create a filter that will include only model objects that
-        /// match one or more of the given values.
-        /// </summary>
-        /// <param name="valuesChosenForFiltering"></param>
-        /// <returns></returns>
-        public override IModelFilter CreateFilter(IList valuesChosenForFiltering) {
-            return new FlagBitSetFilter(this.GetClusterKey, valuesChosenForFiltering);
-        }
+			return this.ApplyDisplayFormat(cluster, clusterKeyAsUlong.ToString(CultureInfo.CurrentUICulture));
+		}
 
-        #endregion
-    }
+		/// <summary>Create a filter that will include only model objects that match one or more of the given values.</summary>
+		/// <param name="valuesChosenForFiltering"></param>
+		/// <returns></returns>
+		public override IModelFilter CreateFilter(IList valuesChosenForFiltering)
+			=> new FlagBitSetFilter(this.GetClusterKey, valuesChosenForFiltering);
+
+		#endregion
+	}
 }

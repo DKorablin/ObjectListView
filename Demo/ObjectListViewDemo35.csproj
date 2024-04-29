@@ -114,10 +114,10 @@
     <Compile Include="OlvDemoTab.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Properties\Resource1.Designer.cs">
+    <Compile Include="Properties\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resource1.resx</DependentUpon>
+      <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -189,10 +189,10 @@
       <DependentUpon>MainForm.Designer.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resource1.resx">
+    <EmbeddedResource Include="Properties\Resource.resx">
       <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -321,15 +321,15 @@
     <None Include="Resources\movie16.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ListViewPrinter\ListViewPrinter2022.csproj">
+    <ProjectReference Include="..\ListViewPrinter\ListViewPrinter35.csproj">
       <Project>{E73A10BD-2B5A-4BAC-897F-3A58CFC07631}</Project>
       <Name>ListViewPrinter2022</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ObjectListView\ObjectListView.csproj">
+    <ProjectReference Include="..\ObjectListView\ObjectListView35.csproj">
       <Project>{18FEDA0C-D147-4286-B39A-01204808106A}</Project>
-      <Name>ObjectListView2022</Name>
+      <Name>ObjectListView</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SparkleLibrary\SparkleLibrary2022.csproj">
+    <ProjectReference Include="..\SparkleLibrary\SparkleLibrary35.csproj">
       <Project>{D63F9786-B608-4085-AF08-D909448B0426}</Project>
       <Name>SparkleLibrary2022</Name>
     </ProjectReference>

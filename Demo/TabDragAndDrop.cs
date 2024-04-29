@@ -5,59 +5,53 @@ using ObjectListViewDemo.Properties;
 
 namespace ObjectListViewDemo
 {
-    public partial class TabDragAndDrop : OlvDemoTab
-    {
-        public TabDragAndDrop()
-        {
-            InitializeComponent();
-        }
+	public partial class TabDragAndDrop : OlvDemoTab
+	{
+		public TabDragAndDrop()
+			=> this.InitializeComponent();
 
-        protected override void InitializeTab() {
+		protected override void InitializeTab()
+		{
+			this.SetupColumns();
+			this.SetupDragAndDrop();
 
-            SetupColumns();
-            SetupDragAndDrop();
+			this.comboBoxGeeksAndTweebsView.SelectedIndex = 4;
+			this.comboBoxCoolFroodsView.SelectedIndex = 4;
 
-            this.comboBoxGeeksAndTweebsView.SelectedIndex = 4;
-            this.comboBoxCoolFroodsView.SelectedIndex = 4;
+			this.olvGeeks.SetObjects(Coordinator.PersonList);
+		}
 
-            this.olvGeeks.SetObjects(Coordinator.PersonList);
-        }
+		private void SetupColumns()
+		{
+			this.olvGeeks.GetColumn(0).ImageGetter = (x) => "user";
+			this.olvFroods.GetColumn(0).ImageGetter = (x) => "user";
 
-        private void SetupColumns() {
-            this.olvGeeks.GetColumn(0).ImageGetter = delegate(object x) { return "user"; };
-            this.olvFroods.GetColumn(0).ImageGetter = delegate(object x) { return "user"; };
+			this.olvGeeks.GetColumn(2).Renderer = new MultiImageRenderer(Resource.star16, 5, 0, 40);
+			this.olvFroods.GetColumn(2).Renderer = new MultiImageRenderer(Resource.star16, 5, 0, 40);
+		}
 
-            this.olvGeeks.GetColumn(2).Renderer = new MultiImageRenderer(Resource1.star16, 5, 0, 40);
-            this.olvFroods.GetColumn(2).Renderer = new MultiImageRenderer(Resource1.star16, 5, 0, 40);
-        }
+		private void SetupDragAndDrop()
+		{
+			// Make each listview capable of dragging rows out
+			this.olvGeeks.DragSource = new SimpleDragSource();
+			this.olvFroods.DragSource = new SimpleDragSource();
 
-        private void SetupDragAndDrop() {
+			// Make each listview capable of accepting drops.
+			// More than that, make it so it's items can be rearranged
+			this.olvGeeks.DropSink = new RearrangingDropSink(true);
+			this.olvFroods.DropSink = new RearrangingDropSink(true);
 
-            // Make each listview capable of dragging rows out
-            this.olvGeeks.DragSource = new SimpleDragSource();
-            this.olvFroods.DragSource = new SimpleDragSource();
+			// For a normal drag and drop situation, you will need to create a SimpleDropSink
+			// and then listen for ModelCanDrop and ModelDropped events
+		}
 
-            // Make each listview capable of accepting drops.
-            // More than that, make it so it's items can be rearranged
-            this.olvGeeks.DropSink = new RearrangingDropSink(true);
-            this.olvFroods.DropSink = new RearrangingDropSink(true);
+		#region UI event handlers
 
-            // For a normal drag and drop situation, you will need to create a SimpleDropSink
-            // and then listen for ModelCanDrop and ModelDropped events
-        }
+		private void comboBoxGeeksAndTweebsView_SelectedIndexChanged(Object sender, EventArgs e)
+			=> this.Coordinator.ChangeView(this.olvGeeks, (ComboBox)sender);
 
-        #region UI event handlers
-
-        private void comboBoxGeeksAndTweebsView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Coordinator.ChangeView(this.olvGeeks, (ComboBox)sender);
-        }
-
-        private void comboBoxCoolFroodsView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Coordinator.ChangeView(this.olvFroods, (ComboBox)sender);
-        }
-
-        #endregion
-    }
+		private void comboBoxCoolFroodsView_SelectedIndexChanged(Object sender, EventArgs e)
+			=> this.Coordinator.ChangeView(this.olvFroods, (ComboBox)sender);
+		#endregion
+	}
 }

@@ -38,7 +38,7 @@ namespace BrightIdeasSoftware
 {
     /// <summary>
     /// A VirtualListDataSource is a complete manner to provide functionality to a virtual list.
-    /// An object that implements this interface provides a VirtualObjectListView with all the
+    /// An Object that implements this interface provides a VirtualObjectListView with all the
     /// information it needs to be fully functional.
     /// </summary>
     /// <remarks>Implementors must provide functioning implementations of at least GetObjectCount()
@@ -46,10 +46,10 @@ namespace BrightIdeasSoftware
     public interface IVirtualListDataSource
     {
         /// <summary>
-        /// Return the object that should be displayed at the n'th row.
+        /// Return the Object that should be displayed at the n'th row.
         /// </summary>
-        /// <param name="n">The index of the row whose object is to be returned.</param>
-        /// <returns>The model object at the n'th row, or null if the fetching was unsuccessful.</returns>
+        /// <param name="n">The index of the row whose Object is to be returned.</param>
+        /// <returns>The model Object at the n'th row, or null if the fetching was unsuccessful.</returns>
         Object GetNthObject(int n);
 
         /// <summary>
@@ -59,10 +59,10 @@ namespace BrightIdeasSoftware
         int GetObjectCount();
 
         /// <summary>
-        /// Get the index of the row that is showing the given model object
+        /// Get the index of the row that is showing the given model Object
         /// </summary>
-        /// <param name="model">The model object sought</param>
-        /// <returns>The index of the row showing the model, or -1 if the object could not be found.</returns>
+        /// <param name="model">The model Object sought</param>
+        /// <returns>The index of the row showing the model, or -1 if the Object could not be found.</returns>
         int GetObjectIndex(Object model);
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace BrightIdeasSoftware
         /// <param name="last">Do not search beyond this index. This may be less than the 'from' parameter.</param>
         /// <param name="column">The column that should be considered when looking for a match.</param>
         /// <returns>Return the index of row that was matched, or -1 if no match was found</returns>
-        int SearchText(string value, int first, int last, OLVColumn column);
+        int SearchText(String value, int first, int last, OLVColumn column);
 
         /// <summary>
         /// Sort the model objects in the data source.
@@ -121,11 +121,11 @@ namespace BrightIdeasSoftware
         void SetObjects(IEnumerable collection);
 
         /// <summary>
-        /// Update/replace the nth object with the given object
+        /// Update/replace the nth Object with the given Object
         /// </summary>
         /// <param name="index"></param>
         /// <param name="modelObject"></param>
-        void UpdateObject(int index, object modelObject);
+        void UpdateObject(int index, Object modelObject);
     }
 
     /// <summary>
@@ -165,7 +165,7 @@ namespace BrightIdeasSoftware
         /// </summary>
         /// <param name="n"></param>
         /// <returns></returns>
-        public virtual object GetNthObject(int n) {
+        public virtual Object GetNthObject(int n) {
             return null;
         }
 
@@ -182,7 +182,7 @@ namespace BrightIdeasSoftware
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public virtual int GetObjectIndex(object model) {
+        public virtual int GetObjectIndex(Object model) {
             return -1;
         }
 
@@ -202,7 +202,7 @@ namespace BrightIdeasSoftware
         /// <param name="last"></param>
         /// <param name="column"></param>
         /// <returns></returns>
-        public virtual int SearchText(string value, int first, int last, OLVColumn column) {
+        public virtual int SearchText(String value, int first, int last, OLVColumn column) {
             return -1;
         }
 
@@ -244,11 +244,11 @@ namespace BrightIdeasSoftware
         }
 
         /// <summary>
-        /// Update/replace the nth object with the given object
+        /// Update/replace the nth Object with the given Object
         /// </summary>
         /// <param name="index"></param>
         /// <param name="modelObject"></param>
-        public virtual void UpdateObject(int index, object modelObject) {
+        public virtual void UpdateObject(int index, Object modelObject) {
         }
 
         /// <summary>
@@ -261,16 +261,16 @@ namespace BrightIdeasSoftware
         /// <param name="column"></param>
         /// <param name="source"></param>
         /// <returns></returns>
-        static public int DefaultSearchText(string value, int first, int last, OLVColumn column, IVirtualListDataSource source) {
+        static public int DefaultSearchText(String value, int first, int last, OLVColumn column, IVirtualListDataSource source) {
             if (first <= last) {
                 for (int i = first; i <= last; i++) {
-                    string data = column.GetStringValue(source.GetNthObject(i));
+                    String data = column.GetStringValue(source.GetNthObject(i));
                     if (data.StartsWith(value, StringComparison.CurrentCultureIgnoreCase))
                         return i;
                 }
             } else {
                 for (int i = first; i >= last; i--) {
-                    string data = column.GetStringValue(source.GetNthObject(i));
+                    String data = column.GetStringValue(source.GetNthObject(i));
                     if (data.StartsWith(value, StringComparison.CurrentCultureIgnoreCase))
                         return i;
                 }
@@ -308,7 +308,7 @@ namespace BrightIdeasSoftware
         #region Public properties
 
         /// <summary>
-        /// How will the n'th object of the data source be fetched?
+        /// How will the n'th Object of the data source be fetched?
         /// </summary>
         public RowGetterDelegate RowGetter {
             get { return rowGetter; }
@@ -325,7 +325,7 @@ namespace BrightIdeasSoftware
         /// </summary>
         /// <param name="n"></param>
         /// <returns></returns>
-        public override object GetNthObject(int n) {
+        public override Object GetNthObject(int n) {
             if (this.RowGetter == null)
                 return null;
             else
@@ -340,7 +340,7 @@ namespace BrightIdeasSoftware
         /// <param name="last"></param>
         /// <param name="column"></param>
         /// <returns></returns>
-        public override int SearchText(string value, int first, int last, OLVColumn column) {
+        public override int SearchText(String value, int first, int last, OLVColumn column) {
             return DefaultSearchText(value, first, last, column, this);
         }
 

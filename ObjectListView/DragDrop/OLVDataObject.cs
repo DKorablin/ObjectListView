@@ -38,21 +38,21 @@ using System.Windows.Forms;
 namespace BrightIdeasSoftware
 {
 
-	/// <summary>A data transfer Object that knows how to transform a list of model objects into a text and HTML representation.</summary>
+	/// <summary>A data transfer object that knows how to transform a list of model objects into a text and HTML representation.</summary>
 	public class OLVDataObject : DataObject
 	{
 		#region Life and death
 
-		/// <summary>Create a data Object from the selected objects in the given ObjectListView</summary>
+		/// <summary>Create a data object from the selected objects in the given ObjectListView</summary>
 		/// <param name="olv">The source of the data Object</param>
 		public OLVDataObject(ObjectListView olv)
 			: this(olv, olv.SelectedObjects)
 		{
 		}
 
-		/// <summary>Create a data Object which operates on the given model objects in the given ObjectListView</summary>
-		/// <param name="olv">The source of the data Object</param>
-		/// <param name="modelObjects">The model objects to be put into the data Object</param>
+		/// <summary>Create a data object which operates on the given model objects in the given ObjectListView</summary>
+		/// <param name="olv">The source of the data object</param>
+		/// <param name="modelObjects">The model objects to be put into the data object</param>
 		public OLVDataObject(ObjectListView olv, IList modelObjects)
 		{
 			this.ListView = olv;
@@ -76,12 +76,12 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets the ObjectListView that is being used as the source of the data</summary>
 		public ObjectListView ListView { get; }
 
-		/// <summary>Gets the model objects that are to be placed in the data Object</summary>
+		/// <summary>Gets the model objects that are to be placed in the data object</summary>
 		public IList ModelObjects { get; }
 
 		#endregion
 
-		/// <summary>Put a text and HTML representation of our model objects into the data Object.</summary>
+		/// <summary>Put a text and HTML representation of our model objects into the data object.</summary>
 		public void CreateTextFormats()
 		{
 
@@ -90,7 +90,7 @@ namespace BrightIdeasSoftware
 			// Put both the text and html versions onto the clipboard.
 			// For some reason, SetText() with UnicodeText doesn't set the basic CF_TEXT format,
 			// but using SetData() does.
-			//this.SetText(sbText.ToString(), TextDataFormat.UnicodeText);
+			// this.SetText(sbText.ToString(), TextDataFormat.UnicodeText)
 			this.SetData(exporter.ExportTo(OLVExporter.ExportFormat.TabSeparated));
 			String exportTo = exporter.ExportTo(OLVExporter.ExportFormat.CSV);
 			if(!String.IsNullOrEmpty(exportTo))
@@ -109,14 +109,6 @@ namespace BrightIdeasSoftware
 				ModelObjects = this.ModelObjects
 			};
 			return exporter;
-		}
-
-		/// <summary>Make a HTML representation of our model objects</summary>
-		[Obsolete("Use OLVExporter directly instead", false)]
-		public String CreateHtml()
-		{
-			OLVExporter exporter = this.CreateExporter();
-			return exporter.ExportTo(OLVExporter.ExportFormat.HTML);
 		}
 
 		/// <summary>Convert the fragment of HTML into the Clipboards HTML format.</summary>

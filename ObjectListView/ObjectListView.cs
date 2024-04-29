@@ -426,7 +426,7 @@
  *                    rendering should be done. Previously returned void. Only important if your
  *                    code used RendererDelegate directly. Renderers derived from BaseRenderer
  *                    are unchanged.
- * 2008-05-03  JPP  - Changed cell editing to use values directly when the values are Strings.
+ * 2008-05-03  JPP  - Changed cell editing to use values directly when the values are strings.
  *                    Previously, values were always handed to the AspectToStringConverter.
  *                  - When editing a cell, tabbing no longer tries to edit the next subitem
  *                    when not in details view!
@@ -522,7 +522,7 @@
  * 2007-10-08  JPP  - Added GetNextItem() and GetPreviousItem(), which walk sequentially through the
  *                    listview items, even when the view is grouped.
  *                  - Added SelectedItem property
- * 2007-09-28  JPP  - Optimized aspect-to-String conversion. BuildList() 15% faster.
+ * 2007-09-28  JPP  - Optimized aspect-to-string conversion. BuildList() 15% faster.
  *                  - Added empty implementation of RefreshObjects() to VirtualObjectListView since
  *                    RefreshObjects() cannot work on virtual lists.
  * 2007-09-13  JPP  - Corrected bug with custom sorter in VirtualObjectListView (thanks for mpgjunky)
@@ -606,9 +606,7 @@ using System.Threading;
 
 namespace BrightIdeasSoftware
 {
-	/// <summary>
-	/// An ObjectListView is a much easier to use, and much more powerful, version of the ListView.
-	/// </summary>
+	/// <summary>An ObjectListView is a much easier to use, and much more powerful, version of the ListView.</summary>
 	/// <remarks>
 	/// <para>
 	/// An ObjectListView automatically populates a ListView control with information taken 
@@ -635,8 +633,8 @@ namespace BrightIdeasSoftware
 	/// </para>
 	/// <para>
 	/// The groups created by an ObjectListView can be configured to include other formatting
-	/// information, including a group icon, subtitle and task button. Using some undocumented
-	/// interfaces, these groups can even on virtual lists.
+	/// information, including a group icon, subtitle and task button.
+	/// Using some undocumented interfaces, these groups can even on virtual lists.
 	/// </para>
 	/// <para>
 	/// ObjectListView supports dragging rows to other places, including other application. 
@@ -646,9 +644,7 @@ namespace BrightIdeasSoftware
 	/// and then handle the <see cref="CanDrop"/>  and <see cref="Dropped"/>  events (or the <see cref="ModelCanDrop"/>  and 
 	/// <see cref="ModelDropped"/> events, if you only want to handle drops from other ObjectListViews in your application).
 	/// </para>
-	/// <para>
-	/// For these classes to build correctly, the project must have references to these assemblies:
-	/// </para>
+	/// <para>For these classes to build correctly, the project must have references to these assemblies:</para>
 	/// <list type="bullet">
 	/// <item><description>System</description></item>
 	/// <item><description>System.Data</description></item>
@@ -657,15 +653,10 @@ namespace BrightIdeasSoftware
 	/// <item><description>System.Windows.Forms (obviously)</description></item>
 	/// </list>
 	/// </remarks>
-	[Designer(typeof(BrightIdeasSoftware.Design.ObjectListViewDesigner))]
+	[Designer(typeof(Design.ObjectListViewDesigner))]
 	public partial class ObjectListView : ListView, ISupportInitialize
 	{
-
-		#region Life and death
-
-		/// <summary>
-		/// Create an ObjectListView
-		/// </summary>
+		/// <summary>Create an ObjectListView</summary>
 		public ObjectListView()
 		{
 			this.ColumnClick += new ColumnClickEventHandler(this.HandleColumnClick);
@@ -707,8 +698,6 @@ namespace BrightIdeasSoftware
 			this.UnsubscribeNotifications(null);
 		}
 
-		#endregion
-
 		// TODO
 		//public CheckBoxSettings CheckBoxSettings {
 		//    get { return checkBoxSettings; }
@@ -718,60 +707,48 @@ namespace BrightIdeasSoftware
 		#region Static properties
 
 		/// <summary>Gets whether or not the left mouse button is down at this very instant</summary>
-		public static Boolean IsLeftMouseDown => (Control.MouseButtons & MouseButtons.Left) == MouseButtons.Left;
+		public static Boolean IsLeftMouseDown
+		{
+			get => (Control.MouseButtons & MouseButtons.Left) == MouseButtons.Left;
+		}
 
 		/// <summary>Gets whether the program running on Vista or later?</summary>
 		public static Boolean IsVistaOrLater
 		{
-			get
-			{
-				if(!ObjectListView._sIsVistaOrLater.HasValue)
-					ObjectListView._sIsVistaOrLater = Environment.OSVersion.Version.Major >= 6;
-				return ObjectListView._sIsVistaOrLater.Value;
-			}
+			get => (ObjectListView._isVistaOrLater ?? (ObjectListView._isVistaOrLater = Environment.OSVersion.Version.Major >= 6)) == true;
 		}
-		private static Boolean? _sIsVistaOrLater;
+		private static Boolean? _isVistaOrLater;
 
 		/// <summary>Gets whether the program running on Win7 or later?</summary>
 		public static Boolean IsWin7OrLater
 		{
 			get
 			{
-				if(!ObjectListView.sIsWin7OrLater.HasValue)
+				if(!ObjectListView._isWin7OrLater.HasValue)
 				{
 					// For some reason, Win7 is v6.1, not v7.0
 					Version version = Environment.OSVersion.Version;
-					ObjectListView.sIsWin7OrLater = version.Major > 6 || (version.Major == 6 && version.Minor > 0);
+					ObjectListView._isWin7OrLater = version.Major > 6 || (version.Major == 6 && version.Minor > 0);
 				}
-				return ObjectListView.sIsWin7OrLater.Value;
+				return ObjectListView._isWin7OrLater.Value;
 			}
 		}
-		private static Boolean? sIsWin7OrLater;
+		private static Boolean? _isWin7OrLater;
 
 		/// <summary>Gets or sets how what smoothing mode will be applied to graphic operations.</summary>
-		public static System.Drawing.Drawing2D.SmoothingMode SmoothingMode
-		{
-			get => ObjectListView.sSmoothingMode;
-			set => ObjectListView.sSmoothingMode = value;
-		}
-		private static System.Drawing.Drawing2D.SmoothingMode sSmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+		public static System.Drawing.Drawing2D.SmoothingMode SmoothingMode { get; set; } = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
 		/// <summary>Gets or sets how should text be rendered.</summary>
-		public static System.Drawing.Text.TextRenderingHint TextRenderingHint
-		{
-			get => ObjectListView.sTextRendereringHint;
-			set => ObjectListView.sTextRendereringHint = value;
-		}
-		private static System.Drawing.Text.TextRenderingHint sTextRendereringHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+		public static System.Drawing.Text.TextRenderingHint TextRenderingHint { get; set; } = System.Drawing.Text.TextRenderingHint.SystemDefault;
 
 		/// <summary>Gets or sets the String that will be used to title groups when the group key is null.</summary>
 		/// <remarks>Exposed so it can be localized.</remarks>
 		public static String GroupTitleDefault
 		{
-			get => ObjectListView.sGroupTitleDefault;
-			set => ObjectListView.sGroupTitleDefault = value ?? "{null}";
+			get => ObjectListView._groupTitleDefault;
+			set => ObjectListView._groupTitleDefault = value ?? "{null}";
 		}
-		private static String sGroupTitleDefault = "{null}";
+		private static String _groupTitleDefault = "{null}";
 
 		/// <summary>Convert the given enumerable into an ArrayList as efficiently as possible</summary>
 		/// <param name="collection">The source collection</param>
@@ -861,36 +838,24 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets the style that will be used by default to format disabled rows</summary>
 		public static SimpleItemStyle DefaultDisabledItemStyle
 		{
-			get
-			{
-				if(sDefaultDisabledItemStyle == null)
-				{
-					sDefaultDisabledItemStyle = new SimpleItemStyle
+			get => _defaultDisabledItemStyle
+				?? (_defaultDisabledItemStyle = new SimpleItemStyle
 					{
 						ForeColor = Color.DarkGray
-					};
-				}
-				return sDefaultDisabledItemStyle;
-			}
+					});
 		}
-		private static SimpleItemStyle sDefaultDisabledItemStyle;
+		private static SimpleItemStyle _defaultDisabledItemStyle;
 
 		/// <summary>Gets the style that will be used by default to format hot rows</summary>
 		public static HotItemStyle DefaultHotItemStyle
 		{
-			get
-			{
-				if(sDefaultHotItemStyle == null)
-				{
-					sDefaultHotItemStyle = new HotItemStyle
+			get => _defaultHotItemStyle
+				?? (_defaultHotItemStyle = new HotItemStyle
 					{
 						BackColor = Color.FromArgb(224, 235, 253)
-					};
-				}
-				return sDefaultHotItemStyle;
-			}
+					});
 		}
-		private static HotItemStyle sDefaultHotItemStyle;
+		private static HotItemStyle _defaultHotItemStyle;
 
 		#endregion
 
@@ -903,16 +868,16 @@ namespace BrightIdeasSoftware
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual IModelFilter AdditionalFilter
 		{
-			get => this.additionalFilter;
+			get => this._additionalFilter;
 			set
 			{
-				if(this.additionalFilter == value)
+				if(this._additionalFilter == value)
 					return;
-				this.additionalFilter = value;
+				this._additionalFilter = value;
 				this.UpdateColumnFiltering();
 			}
 		}
-		private IModelFilter additionalFilter;
+		private IModelFilter _additionalFilter;
 
 		/// <summary>
 		/// Get or set all the columns that this control knows about.
@@ -931,10 +896,10 @@ namespace BrightIdeasSoftware
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		public virtual List<OLVColumn> AllColumns
 		{
-			get { return this.allColumns; }
-			set { this.allColumns = value ?? new List<OLVColumn>(); }
+			get => this._allColumns;
+			set { this._allColumns = value ?? new List<OLVColumn>(); }
 		}
-		private List<OLVColumn> allColumns = new List<OLVColumn>();
+		private List<OLVColumn> _allColumns = new List<OLVColumn>();
 
 		/// <summary>
 		/// Gets or sets whether or not ObjectListView will allow cell editors to response to mouse wheel events. Default is true.
@@ -996,10 +961,10 @@ namespace BrightIdeasSoftware
 		[DefaultValue(CellEditActivateMode.None)]
 		public virtual CellEditActivateMode CellEditActivation
 		{
-			get => _cellEditActivation;
+			get => this._cellEditActivation;
 			set
 			{
-				_cellEditActivation = value;
+				this._cellEditActivation = value;
 				if(this.Created)
 					this.Invalidate();
 			}
@@ -1036,8 +1001,8 @@ namespace BrightIdeasSoftware
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public CellEditKeyEngine CellEditKeyEngine
 		{
-			get { return this._cellEditKeyEngine ?? (this._cellEditKeyEngine = new CellEditKeyEngine()); }
-			set { this._cellEditKeyEngine = value; }
+			get => this._cellEditKeyEngine ?? (this._cellEditKeyEngine = new CellEditKeyEngine());
+			set => this._cellEditKeyEngine = value;
 		}
 		private CellEditKeyEngine _cellEditKeyEngine;
 
@@ -1086,11 +1051,11 @@ namespace BrightIdeasSoftware
 		[DefaultValue(false)]
 		public virtual Boolean CellEditEnterChangesRows
 		{
-			get => _cellEditEnterChangesRows;
+			get => this._cellEditEnterChangesRows;
 			set
 			{
-				_cellEditEnterChangesRows = value;
-				if(_cellEditEnterChangesRows)
+				this._cellEditEnterChangesRows = value;
+				if(this._cellEditEnterChangesRows)
 				{
 					this.CellEditKeyEngine.SetKeyBehaviour(Keys.Enter, CellEditCharacterBehaviour.ChangeRowDown, CellEditAtEdgeBehaviour.ChangeColumn);
 					this.CellEditKeyEngine.SetKeyBehaviour(Keys.Enter | Keys.Shift, CellEditCharacterBehaviour.ChangeRowUp, CellEditAtEdgeBehaviour.ChangeColumn);
@@ -1335,9 +1300,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets the list of decorations that will be drawn the ListView</summary>
 		/// <remarks>
-		/// <para>
-		/// Do not modify the contents of this list directly. Use the AddDecoration() and RemoveDecoration() methods.
-		/// </para>
+		/// <para>Do not modify the contents of this list directly. Use the AddDecoration() and RemoveDecoration() methods.</para>
 		/// <para>A decoration scrolls with the list contents. An overlay is fixed in place.</para>
 		/// </remarks>
 		[Browsable(false)]
@@ -8907,12 +8870,12 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>
-		/// Try to give the given value to the provided control. Fall back to assigning a String
-		/// if the value assignment fails.
+		/// Try to give the given value to the provided control.
+		/// Fall back to assigning a string if the value assignment fails.
 		/// </summary>
 		/// <param name="control">A control</param>
 		/// <param name="value">The value to be given to the control</param>
-		/// <param name="stringValue">The String to be given if the value doesn't work</param>
+		/// <param name="stringValue">The string to be given if the value doesn't work</param>
 		protected virtual void SetControlValue(Control control, Object value, String stringValue)
 		{
 			// Does the control implement our custom interface?

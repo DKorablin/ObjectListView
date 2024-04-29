@@ -173,7 +173,7 @@ namespace BrightIdeasSoftware
 				break;
 			default:
 				return this.HandleCustomVerb(keyData, behaviour);
-			};
+			}
 
 			return true;
 		}

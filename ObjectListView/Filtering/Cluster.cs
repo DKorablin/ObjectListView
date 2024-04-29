@@ -73,14 +73,14 @@ namespace BrightIdeasSoftware
 		#region Implementation of IComparable
 
 		/// <summary>Return an indication of the ordering between this Object and the given one</summary>
-		/// <param name="other"></param>
+		/// <param name="obj"></param>
 		/// <returns></returns>
-		public Int32 CompareTo(Object other)
+		public Int32 CompareTo(Object obj)
 		{
-			if(other == null || other == DBNull.Value)
+			if(obj == null || obj == DBNull.Value)
 				return 1;
 
-			if(!(other is ICluster otherCluster))
+			if(!(obj is ICluster otherCluster))
 				return 1;
 
 			if(this.ClusterKey is String keyAsString)

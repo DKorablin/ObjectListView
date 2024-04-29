@@ -43,12 +43,11 @@ namespace BrightIdeasSoftware
 
 		/// <summary>This field is the text that will be shown to the user when a cluster key is null.</summary>
 		/// <remarks>It is exposed so it can be localized.</remarks>
-		static public String NULL_LABEL = "[null]";
+		public static readonly String NULL_LABEL = "[null]";
 
-		/// <summary>This field is the text that will be shown to the user when a cluster key is empty (i.e. a String of zero length).
-		/// </summary>
+		/// <summary>This field is the text that will be shown to the user when a cluster key is empty (i.e. a String of zero length).</summary>
 		/// <remarks>It is exposed so it can be localized.</remarks>
-		static public String EMPTY_LABEL = "[empty]";
+		public static readonly String EMPTY_LABEL = "[empty]";
 
 		/// <summary>
 		/// Gets or sets the format that will be used by default for clusters that only
@@ -56,7 +55,7 @@ namespace BrightIdeasSoftware
 		/// - {0} is the cluster key converted to a String
 		/// - {1} is the number of items in the cluster (always 1 in this case)
 		/// </summary>
-		static public String DefaultDisplayLabelFormatSingular { get; set; } = "{0} ({1} item)";
+		public static String DefaultDisplayLabelFormatSingular { get; set; } = "{0} ({1} item)";
 
 		/// <summary>
 		/// Gets or sets the format that will be used by default for clusters that 
@@ -64,7 +63,7 @@ namespace BrightIdeasSoftware
 		/// - {0} is the cluster key converted to a String
 		/// - {1} is the number of items in the cluster
 		/// </summary>
-		static public String DefaultDisplayLabelFormatPlural { get; set; } = "{0} ({1} items)";
+		public static String DefaultDisplayLabelFormatPlural { get; set; } = "{0} ({1} items)";
 
 		#endregion
 

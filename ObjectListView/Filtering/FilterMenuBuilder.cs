@@ -54,38 +54,34 @@ namespace BrightIdeasSoftware
 	/// </remarks>
 	public class FilterMenuBuilder
 	{
-
 		#region Static properties
-
 		/// <summary>Gets or sets the String that labels the Apply button.</summary>
 		/// <remarks>Exposed so it can be localized.</remarks>
-		static public String APPLY_LABEL = "Apply";
+		public static String APPLY_LABEL = "Apply";
 
 		/// <summary>Gets or sets the String that labels the Clear All menu item.</summary>
 		/// <remarks>Exposed so it can be localized.</remarks>
-		static public String CLEAR_ALL_FILTERS_LABEL = "Clear All Filters";
+		public static String CLEAR_ALL_FILTERS_LABEL = "Clear All Filters";
 
 		/// <summary>Gets or sets the String that labels the Filtering menu as a whole.</summary>
 		/// <remarks>Exposed so it can be localized.</remarks>
-		static public String FILTERING_LABEL = "Filtering";
+		public static String FILTERING_LABEL = "Filtering";
 
 		/// <summary>
 		/// Gets or sets the String that represents Select All values.
 		/// If this is set to null or empty, no Select All option will be included.
 		/// </summary>
 		/// <remarks>Exposed so it can be localized.</remarks>
-		static public String SELECT_ALL_LABEL = "Select All";
+		public static String SELECT_ALL_LABEL = "Select All";
 
 		/// <summary>Gets or sets the image that will be placed next to the Clear Filtering menu item</summary>
-		static public Bitmap ClearFilteringImage = BrightIdeasSoftware.Properties.Resources.ClearFiltering;
+		public static Bitmap ClearFilteringImage = Properties.Resources.ClearFiltering;
 
 		/// <summary>Gets or sets the image that will be placed next to all "Apply" menu items on the filtering menu</summary>
-		static public Bitmap FilteringImage = BrightIdeasSoftware.Properties.Resources.Filtering;
-
+		public static Bitmap FilteringImage = Properties.Resources.Filtering;
 		#endregion
 
 		#region Public properties
-
 		/// <summary>
 		/// Gets or sets whether null should be considered as a valid data value.
 		/// If this is true (the default), then a cluster will null as a key will be allow.
@@ -222,24 +218,23 @@ namespace BrightIdeasSoftware
 
 		/// <summary>
 		/// Wrap a protected section around the real HandleItemChecked method, so that if
-		/// that method tries to change a "checkedness" of an item, we don't get a recursive 
-		/// stack error. Effectively, this ensure that HandleItemChecked is only called
-		/// in response to a user action.
+		/// that method tries to change a "checkedness" of an item, we don't get a recursive stack error.
+		/// Effectively, this ensure that HandleItemChecked is only called in response to a user action.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void HandleItemCheckedWrapped(Object sender, ItemCheckEventArgs e)
 		{
-			if(_alreadyInHandleItemChecked)
+			if(this._alreadyInHandleItemChecked)
 				return;
 
 			try
 			{
-				_alreadyInHandleItemChecked = true;
+				this._alreadyInHandleItemChecked = true;
 				this.HandleItemChecked(sender, e);
 			} finally
 			{
-				_alreadyInHandleItemChecked = false;
+				this._alreadyInHandleItemChecked = false;
 			}
 		}
 		Boolean _alreadyInHandleItemChecked = false;
@@ -249,18 +244,15 @@ namespace BrightIdeasSoftware
 		/// <param name="e"></param>
 		virtual protected void HandleItemChecked(Object sender, ItemCheckEventArgs e)
 		{
-
-			ToolStripCheckedListBox checkedList = sender as ToolStripCheckedListBox;
-			if(checkedList == null) return;
-			OLVColumn column = checkedList.Tag as OLVColumn;
-			if(column == null) return;
-			ObjectListView listView = column.ListView as ObjectListView;
-			if(listView == null) return;
-
-			// Deal with the "Select All" item if there is one
-			Int32 selectAllIndex = checkedList.Items.IndexOf(SELECT_ALL_LABEL);
-			if(selectAllIndex >= 0)
-				this.HandleSelectAllItem(e, checkedList, selectAllIndex);
+			if(sender is ToolStripCheckedListBox checkedList
+				&& checkedList.Tag is OLVColumn column
+				&& column.ListView is ObjectListView)
+			{
+				// Deal with the "Select All" item if there is one
+				Int32 selectAllIndex = checkedList.Items.IndexOf(SELECT_ALL_LABEL);
+				if(selectAllIndex >= 0)
+					this.HandleSelectAllItem(e, checkedList, selectAllIndex);
+			}
 		}
 
 		/// <summary>Handle any checking/unchecking of the Select All option, and keep its checkedness in sync with everything else that is checked.</summary>

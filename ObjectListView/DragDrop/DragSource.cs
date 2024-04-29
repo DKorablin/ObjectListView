@@ -78,9 +78,9 @@ namespace BrightIdeasSoftware
 			=> null;
 
 		/// <summary>See IDragSource documentation</summary>
-		/// <param name="data"></param>
+		/// <param name="dragObject"></param>
 		/// <returns></returns>
-		public virtual DragDropEffects GetAllowedEffects(Object data)
+		public virtual DragDropEffects GetAllowedEffects(Object dragObject)
 			=> DragDropEffects.None;
 
 		/// <summary>See IDragSource documentation</summary>

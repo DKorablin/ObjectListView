@@ -209,8 +209,8 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or sets the DataSourceAdaptor that does the bulk of the work needed for data binding.</summary>
 		protected TreeDataSourceAdapter Adapter
 		{
-			get => _adapter ?? (this._adapter = new TreeDataSourceAdapter(this));
-			set => _adapter = value;
+			get => this._adapter ?? (this._adapter = new TreeDataSourceAdapter(this));
+			set => this._adapter = value;
 		}
 		private TreeDataSourceAdapter _adapter;
 

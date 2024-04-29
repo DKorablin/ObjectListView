@@ -52,6 +52,10 @@ namespace BrightIdeasSoftware
 	/// </remarks>
 	public class ColumnComparer : IComparer, IComparer<OLVListItem>
 	{
+		private readonly OLVColumn _column;
+		private readonly SortOrder _sortOrder;
+		private readonly ColumnComparer _secondComparer;
+
 		/// <summary>Gets or sets the method that will be used to compare two strings.</summary>
 		/// <remarks>The default is to compare on the current culture, case-insensitive</remarks>
 		public static StringCompareDelegate StringComparer { get; set; }
@@ -138,24 +142,20 @@ namespace BrightIdeasSoftware
 			=> StringComparer == null
 				? String.Compare(x, y, StringComparison.CurrentCultureIgnoreCase)
 				: StringComparer(x, y);
-
-		private OLVColumn _column;
-		private SortOrder _sortOrder;
-		private ColumnComparer _secondComparer;
 	}
 
 	/// <summary>
-	/// This comparer sort list view groups. OLVGroups have a "SortValue" property,
-	/// which is used if present. Otherwise, the titles of the groups will be compared.
+	/// This comparer sort list view groups. OLVGroups have a "SortValue" property, which is used if present.
+	/// Otherwise, the titles of the groups will be compared.
 	/// </summary>
 	public class OLVGroupComparer : IComparer<OLVGroup>
 	{
+		private readonly SortOrder _sortOrder;
+
 		/// <summary>Create a group comparer</summary>
 		/// <param name="order">The ordering for column values</param>
 		public OLVGroupComparer(SortOrder order)
-		{
-			this._sortOrder = order;
-		}
+			=> this._sortOrder = order;
 
 		/// <summary>
 		/// Compare the two groups. OLVGroups have a "SortValue" property, which is used if present.
@@ -177,16 +177,16 @@ namespace BrightIdeasSoftware
 
 			return result;
 		}
-
-		private SortOrder _sortOrder;
 	}
 
 	/// <summary>This comparer can be used to sort a collection of model objects by a given column</summary>
-	/// <remarks>
-	/// <para>This is used by virtual ObjectListViews. Non-virtual lists use ColumnComparer</para>
-	/// </remarks>
+	/// <remarks>This is used by virtual ObjectListViews. Non-virtual lists use ColumnComparer</remarks>
 	public class ModelObjectComparer : IComparer, IComparer<Object>
 	{
+		private readonly OLVColumn _column;
+		private readonly SortOrder _sortOrder;
+		private readonly ModelObjectComparer _secondComparer;
+
 		/// <summary>Gets or sets the method that will be used to compare two strings.</summary>
 		/// <remarks>The default is to compare on the current culture, case-insensitive</remarks>
 		public static StringCompareDelegate StringComparer { get; set; }
@@ -261,9 +261,5 @@ namespace BrightIdeasSoftware
 			=> StringComparer == null
 				? String.Compare(x, y, StringComparison.CurrentCultureIgnoreCase)
 				: StringComparer(x, y);
-
-		private OLVColumn _column;
-		private SortOrder _sortOrder;
-		private ModelObjectComparer _secondComparer;
 	}
 }

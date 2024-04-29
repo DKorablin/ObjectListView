@@ -224,9 +224,9 @@ namespace BrightIdeasSoftware
 		void GetItemGroupCount(Int32 itemIndex, out Int32 occurrenceCount);
 
 		/// <summary>A hint to prepare any cache for the given range of requests</summary>
-		/// <param name="i"></param>
-		/// <param name="j"></param>
-		void OnCacheHint(NativeMethods.LVITEMINDEX i, NativeMethods.LVITEMINDEX j);
+		/// <param name="from"></param>
+		/// <param name="to"></param>
+		void OnCacheHint(NativeMethods.LVITEMINDEX from, NativeMethods.LVITEMINDEX to);
 	}
 
 	/// <summary>A default implementation of the IOwnerDataCallback interface</summary>

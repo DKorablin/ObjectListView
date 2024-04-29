@@ -145,6 +145,11 @@ namespace BrightIdeasSoftware
 	/// </remarks>
 	public class FastObjectListDataSource : AbstractVirtualListDataSource
 	{
+		private readonly Dictionary<Object, Int32> _objectsToIndexMap = new Dictionary<Object, Int32>();
+
+		private IModelFilter _modelFilter;
+		private IListFilter _listFilter;
+
 		/// <summary>Create a FastObjectListDataSource</summary>
 		/// <param name="listView"></param>
 		public FastObjectListDataSource(FastObjectListView listView)
@@ -241,7 +246,6 @@ namespace BrightIdeasSoftware
 		/// <param name="modelObjects"></param>
 		public override void RemoveObjects(ICollection modelObjects)
 		{
-
 			// We have to unselect any Object that is about to be deleted
 			List<Int32> indicesToRemove = new List<Int32>();
 			foreach(Object modelObject in modelObjects)
@@ -298,14 +302,9 @@ namespace BrightIdeasSoftware
 			this.FilteredObjectList[index] = modelObject;
 			this._objectsToIndexMap[modelObject] = index;
 		}
-
-		private IModelFilter _modelFilter;
-		private IListFilter _listFilter;
-
 		#endregion
 
 		#region IFilterableDataSource Members
-
 		/// <summary>Apply the given filters to this data source. One or both may be null.</summary>
 		/// <param name="modelFilter"></param>
 		/// <param name="listFilter"></param>
@@ -334,7 +333,6 @@ namespace BrightIdeasSoftware
 			for(Int32 i = 0; i < this.FilteredObjectList.Count; i++)
 				this._objectsToIndexMap[this.FilteredObjectList[i]] = i;
 		}
-		readonly Dictionary<Object, Int32> _objectsToIndexMap = new Dictionary<Object, Int32>();
 
 		/// <summary>Build our filtered list from our full list.</summary>
 		protected void FilterObjects()

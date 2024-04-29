@@ -155,47 +155,51 @@ namespace BrightIdeasSoftware
 		#endregion
 
 		#region Object manipulations
-
 		/// <summary>Add the given collection of model objects to this control.</summary>
 		/// <param name="modelObjects">A collection of model objects</param>
-		/// <remarks>This is a no-op for data lists, since the data
-		/// is controlled by the DataSource. Manipulate the data source
-		/// rather than this view of the data source.</remarks>
+		/// <remarks>
+		/// This is a no-op for data lists, since the data is controlled by the DataSource.
+		/// Manipulate the data source rather than this view of the data source.
+		/// </remarks>
 		public override void AddObjects(ICollection modelObjects)
 		{
+			//This is a no-op for data lists, since the data is controlled by the DataSource.
+			//Manipulate the data source rather than this view of the data source.
 		}
 
 		/// <summary>Insert the given collection of objects before the given position</summary>
 		/// <param name="index">Where to insert the objects</param>
 		/// <param name="modelObjects">The objects to be inserted</param>
-		/// <remarks>This is a no-op for data lists, since the data
-		/// is controlled by the DataSource. Manipulate the data source
-		/// rather than this view of the data source.</remarks>
+		/// <remarks>
+		/// This is a no-op for data lists, since the data is controlled by the DataSource.
+		/// Manipulate the data source rather than this view of the data source.
+		/// </remarks>
 		public override void InsertObjects(Int32 index, ICollection modelObjects)
 		{
+			//This is a no-op for data lists, since the data is controlled by the DataSource.
+			//Manipulate the data source rather than this view of the data source.
 		}
 
 		/// <summary>Remove the given collection of model objects from this control.</summary>
-		/// <remarks>This is a no-op for data lists, since the data
-		/// is controlled by the DataSource. Manipulate the data source
-		/// rather than this view of the data source.</remarks>
+		/// <remarks>
+		/// This is a no-op for data lists, since the data is controlled by the DataSource.
+		/// Manipulate the data source rather than this view of the data source.
+		/// </remarks>
 		public override void RemoveObjects(ICollection modelObjects)
 		{
+			//This is a no-op for data lists, since the data is controlled by the DataSource.
+			// Manipulate the data source rather than this view of the data source.
 		}
-
 		#endregion
 
 		#region Event Handlers
-
 		/// <summary>Change the Unfreeze behaviour</summary>
 		protected override void DoUnfreeze()
 		{
-
 			// Copied from base method, but we don't need to BuildList() since we know that our
 			// data adaptor is going to do that immediately after this method exits.
 			this.EndUpdate();
 			this.ResizeFreeSpaceFillingColumns();
-			// this.BuildList();
 		}
 
 		/// <summary>Handles parent binding context changes</summary>
@@ -212,7 +216,6 @@ namespace BrightIdeasSoftware
 
 			// THINK: Do we need to forward this to the adapter?
 		}
-
 		#endregion
 	}
 }

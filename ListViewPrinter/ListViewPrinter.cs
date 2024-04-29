@@ -170,10 +170,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Return the number of the page that is currently being printed.</summary>
 		[Browsable(false)]
-		public Int32 PageNumber
-		{
-			get => this.pageNumber;
-		}
+		public Int32 PageNumber { get; private set; }
 
 		/// <summary>Is this report showing groups?</summary>
 		/// <remarks>Groups can't be shown when we are printing selected rows only.</remarks>
@@ -479,7 +476,7 @@ namespace BrightIdeasSoftware
 			this.rowIndex = -1;
 			this.indexLeftColumn = -1;
 			this.indexRightColumn = -1;
-			this.pageNumber = 0;
+			this.PageNumber = 0;
 
 			// Initialize our caches
 			this.sortedColumns = new SortedList<Int32, ColumnHeader>();
@@ -497,19 +494,19 @@ namespace BrightIdeasSoftware
 
 			base.OnPrintPage(e);
 
-			this.pageNumber++;
+			this.PageNumber++;
 
 			// Ignore all pages before the first requested page
 			// Have to allow for weird cases where the last page is before the first page
 			// and where we run out of things to print before reaching the first requested page.
 			Int32 pageToStop = Math.Min(this.FirstPage, this.LastPage + 1);
-			if(this.pageNumber < pageToStop)
+			if(this.PageNumber < pageToStop)
 			{
 				e.HasMorePages = true;
-				while(this.pageNumber < pageToStop && e.HasMorePages)
+				while(this.PageNumber < pageToStop && e.HasMorePages)
 				{
 					e.HasMorePages = this.PrintOnePage(e);
-					this.pageNumber++;
+					this.PageNumber++;
 				}
 
 				// Remove anything drawn
@@ -521,10 +518,10 @@ namespace BrightIdeasSoftware
 			}
 
 			// If we haven't reached the end of the requested pages, print one.
-			if(this.pageNumber <= this.LastPage)
+			if(this.PageNumber <= this.LastPage)
 			{
 				e.HasMorePages = this.PrintOnePage(e);
-				e.HasMorePages = e.HasMorePages && (this.pageNumber < this.LastPage);
+				e.HasMorePages = e.HasMorePages && (this.PageNumber < this.LastPage);
 			} else
 				e.HasMorePages = false;
 		}
@@ -898,15 +895,13 @@ namespace BrightIdeasSoftware
 			this.listBounds.Height -= height;
 		}
 
-		/// <summary>
-		/// Split the given String into at most three parts, using Tab as the divider. 
-		/// Perform any substitutions required
-		/// </summary>
+		/// <summary>Split the given string into at most three parts, using Tab as the divider.</summary>
+		/// <remarks>Perform any substitutions required</remarks>
 		/// <param name="text"></param>
 		/// <returns></returns>
 		private String[] SplitAndFormat(String text)
 		{
-			String s = String.Format(text, this.pageNumber, DateTime.Now);
+			String s = String.Format(text, this.PageNumber, DateTime.Now);
 			return s.Split(new Char[] { '\x09' }, 3);
 		}
 
@@ -931,7 +926,6 @@ namespace BrightIdeasSoftware
 		private Int32 rowIndex;
 		private Int32 indexLeftColumn;
 		private Int32 indexRightColumn;
-		private Int32 pageNumber;
 
 		// Cached values
 		private SortedList<Int32, ColumnHeader> sortedColumns;

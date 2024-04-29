@@ -41,295 +41,167 @@ using System.Windows.Forms;
 
 namespace BrightIdeasSoftware
 {
-    /// <summary>
-    /// This attribute is used to mark a property of a model
-    /// class that should be noticed by Generator class.
-    /// </summary>
-    /// <remarks>
-    /// All the attributes of this class match their equivalent properties on OLVColumn.
-    /// </remarks>
-    [AttributeUsage(AttributeTargets.Property)]
-    public class OLVColumnAttribute : Attribute
-    {
-        #region Constructor
+	/// <summary>This attribute is used to mark a property of a model class that should be noticed by Generator class.</summary>
+	/// <remarks>All the attributes of this class match their equivalent properties on <see cref="OLVColumn"/>.</remarks>
+	[AttributeUsage(AttributeTargets.Property)]
+	public class OLVColumnAttribute : Attribute
+	{
+		#region Constructor
 
-        // There are several property where we actually want nullable value (bool?, int?),
-        // but it seems attribute properties can't be nullable types.
-        // So we explicitly track if those properties have been set.
+		// There are several property where we actually want nullable value (bool?, int?),
+		// but it seems attribute properties can't be nullable types.
+		// So we explicitly track if those properties have been set.
 
-        /// <summary>
-        /// Create a new OLVColumnAttribute
-        /// </summary>
-        public OLVColumnAttribute() {
-        }
+		/// <summary>Create a new <see cref="OLVColumnAttribute"/></summary>
+		public OLVColumnAttribute()
+		{
+		}
 
-        /// <summary>
-        /// Create a new OLVColumnAttribute with the given title
-        /// </summary>
-        /// <param name="title">The title of the column</param>
-        public OLVColumnAttribute(String title) {
-            this.Title = title;
-        }
+		/// <summary>Create a new <see cref="OLVColumnAttribute"/> with the given title</summary>
+		/// <param name="title">The title of the column</param>
+		public OLVColumnAttribute(String title)
+			=> this.Title = title;
 
-        #endregion
+		#endregion
 
-        #region Public properties
+		#region Public properties
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public String AspectToStringFormat {
-            get { return aspectToStringFormat; }
-            set { aspectToStringFormat = value; }
-        }
-        private String aspectToStringFormat;
+		/// <summary></summary>
+		public String AspectToStringFormat { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool CheckBoxes {
-            get { return checkBoxes; }
-            set {
-                checkBoxes = value;
-                this.IsCheckBoxesSet = true;
-            }
-        }
-        private bool checkBoxes;
-        internal bool IsCheckBoxesSet = false;
+		/// <summary></summary>
+		public Boolean CheckBoxes
+		{
+			get => this._checkBoxes;
+			set
+			{
+				this._checkBoxes = value;
+				this.IsCheckBoxesSet = true;
+			}
+		}
+		private Boolean _checkBoxes;
+		internal Boolean IsCheckBoxesSet = false;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public int DisplayIndex {
-            get { return displayIndex; }
-            set { displayIndex = value; }
-        }
-        private int displayIndex = -1;
+		/// <summary></summary>
+		public Int32 DisplayIndex { get; set; } = -1;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool FillsFreeSpace {
-            get { return fillsFreeSpace; }
-            set { fillsFreeSpace = value; }
-        }
-        private bool fillsFreeSpace;
+		/// <summary></summary>
+		public Boolean FillsFreeSpace { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public int FreeSpaceProportion {
-            get { return freeSpaceProportion; }
-            set {
-                freeSpaceProportion = value;
-                IsFreeSpaceProportionSet = true;
-            }
-        }
-        private int freeSpaceProportion;
-        internal bool IsFreeSpaceProportionSet = false;
+		/// <summary></summary>
+		public Int32 FreeSpaceProportion
+		{
+			get => this._freeSpaceProportion;
+			set
+			{
+				this._freeSpaceProportion = value;
+				IsFreeSpaceProportionSet = true;
+			}
+		}
+		private Int32 _freeSpaceProportion;
+		internal Boolean IsFreeSpaceProportionSet = false;
 
-        /// <summary>
-        /// An array of IComparables that mark the cutoff points for values when
-        /// grouping on this column. 
-        /// </summary>
-        public Object[] GroupCutoffs {
-            get { return groupCutoffs; }
-            set { groupCutoffs = value; }
-        }
-        private Object[] groupCutoffs;
+		/// <summary>An array of IComparables that mark the cutoff points for values when grouping on this column.</summary>
+		public Object[] GroupCutoffs { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public String[] GroupDescriptions {
-            get { return groupDescriptions; }
-            set { groupDescriptions = value; }
-        }
-        private String[] groupDescriptions;
+		/// <summary></summary>
+		public String[] GroupDescriptions { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public String GroupWithItemCountFormat {
-            get { return groupWithItemCountFormat; }
-            set { groupWithItemCountFormat = value; }
-        }
-        private String groupWithItemCountFormat;
+		/// <summary></summary>
+		public String GroupWithItemCountFormat { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public String GroupWithItemCountSingularFormat {
-            get { return groupWithItemCountSingularFormat; }
-            set { groupWithItemCountSingularFormat = value; }
-        }
-        private String groupWithItemCountSingularFormat;
+		/// <summary></summary>
+		public String GroupWithItemCountSingularFormat { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool Hyperlink {
-            get { return hyperlink; }
-            set { hyperlink = value; }
-        }
-        private bool hyperlink;
+		/// <summary></summary>
+		public Boolean Hyperlink { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public String ImageAspectName {
-            get { return imageAspectName; }
-            set { imageAspectName = value; }
-        }
-        private String imageAspectName;
+		/// <summary></summary>
+		public String ImageAspectName { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool IsEditable {
-            get { return isEditable; }
-            set {
-                isEditable = value;
-                this.IsEditableSet = true;
-            }
-        }
-        private bool isEditable = true;
-        internal bool IsEditableSet = false;
+		/// <summary></summary>
+		public Boolean IsEditable
+		{
+			get => this._isEditable;
+			set
+			{
+				this._isEditable = value;
+				this.IsEditableSet = true;
+			}
+		}
+		private Boolean _isEditable = true;
+		internal Boolean IsEditableSet = false;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool IsVisible {
-            get { return isVisible; }
-            set { isVisible = value; }
-        }
-        private bool isVisible = true;
+		/// <summary></summary>
+		public Boolean IsVisible { get; set; } = true;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool IsTileViewColumn {
-            get { return isTileViewColumn; }
-            set { isTileViewColumn = value; }
-        }
-        private bool isTileViewColumn;
+		/// <summary></summary>
+		public Boolean IsTileViewColumn { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public int MaximumWidth {
-            get { return maximumWidth; }
-            set { maximumWidth = value; }
-        }
-        private int maximumWidth = -1;
+		/// <summary></summary>
+		public Int32 MaximumWidth { get; set; } = -1;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public int MinimumWidth {
-            get { return minimumWidth; }
-            set { minimumWidth = value; }
-        }
-        private int minimumWidth = -1;
+		/// <summary></summary>
+		public Int32 MinimumWidth { get; set; } = -1;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public String Name {
-            get { return name; }
-            set { name = value; }
-        }
-        private String name;
+		/// <summary></summary>
+		public String Name { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public HorizontalAlignment TextAlign {
-            get { return this.textAlign; }
-            set {
-                this.textAlign = value;
-                IsTextAlignSet = true;
-            }
-        }
-        private HorizontalAlignment textAlign = HorizontalAlignment.Left;
-        internal bool IsTextAlignSet = false;
+		/// <summary></summary>
+		public HorizontalAlignment TextAlign
+		{
+			get => this._textAlign;
+			set
+			{
+				this._textAlign = value;
+				IsTextAlignSet = true;
+			}
+		}
+		private HorizontalAlignment _textAlign = HorizontalAlignment.Left;
+		internal Boolean IsTextAlignSet = false;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public String Tag {
-            get { return tag; }
-            set { tag = value; }
-        }
-        private String tag;
+		/// <summary></summary>
+		public String Tag { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public String Title {
-            get { return title; }
-            set { title = value; }
-        }
-        private String title;
+		/// <summary></summary>
+		public String Title { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public String ToolTipText {
-            get { return toolTipText; }
-            set { toolTipText = value; }
-        }
-        private String toolTipText;
+		/// <summary></summary>
+		public String ToolTipText { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool TriStateCheckBoxes {
-            get { return triStateCheckBoxes; }
-            set { 
-                triStateCheckBoxes = value;
-                this.IsTriStateCheckBoxesSet = true;
-            }
-        }
-        private bool triStateCheckBoxes;
-        internal bool IsTriStateCheckBoxesSet = false;
+		/// <summary></summary>
+		public Boolean TriStateCheckBoxes
+		{
+			get => this._triStateCheckBoxes;
+			set
+			{
+				this._triStateCheckBoxes = value;
+				this.IsTriStateCheckBoxesSet = true;
+			}
+		}
+		private Boolean _triStateCheckBoxes;
+		internal Boolean IsTriStateCheckBoxesSet = false;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool UseInitialLetterForGroup {
-            get { return useInitialLetterForGroup; }
-            set { useInitialLetterForGroup = value; }
-        }
-        private bool useInitialLetterForGroup;
+		/// <summary></summary>
+		public Boolean UseInitialLetterForGroup { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public int Width {
-            get { return width; }
-            set { width = value; }
-        }
-        private int width = 150;
+		/// <summary></summary>
+		public Int32 Width { get; set; } = 150;
 
-        #endregion
-    }
+		#endregion
+	}
 
-    /// <summary>
-    /// Properties marked with [OLVChildren] will be used as the children source in a TreeListView.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
-    public class OLVChildrenAttribute : Attribute
-    {
-        
-    }
+	/// <summary>Properties marked with [OLVChildren] will be used as the children source in a TreeListView.</summary>
+	[AttributeUsage(AttributeTargets.Property)]
+	public class OLVChildrenAttribute : Attribute
+	{
 
-    /// <summary>
-    /// Properties marked with [OLVIgnore] will not have columns generated for them.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
-    public class OLVIgnoreAttribute : Attribute
-    {
+	}
 
-    }
+	/// <summary>Properties marked with [OLVIgnore] will not have columns generated for them.</summary>
+	[AttributeUsage(AttributeTargets.Property)]
+	public class OLVIgnoreAttribute : Attribute
+	{
+
+	}
 }

@@ -72,7 +72,7 @@ namespace BrightIdeasSoftware.Design
 			Type tListViewDesigner = Type.GetType("System.Windows.Forms.Design.ListViewDesigner, System.Design") ??
 									 Type.GetType("System.Windows.Forms.Design.ListViewDesigner, System.Design, " +
 												  "Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
-			if(tListViewDesigner == null) throw new ArgumentException("Could not load ListViewDesigner");
+			_ = tListViewDesigner ?? throw new InvalidOperationException("Could not load ListViewDesigner");
 
 			this._listViewDesigner = (ControlDesigner)Activator.CreateInstance(tListViewDesigner, BindingFlags.Instance | BindingFlags.Public, null, null, null);
 			this._designerFilter = this._listViewDesigner;

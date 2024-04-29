@@ -12,16 +12,16 @@ jobs:
     name: Testing .NET on Windows
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: true
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 7.0.x
-    - name: Restore dependencies
+    - name: Restoring dependencies
       run: dotnet restore ${{env.SolutionName}}.sln
-    - name: Test .NET
+    - name: Testing .NET
       run: dotnet test ${{env.SolutionName}}.sln --no-build --verbosity normal
 
   version:
@@ -41,13 +41,13 @@ jobs:
         #custom_tag: 2.9.1
 
   build_net_framework:
-    name: Build .NET Framework assembly
+    name: Building .NET Framework assembly
     needs: [version]
     runs-on: windows-latest
     steps:
     - name: Decode SNK
       id: sign_key_file
-      uses: timheuer/base64-to-file@v1
+      uses: timheuer/base64-to-file@v1.2
       with:
         fileName: 'Signature.snk'
         encodedString: ${{secrets.SIGN_KEY}}
@@ -56,23 +56,23 @@ jobs:
         submodules: true
     - name: Setup .NET
       uses: microsoft/setup-msbuild@v2
-    - name: Build .NET Framework
+    - name: Building .NET Framework
       run: MSBuild -nologo -restore "${{github.workspace}}\${{env.SolutionName}}\${{env.SolutionName}}35.csproj" /property:Configuration=Release -property:OutputPath="${{github.workspace}}/bin/" -property:Version=${{needs.version.outputs.new_version}} -property:AssemblyOriginatorKeyFile="${{ steps.sign_key_file.outputs.filePath }}"
     - name: Deploy artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Net20
         path: ${{github.workspace}}/bin/*
         if-no-files-found: error
 
   build_net:
-    name: Build .NET assembly
+    name: Building .NET assembly
     needs: [version]
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: Decode SNK
       id: sign_key_file
-      uses: timheuer/base64-to-file@v1
+      uses: timheuer/base64-to-file@v1.2
       with:
         fileName: 'Signature.snk'
         encodedString: ${{secrets.SIGN_KEY}}
@@ -80,15 +80,15 @@ jobs:
       with:
         submodules: true
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 7.0.x
-    - name: Restore dependencies
+    - name: Restoring dependencies
       run: dotnet restore ${{env.SolutionName}}.sln
-    - name: Build .NET
+    - name: Building .NET
       run: dotnet build "${{github.workspace}}\${{env.SolutionName}}\${{env.SolutionName}}.csproj" --configuration Release --no-restore /p:OutputPath="../bin/" /p:DocumentationFile="../bin/${{env.SolutionName}}.xml" /p:SignAssembly=true /p:AssemblyOriginatorKeyFile="${{steps.sign_key_file.outputs.filePath}}" /p:AssemblyVersion=${{needs.version.outputs.new_version}} /p:FileVersion=${{needs.version.outputs.new_version}} /p:InformationalVersion=${{needs.version.outputs.new_version}}
-    - name: Deploy artifacts
-      uses: actions/upload-artifact@v3
+    - name: Deploying artifacts
+      uses: actions/upload-artifact@v4
       with:
         name: net7.0-windows
         path: ${{github.workspace}}/bin/*
@@ -101,7 +101,7 @@ jobs:
 
     steps:
     - name: Extracting all artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         path: bin
     - name: Checkout nessesary files from repo

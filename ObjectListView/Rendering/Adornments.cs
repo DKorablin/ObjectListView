@@ -58,15 +58,17 @@ namespace BrightIdeasSoftware
 		[Description("How will the adornment be aligned")]
 		[DefaultValue(ContentAlignment.BottomRight)]
 		[NotifyParentProperty(true)]
-		public ContentAlignment Alignment {
-			get => this.alignment;
-			set { 
-				this.alignment = value;
+		public ContentAlignment Alignment
+		{
+			get => this._alignment;
+			set
+			{
+				this._alignment = value;
 				this.ReferenceCorner = value;
 				this.AdornmentCorner = value;
 			}
 		}
-		private ContentAlignment alignment = ContentAlignment.BottomRight;
+		private ContentAlignment _alignment = ContentAlignment.BottomRight;
 
 		/// <summary>Gets or sets the offset by which the position of the adornment will be adjusted</summary>
 		[Category("ObjectListView")]
@@ -83,20 +85,19 @@ namespace BrightIdeasSoftware
 		/// Gets or sets the degree of rotation by which the adornment will be transformed.
 		/// The centre of rotation will be the center point of the adornment.
 		/// </summary>
-		[Category("ObjectListView"),
-		 Description("The degree of rotation that will be applied to the adornment."),
-		 DefaultValue(0),
-		 NotifyParentProperty(true)]
+		[Category("ObjectListView")]
+		[Description("The degree of rotation that will be applied to the adornment.")]
+		[DefaultValue(0)]
+		[NotifyParentProperty(true)]
 		public Int32 Rotation { get; set; }
 
-		/// <summary>
-		/// Gets or sets the transparency of the overlay. 
-		/// 0 is completely transparent, 255 is completely opaque.
-		/// </summary>
+		/// <summary>Gets or sets the transparency of the overlay.</summary>
+		/// <remarks>0 is completely transparent, 255 is completely opaque.</remarks>
 		[Category("ObjectListView")]
 		[Description("The transparency of this adornment. 0 is completely transparent, 255 is completely opaque.")]
 		[DefaultValue(128)]
-		public Int32 Transparency {
+		public Int32 Transparency
+		{
 			get => this._transparency;
 			set => this._transparency = Math.Min(255, Math.Max(0, value));
 		}
@@ -114,26 +115,28 @@ namespace BrightIdeasSoftware
 		/// <example>CalculateAlignedPosition(new Point(50, 100), new Size(10, 20), System.Drawing.ContentAlignment.TopLeft) -> Point(50, 100)</example>
 		/// <example>CalculateAlignedPosition(new Point(50, 100), new Size(10, 20), System.Drawing.ContentAlignment.MiddleCenter) -> Point(45, 90)</example>
 		/// <example>CalculateAlignedPosition(new Point(50, 100), new Size(10, 20), System.Drawing.ContentAlignment.BottomRight) -> Point(40, 80)</example>
-		public virtual Point CalculateAlignedPosition(Point pt, Size size, ContentAlignment corner) {
-			switch (corner) {
-				case ContentAlignment.TopLeft:
-					return pt;
-				case ContentAlignment.TopCenter:
-					return new Point(pt.X - (size.Width / 2), pt.Y);
-				case ContentAlignment.TopRight:
-					return new Point(pt.X - size.Width, pt.Y);
-				case ContentAlignment.MiddleLeft:
-					return new Point(pt.X, pt.Y - (size.Height / 2));
-				case ContentAlignment.MiddleCenter:
-					return new Point(pt.X - (size.Width / 2), pt.Y - (size.Height / 2));
-				case ContentAlignment.MiddleRight:
-					return new Point(pt.X - size.Width, pt.Y - (size.Height / 2));
-				case ContentAlignment.BottomLeft:
-					return new Point(pt.X, pt.Y - size.Height);
-				case ContentAlignment.BottomCenter:
-					return new Point(pt.X - (size.Width / 2), pt.Y - size.Height);
-				case ContentAlignment.BottomRight:
-					return new Point(pt.X - size.Width, pt.Y - size.Height);
+		public virtual Point CalculateAlignedPosition(Point pt, Size size, ContentAlignment corner)
+		{
+			switch(corner)
+			{
+			case ContentAlignment.TopLeft:
+				return pt;
+			case ContentAlignment.TopCenter:
+				return new Point(pt.X - (size.Width / 2), pt.Y);
+			case ContentAlignment.TopRight:
+				return new Point(pt.X - size.Width, pt.Y);
+			case ContentAlignment.MiddleLeft:
+				return new Point(pt.X, pt.Y - (size.Height / 2));
+			case ContentAlignment.MiddleCenter:
+				return new Point(pt.X - (size.Width / 2), pt.Y - (size.Height / 2));
+			case ContentAlignment.MiddleRight:
+				return new Point(pt.X - size.Width, pt.Y - (size.Height / 2));
+			case ContentAlignment.BottomLeft:
+				return new Point(pt.X, pt.Y - size.Height);
+			case ContentAlignment.BottomCenter:
+				return new Point(pt.X - (size.Width / 2), pt.Y - size.Height);
+			case ContentAlignment.BottomRight:
+				return new Point(pt.X - size.Width, pt.Y - size.Height);
 			}
 
 			// Should never reach here
@@ -161,7 +164,8 @@ namespace BrightIdeasSoftware
 		/// very neat once you understand it.</para>
 		/// </remarks>
 		public virtual Rectangle CreateAlignedRectangle(Rectangle r, Size sz,
-			ContentAlignment corner, ContentAlignment referenceCorner, Size offset) {
+			ContentAlignment corner, ContentAlignment referenceCorner, Size offset)
+		{
 			Point referencePt = this.CalculateCorner(r, referenceCorner);
 			Point topLeft = this.CalculateAlignedPosition(referencePt, sz, corner);
 			return new Rectangle(topLeft + offset, sz);
@@ -174,28 +178,30 @@ namespace BrightIdeasSoftware
 		/// <example>CalculateReferenceLocation(new Rectangle(0, 0, 50, 100), System.Drawing.ContentAlignment.TopLeft) -> Point(0, 0)</example>
 		/// <example>CalculateReferenceLocation(new Rectangle(0, 0, 50, 100), System.Drawing.ContentAlignment.MiddleCenter) -> Point(25, 50)</example>
 		/// <example>CalculateReferenceLocation(new Rectangle(0, 0, 50, 100), System.Drawing.ContentAlignment.BottomRight) -> Point(50, 100)</example>
-		public virtual Point CalculateCorner(Rectangle r, ContentAlignment corner) {
-			switch (corner) {
-				case ContentAlignment.TopLeft:
-					return new Point(r.Left, r.Top);
-				case ContentAlignment.TopCenter:
-					return new Point(r.X + (r.Width / 2), r.Top);
-				case ContentAlignment.TopRight:
-					return new Point(r.Right, r.Top);
-				case ContentAlignment.MiddleLeft:
-					return new Point(r.Left, r.Top + (r.Height / 2));
-				case ContentAlignment.MiddleCenter:
-					return new Point(r.X + (r.Width / 2), r.Top + (r.Height  / 2));
-				case ContentAlignment.MiddleRight:
-					return new Point(r.Right, r.Top + (r.Height / 2));
-				case ContentAlignment.BottomLeft:
-					return new Point(r.Left, r.Bottom);
-				case ContentAlignment.BottomCenter:
-					return new Point(r.X + (r.Width / 2), r.Bottom);
-				case ContentAlignment.BottomRight:
-					return new Point(r.Right, r.Bottom);
+		public virtual Point CalculateCorner(Rectangle r, ContentAlignment corner)
+		{
+			switch(corner)
+			{
+			case ContentAlignment.TopLeft:
+				return new Point(r.Left, r.Top);
+			case ContentAlignment.TopCenter:
+				return new Point(r.X + (r.Width / 2), r.Top);
+			case ContentAlignment.TopRight:
+				return new Point(r.Right, r.Top);
+			case ContentAlignment.MiddleLeft:
+				return new Point(r.Left, r.Top + (r.Height / 2));
+			case ContentAlignment.MiddleCenter:
+				return new Point(r.X + (r.Width / 2), r.Top + (r.Height / 2));
+			case ContentAlignment.MiddleRight:
+				return new Point(r.Right, r.Top + (r.Height / 2));
+			case ContentAlignment.BottomLeft:
+				return new Point(r.Left, r.Bottom);
+			case ContentAlignment.BottomCenter:
+				return new Point(r.X + (r.Width / 2), r.Bottom);
+			case ContentAlignment.BottomRight:
+				return new Point(r.Right, r.Bottom);
 			}
-			
+
 			// Should never reach here
 			return r.Location;
 		}
@@ -221,8 +227,9 @@ namespace BrightIdeasSoftware
 		/// <summary>Apply any specified rotation to the Graphic content.</summary>
 		/// <param name="g">The Graphics to be transformed</param>
 		/// <param name="r">The rotation will be around the centre of this rect</param>
-		protected virtual void ApplyRotation(Graphics g, Rectangle r) {
-			if (this.Rotation == 0)
+		protected virtual void ApplyRotation(Graphics g, Rectangle r)
+		{
+			if(this.Rotation == 0)
 				return;
 
 			// THINK: Do we want to reset the transform? I think we want to push a new transform
@@ -234,8 +241,9 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Reverse the rotation created by ApplyRotation()</summary>
 		/// <param name="g"></param>
-		protected virtual void UnapplyRotation(Graphics g) {
-			if (this.Rotation != 0)
+		protected virtual void UnapplyRotation(Graphics g)
+		{
+			if(this.Rotation != 0)
 				g.ResetTransform();
 		}
 
@@ -267,11 +275,12 @@ namespace BrightIdeasSoftware
 		/// <summary>Draw the image in its specified location</summary>
 		/// <param name="g">The Graphics used for drawing</param>
 		/// <param name="r">The bounds of the rendering</param>
-		public virtual void DrawImage(Graphics g, Rectangle r) {
-			if (this.ShrinkToWidth)
+		public virtual void DrawImage(Graphics g, Rectangle r)
+		{
+			if(this.ShrinkToWidth)
 				this.DrawScaledImage(g, r, this.Image, this.Transparency);
 			else
-				this.DrawImage(g, r, this.Image, this.Transparency); 
+				this.DrawImage(g, r, this.Image, this.Transparency);
 		}
 
 		/// <summary>Draw the image in its specified location</summary>
@@ -279,8 +288,9 @@ namespace BrightIdeasSoftware
 		/// <param name="g">The Graphics used for drawing</param>
 		/// <param name="r">The bounds of the rendering</param>
 		/// <param name="transparency">How transparent should the image be (0 is completely transparent, 255 is opaque)</param>
-		public virtual void DrawImage(Graphics g, Rectangle r, Image image, Int32 transparency) {
-			if (image != null)
+		public virtual void DrawImage(Graphics g, Rectangle r, Image image, Int32 transparency)
+		{
+			if(image != null)
 				this.DrawImage(g, r, image, image.Size, transparency);
 		}
 
@@ -306,22 +316,22 @@ namespace BrightIdeasSoftware
 			}
 		}
 
-		/// <summary>
-		/// Draw the image in its specified location, scaled so that it is not wider than the given rectangle.
-		/// Height is scaled proportional to the width.
-		/// </summary>
+		/// <summary>Draw the image in its specified location, scaled so that it is not wider than the given rectangle.</summary>
+		/// <remarks>Height is scaled proportional to the width.</remarks>
 		/// <param name="image">The image to be drawn</param>
 		/// <param name="g">The Graphics used for drawing</param>
 		/// <param name="r">The bounds of the rendering</param>
 		/// <param name="transparency">How transparent should the image be (0 is completely transparent, 255 is opaque)</param>
-		public virtual void DrawScaledImage(Graphics g, Rectangle r, Image image, Int32 transparency) {
-			if (image == null)
+		public virtual void DrawScaledImage(Graphics g, Rectangle r, Image image, Int32 transparency)
+		{
+			if(image == null)
 				return;
 
 			// If the image is too wide to be drawn in the space provided, proportionally scale it down.
 			// Too tall images are not scaled.
 			Size size = image.Size;
-			if (image.Width > r.Width) {
+			if(image.Width > r.Width)
+			{
 				Single scaleRatio = (Single)r.Width / (Single)image.Width;
 				size.Height = (Int32)((Single)image.Height * scaleRatio);
 				size.Width = r.Width - 1;
@@ -494,8 +504,9 @@ namespace BrightIdeasSoftware
 		/// <param name="r">The reference rectangle in relation to which the text will be drawn</param>
 		/// <param name="s">The text to draw</param>
 		/// <param name="transparency">How opaque should be text be</param>
-		public virtual void DrawText(Graphics g, Rectangle r, String s, Int32 transparency) {
-			if (String.IsNullOrEmpty(s))
+		public virtual void DrawText(Graphics g, Rectangle r, String s, Int32 transparency)
+		{
+			if(String.IsNullOrEmpty(s))
 				return;
 
 			Rectangle textRect = this.CalculateTextBounds(g, r, s);
@@ -507,30 +518,35 @@ namespace BrightIdeasSoftware
 		/// <param name="textRect">The bounds within which the text should be drawn</param>
 		/// <param name="text">The text to draw</param>
 		/// <param name="transparency">How opaque should be text be</param>
-		protected virtual void DrawBorderedText(Graphics g, Rectangle textRect, String text, Int32 transparency) {
+		protected virtual void DrawBorderedText(Graphics g, Rectangle textRect, String text, Int32 transparency)
+		{
 			Rectangle borderRect = textRect;
 			borderRect.Inflate((Int32)this.BorderWidth / 2, (Int32)this.BorderWidth / 2);
 			borderRect.Y -= 1; // Looker better a little higher
 
-			try {
+			try
+			{
 				this.ApplyRotation(g, textRect);
-				using (GraphicsPath path = this.GetRoundedRect(borderRect, this.CornerRounding)) {
+				using(GraphicsPath path = this.GetRoundedRect(borderRect, this.CornerRounding))
+				{
 					this._workingTransparency = transparency;
-					if (this.HasBackground) {
-						using (Brush b = this.BackgroundBrush)
+					if(this.HasBackground)
+					{
+						using(Brush b = this.BackgroundBrush)
 							g.FillPath(b, path);
 					}
 
-					using (Brush b = this.TextBrush)
+					using(Brush b = this.TextBrush)
 						g.DrawString(text, this.FontOrDefault, b, textRect, this.StringFormat);
 
-					if (this.HasBorder) {
-						using (Pen p = this.BorderPen)
+					if(this.HasBorder)
+					{
+						using(Pen p = this.BorderPen)
 							g.DrawPath(p, path);
 					}
 				}
-			}
-			finally {
+			} finally
+			{
 				this.UnapplyRotation(g);
 			}
 		}
@@ -540,7 +556,8 @@ namespace BrightIdeasSoftware
 		/// <param name="r"></param>
 		/// <param name="s"></param>
 		/// <returns>The bounds of the text</returns>
-		protected virtual Rectangle CalculateTextBounds(Graphics g, Rectangle r, String s) {
+		protected virtual Rectangle CalculateTextBounds(Graphics g, Rectangle r, String s)
+		{
 			Int32 maxWidth = this.MaximumTextWidth <= 0 ? r.Width : this.MaximumTextWidth;
 			SizeF sizeF = g.MeasureString(s, this.FontOrDefault, maxWidth, this.StringFormat);
 			Size size = new Size(1 + (Int32)sizeF.Width, 1 + (Int32)sizeF.Height);
@@ -553,10 +570,12 @@ namespace BrightIdeasSoftware
 		/// <returns>A round cornered rectangle path</returns>
 		/// <remarks>If I could rely on people using C# 3.0+, this should be
 		/// an extension method of GraphicsPath.</remarks>
-		protected virtual GraphicsPath GetRoundedRect(Rectangle rect, Single diameter) {
+		protected virtual GraphicsPath GetRoundedRect(Rectangle rect, Single diameter)
+		{
 			GraphicsPath path = new GraphicsPath();
 
-			if (diameter > 0) {
+			if(diameter > 0)
+			{
 				RectangleF arc = new RectangleF(rect.X, rect.Y, diameter, diameter);
 				path.AddArc(arc, 180, 90);
 				arc.X = rect.Right - diameter;
@@ -566,7 +585,8 @@ namespace BrightIdeasSoftware
 				arc.X = rect.Left;
 				path.AddArc(arc, 90, 90);
 				path.CloseFigure();
-			} else {
+			} else
+			{
 				path.AddRectangle(rect);
 			}
 

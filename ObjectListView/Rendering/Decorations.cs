@@ -43,10 +43,8 @@ using System.Windows.Forms;
 
 namespace BrightIdeasSoftware
 {
-	/// <summary>
-	/// A decoration is an overlay that draws itself in relation to a given row or cell.
-	/// Decorations scroll when the listview scrolls.
-	/// </summary>
+	/// <summary>A decoration is an overlay that draws itself in relation to a given row or cell.</summary>
+	/// <remarks>Decorations scroll when the listview scrolls.</remarks>
 	public interface IDecoration : IOverlay
 	{
 		/// <summary>Gets or sets the row that is to be decorated</summary>
@@ -95,10 +93,8 @@ namespace BrightIdeasSoftware
 		#endregion
 	}
 
-	/// <summary>
-	/// This decoration draws something over a given column.
-	/// Subclasses must override DrawDecoration()
-	/// </summary>
+	/// <summary>This decoration draws something over a given column.</summary>
+	/// <remarks>Subclasses must override DrawDecoration()</remarks>
 	public class ColumnDecoration : AbstractDecoration
 	{
 		#region Constructors
@@ -140,7 +136,7 @@ namespace BrightIdeasSoftware
 
 		#region IOverlay Members
 
-		/// <summary>Draw a decoration over our  column</summary>
+		/// <summary>Draw a decoration over our column</summary>
 		/// <remarks>
 		/// This overlay only works when:
 		/// - the list is in Details view
@@ -193,9 +189,8 @@ namespace BrightIdeasSoftware
 	}
 
 	/// <summary>
-	/// This decoration draws a slight tint over a column of the
-	/// owning listview. If no column is explicitly set, the selected
-	/// column in the listview will be used.
+	/// This decoration draws a slight tint over a column of the owning listview.
+	/// If no column is explicitly set, the selected column in the listview will be used.
 	/// The selected column is normally the sort column, but does not have to be.
 	/// </summary>
 	public class TintedColumnDecoration : ColumnDecoration
@@ -219,31 +214,31 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or sets the color that will be 'tinted' over the selected column</summary>
 		public Color Tint
 		{
-			get => this.tint;
+			get => this._tint;
 			set
 			{
-				if(this.tint == value)
+				if(this._tint == value)
 					return;
 
-				if(this.tintBrush != null)
+				if(this._tintBrush != null)
 				{
-					this.tintBrush.Dispose();
-					this.tintBrush = null;
+					this._tintBrush.Dispose();
+					this._tintBrush = null;
 				}
 
-				this.tint = value;
-				this.tintBrush = new SolidBrush(this.tint);
+				this._tint = value;
+				this._tintBrush = new SolidBrush(this._tint);
 			}
 		}
-		private Color tint;
-		private SolidBrush tintBrush;
+		private Color _tint;
+		private SolidBrush _tintBrush;
 
 		#endregion
 
 		#region IOverlay Members
 
 		public override void DrawDecoration(ObjectListView olv, Graphics g, Rectangle r, Rectangle columnBounds)
-			=> g.FillRectangle(this.tintBrush, columnBounds);
+			=> g.FillRectangle(this._tintBrush, columnBounds);
 
 		#endregion
 	}
@@ -315,10 +310,8 @@ namespace BrightIdeasSoftware
 		#endregion
 	}
 
-	/// <summary>
-	/// This decoration draws an optionally filled border around a rectangle.
-	/// Subclasses must override CalculateBounds().
-	/// </summary>
+	/// <summary>This decoration draws an optionally filled border around a rectangle.</summary>
+	/// <remarks>Subclasses must override CalculateBounds().</remarks>
 	public class BorderDecoration : AbstractDecoration
 	{
 		#region Constructors

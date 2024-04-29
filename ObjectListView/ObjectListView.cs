@@ -3065,11 +3065,13 @@ namespace BrightIdeasSoftware
 				this._useTranslucentSelection = value;
 				if(value)
 				{
-					RowBorderDecoration rbd = new RowBorderDecoration();
-					rbd.BorderPen = new Pen(Color.FromArgb(154, 223, 251));
-					rbd.FillBrush = new SolidBrush(Color.FromArgb(48, 163, 217, 225));
-					rbd.BoundsPadding = new Size(0, 0);
-					rbd.CornerRounding = 6.0f;
+					RowBorderDecoration rbd = new RowBorderDecoration
+					{
+						BorderPen = new Pen(Color.FromArgb(154, 223, 251)),
+						FillBrush = new SolidBrush(Color.FromArgb(48, 163, 217, 225)),
+						BoundsPadding = new Size(0, 0),
+						CornerRounding = 6.0f
+					};
 					this.SelectedRowDecoration = rbd;
 				} else
 					this.SelectedRowDecoration = null;
@@ -3258,10 +3260,10 @@ namespace BrightIdeasSoftware
 					this._checkedAspectMunger = new Munger(_checkedAspectName);
 					this.CheckStateGetter = delegate (Object modelObject)
 					{
-						Boolean? result = this._checkedAspectMunger.GetValue(modelObject) as bool?;
-						if(result.HasValue)
-							return result.Value ? CheckState.Checked : CheckState.Unchecked;
-						return this.TriStateCheckBoxes ? CheckState.Indeterminate : CheckState.Unchecked;
+						Boolean? result = this._checkedAspectMunger.GetValue(modelObject) as Boolean?;
+						return result.HasValue
+							? result == true ? CheckState.Checked : CheckState.Unchecked
+							: this.TriStateCheckBoxes ? CheckState.Indeterminate : CheckState.Unchecked;
 					};
 					this.CheckStatePutter = delegate (Object modelObject, CheckState newValue)
 					{
@@ -3277,10 +3279,7 @@ namespace BrightIdeasSoftware
 		private String _checkedAspectName;
 		private Munger _checkedAspectMunger;
 
-		/// <summary>
-		/// This delegate will be called whenever the ObjectListView needs to know the check state
-		/// of the row associated with a given model Object.
-		/// </summary>
+		/// <summary>This delegate will be called whenever the ObjectListView needs to know the check state of the row associated with a given model Object.</summary>
 		/// <remarks>
 		/// <para>.NET has no support for indeterminate values, but as of v2.0, this class allows indeterminate values.</para>
 		/// </remarks>
@@ -3288,11 +3287,8 @@ namespace BrightIdeasSoftware
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual CheckStateGetterDelegate CheckStateGetter { get; set; }
 
-		/// <summary>
-		/// This delegate will be called whenever the user tries to change the check state of a row.
-		/// The delegate should return the state that was actually set, which may be different
-		/// to the state given.
-		/// </summary>
+		/// <summary>This delegate will be called whenever the user tries to change the check state of a row.</summary>
+		/// <remarks>The delegate should return the state that was actually set, which may be different to the state given.</remarks>
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual CheckStatePutterDelegate CheckStatePutter { get; set; }
@@ -3305,8 +3301,8 @@ namespace BrightIdeasSoftware
 		/// See ColumnComparer in the code for an example of what an ItemSorter has to do.
 		/// </para>
 		/// <para>
-		/// Do not install a CustomSorter on a VirtualObjectListView. Override the SortObjects()
-		/// method of the IVirtualListDataSource instead.
+		/// Do not install a CustomSorter on a VirtualObjectListView.
+		/// Override the SortObjects() method of the IVirtualListDataSource instead.
 		/// </para>
 		/// </remarks>
 		[Browsable(false)]
@@ -4178,9 +4174,11 @@ namespace BrightIdeasSoftware
 				return new OlvListViewHitTestInfo(this, headerHitTestInfo.ColumnIndex, headerHitTestInfo.IsOverCheckBox, headerHitTestInfo.OverDividerIndex);
 
 			// Call the native hit test method, which is a little confusing.
-			NativeMethods.LVHITTESTINFO lParam = new NativeMethods.LVHITTESTINFO();
-			lParam.pt_x = x;
-			lParam.pt_y = y;
+			NativeMethods.LVHITTESTINFO lParam = new NativeMethods.LVHITTESTINFO
+			{
+				pt_x = x,
+				pt_y = y
+			};
 			Int32 index = NativeMethods.HitTest(this, ref lParam);
 
 			// Setup the various values we need to make our hit test structure
@@ -4796,8 +4794,10 @@ namespace BrightIdeasSoftware
 			// Now that we have stored our state, convert it to a Byte array
 			using(MemoryStream ms = new MemoryStream())
 			{
-				BinaryFormatter serializer = new BinaryFormatter();
-				serializer.AssemblyFormat = FormatterAssemblyStyle.Simple;
+				BinaryFormatter serializer = new BinaryFormatter
+				{
+					AssemblyFormat = FormatterAssemblyStyle.Simple
+				};
 				serializer.Serialize(ms, olvState);
 				return ms.ToArray();
 			}
@@ -9077,7 +9077,7 @@ namespace BrightIdeasSoftware
 		{
 			// Sanity checks
 			if(column == null ||
-				this.View != System.Windows.Forms.View.Details ||
+				this.View != View.Details ||
 				this.GetItemCount() == 0 ||
 				!column.IsVisible)
 				return Rectangle.Empty;
@@ -9104,7 +9104,7 @@ namespace BrightIdeasSoftware
 		/// <param name="item">The row to be edited</param>
 		/// <param name="subItemIndex">The index of the cell to be edited</param>
 		/// <returns>A Control to edit the given cell</returns>
-		protected virtual Control GetCellEditor(OLVListItem item, int subItemIndex)
+		protected virtual Control GetCellEditor(OLVListItem item, Int32 subItemIndex)
 		{
 			OLVColumn column = this.GetColumn(subItemIndex);
 			Object value = column.GetValue(item.RowObject);
@@ -9549,12 +9549,9 @@ namespace BrightIdeasSoftware
 				}
 			}
 		}
-
-
 		#endregion
 
 		#region Drag and drop
-
 		/// <summary></summary>
 		/// <param name="e"></param>
 		protected override void OnItemDrag(ItemDragEventArgs e)

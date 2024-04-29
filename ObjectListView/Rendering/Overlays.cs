@@ -41,8 +41,6 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 
 namespace BrightIdeasSoftware
 {
@@ -90,10 +88,10 @@ namespace BrightIdeasSoftware
 		[NotifyParentProperty(true)]
 		public Int32 Transparency
 		{
-			get => this.transparency;
-			set => this.transparency = Math.Min(255, Math.Max(0, value));
+			get => this._transparency;
+			set => this._transparency = Math.Min(255, Math.Max(0, value));
 		}
-		private Int32 transparency = 128;
+		private Int32 _transparency = 128;
 
 		#endregion
 	}
@@ -115,10 +113,10 @@ namespace BrightIdeasSoftware
 		[NotifyParentProperty(true)]
 		public Int32 InsetX
 		{
-			get => this.insetX;
-			set => this.insetX = Math.Max(0, value);
+			get => this._insetX;
+			set => this._insetX = Math.Max(0, value);
 		}
-		private Int32 insetX = 20;
+		private Int32 _insetX = 20;
 
 		/// <summary>Gets or sets the vertical inset by which the position of the overlay will be adjusted</summary>
 		[Category("ObjectListView")]
@@ -127,10 +125,10 @@ namespace BrightIdeasSoftware
 		[NotifyParentProperty(true)]
 		public Int32 InsetY
 		{
-			get => this.insetY;
-			set => this.insetY = Math.Max(0, value);
+			get => this._insetY;
+			set => this._insetY = Math.Max(0, value);
 		}
-		private Int32 insetY = 20;
+		private Int32 _insetY = 20;
 
 		#endregion
 

@@ -54,7 +54,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets or sets location within the reference rectangle where the adornment will be drawn</summary>
 		/// <remarks>This is a simplified interface to ReferenceCorner and AdornmentCorner </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("How will the adornment be aligned")]
 		[DefaultValue(ContentAlignment.BottomRight)]
 		[NotifyParentProperty(true)]
@@ -71,7 +71,7 @@ namespace BrightIdeasSoftware
 		private ContentAlignment _alignment = ContentAlignment.BottomRight;
 
 		/// <summary>Gets or sets the offset by which the position of the adornment will be adjusted</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The offset by which the position of the adornment will be adjusted")]
 		[DefaultValue(typeof(Size), "0,0")]
 		public Size Offset { get; set; } = new Size();
@@ -85,7 +85,7 @@ namespace BrightIdeasSoftware
 		/// Gets or sets the degree of rotation by which the adornment will be transformed.
 		/// The centre of rotation will be the center point of the adornment.
 		/// </summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The degree of rotation that will be applied to the adornment.")]
 		[DefaultValue(0)]
 		[NotifyParentProperty(true)]
@@ -93,7 +93,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets or sets the transparency of the overlay.</summary>
 		/// <remarks>0 is completely transparent, 255 is completely opaque.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The transparency of this adornment. 0 is completely transparent, 255 is completely opaque.")]
 		[DefaultValue(128)]
 		public Int32 Transparency
@@ -256,14 +256,14 @@ namespace BrightIdeasSoftware
 		#region Public properties
 
 		/// <summary>Gets or sets the image that will be drawn</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The image that will be drawn")]
 		[DefaultValue(null)]
 		[NotifyParentProperty(true)]
 		public Image Image { get; set; }
 
 		/// <summary>Gets or sets if the image will be shrunk to fit with its horizontal bounds</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Will the image be shrunk to fit within its width?")]
 		[DefaultValue(false)]
 		public Boolean ShrinkToWidth { get; set; }
@@ -380,7 +380,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets or sets the background color of the text</summary>
 		/// <remarks>Set this to Color.Empty to not draw a background</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The background color of the text")]
 		[DefaultValue(typeof(Color), "")]
 		public Color BackColor { get; set; } = Color.Empty;
@@ -391,7 +391,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets or sets the color of the border around the billboard.</summary>
 		/// <remarks>Set this to Color.Empty to remove the border</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The color of the border around the text")]
 		[DefaultValue(typeof(Color), "")]
 		public Color BorderColor { get; set; } = Color.Empty;
@@ -401,21 +401,21 @@ namespace BrightIdeasSoftware
 		public Pen BorderPen => new Pen(Color.FromArgb(this._workingTransparency, this.BorderColor), this.BorderWidth);
 
 		/// <summary>Gets or sets the width of the border around the text</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The width of the border around the text")]
 		[DefaultValue(0.0f)]
 		public Single BorderWidth { get; set; }
 
 		/// <summary>How rounded should the corners of the border be? 0 means no rounding.</summary>
 		/// <remarks>If this value is too large, the edges of the border will appear odd.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("How rounded should the corners of the border be? 0 means no rounding.")]
 		[DefaultValue(16.0f)]
 		[NotifyParentProperty(true)]
 		public Single CornerRounding { get; set; } = 16.0f;
 
 		/// <summary>Gets or sets the font that will be used to draw the text</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The font that will be used to draw the text")]
 		[DefaultValue(null)]
 		[NotifyParentProperty(true)]
@@ -435,7 +435,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets or sets the maximum width of the text. Text longer than this will wrap.</summary>
 		/// <remarks>0 means no maximum.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The maximum width the text (0 means no maximum). Text longer than this will wrap")]
 		[DefaultValue(0)]
 		public Int32 MaximumTextWidth { get; set; }
@@ -465,7 +465,7 @@ namespace BrightIdeasSoftware
 		private StringFormat _stringFormat;
 
 		/// <summary>Gets or sets the text that will be drawn</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The text that will be drawn over the top of the ListView")]
 		[DefaultValue(null)]
 		[NotifyParentProperty(true)]
@@ -477,14 +477,14 @@ namespace BrightIdeasSoftware
 		public Brush TextBrush => new SolidBrush(Color.FromArgb(this._workingTransparency, this.TextColor));
 
 		/// <summary>Gets or sets the color of the text</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The color of the text")]
 		[DefaultValue(typeof(Color), "DarkBlue")]
 		[NotifyParentProperty(true)]
 		public Color TextColor { get; set; } = Color.DarkBlue;
 
 		/// <summary>Gets or sets whether the text will wrap when it exceeds its bounds</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Will the text wrap?")]
 		[DefaultValue(true)]
 		public Boolean Wrap { get; set; } = true;

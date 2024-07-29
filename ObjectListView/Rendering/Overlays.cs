@@ -82,7 +82,7 @@ namespace BrightIdeasSoftware
 		#region ITransparentOverlay Members
 
 		/// <summary>ow transparent should this overlay be?</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("How transparent should this overlay be")]
 		[DefaultValue(128)]
 		[NotifyParentProperty(true)]
@@ -107,7 +107,7 @@ namespace BrightIdeasSoftware
 		#region Public properties
 
 		/// <summary>Gets or sets the horizontal inset by which the position of the overlay will be adjusted</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The horizontal inset by which the position of the overlay will be adjusted")]
 		[DefaultValue(20)]
 		[NotifyParentProperty(true)]
@@ -119,7 +119,7 @@ namespace BrightIdeasSoftware
 		private Int32 _insetX = 20;
 
 		/// <summary>Gets or sets the vertical inset by which the position of the overlay will be adjusted</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Gets or sets the vertical inset by which the position of the overlay will be adjusted")]
 		[DefaultValue(20)]
 		[NotifyParentProperty(true)]
@@ -161,7 +161,7 @@ namespace BrightIdeasSoftware
 		#region Public properties
 
 		/// <summary>Gets or sets the horizontal inset by which the position of the overlay will be adjusted</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The horizontal inset by which the position of the overlay will be adjusted")]
 		[DefaultValue(20)]
 		[NotifyParentProperty(true)]
@@ -173,7 +173,7 @@ namespace BrightIdeasSoftware
 		private Int32 _insetX = 20;
 
 		/// <summary>Gets or sets the vertical inset by which the position of the overlay will be adjusted</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Gets or sets the vertical inset by which the position of the overlay will be adjusted")]
 		[DefaultValue(20)]
 		[NotifyParentProperty(true)]

@@ -908,13 +908,13 @@ namespace BrightIdeasSoftware
 		/// If this is false, a mouse wheel event is interpreted as a request to scroll the control vertically. This will automatically
 		/// finish any cell edit operation that was in flight. This was the default behaviour prior to v2.9.
 		/// </summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should ObjectListView allow cell editors to response to mouse wheel events (default: true)")]
 		[DefaultValue(true)]
 		public virtual Boolean AllowCellEditorsToProcessMouseWheel { get; set; } = true;
 
 		/// <summary>Gets or sets the background color of every second row</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("If using alternate colors, what color should the background of alternate rows be?")]
 		[DefaultValue(typeof(Color), "")]
 		public Color AlternateRowBackColor { get; set; } = Color.Empty;
@@ -956,7 +956,7 @@ namespace BrightIdeasSoftware
 		/// None means that the listview cannot be edited.
 		/// </summary>
 		/// <remarks>Columns can also be marked as editable.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("How does the user indicate that they want to edit a cell?")]
 		[DefaultValue(CellEditActivateMode.None)]
 		public virtual CellEditActivateMode CellEditActivation
@@ -988,7 +988,7 @@ namespace BrightIdeasSoftware
 		/// <para>Regardless of this setting, developers can specify the exact size of the editing control
 		/// by listening for the CellEditStarting event.</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("When a cell is edited, should the whole cell be used?")]
 		[DefaultValue(true)]
 		public virtual Boolean CellEditUseWholeCell { get; set; } = true;
@@ -1018,7 +1018,7 @@ namespace BrightIdeasSoftware
 		/// to the next row 
 		/// and Shift-Tab when editing the left-most cell will change to the previous row.
 		/// </summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should Tab/Shift-Tab change rows while cell editing?")]
 		[DefaultValue(false)]
 		public virtual Boolean CellEditTabChangesRows
@@ -1046,7 +1046,7 @@ namespace BrightIdeasSoftware
 		/// If this is true, Enter will finish the edit operation and start a new edit operation
 		/// on the cell below the current cell, wrapping to the top of the next row when at the bottom cell.
 		/// </summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should Enter change rows while cell editing?")]
 		[DefaultValue(false)]
 		public virtual Boolean CellEditEnterChangesRows
@@ -1105,7 +1105,7 @@ namespace BrightIdeasSoftware
 		/// not affected.</para>
 		/// <para>If you set this to a foolish value, your control will appear to be empty.</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("How much padding will be applied to each cell in this control?")]
 		[DefaultValue(null)]
 		public Rectangle? CellPadding { get; set; }
@@ -1113,7 +1113,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or sets how cells will be vertically aligned by default.</summary>
 		/// <remarks>This setting only takes effect when the control is owner drawn. It will only be noticeable
 		/// when RowHeight has been set such that there is some vertical space in each row.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("How will cell values be vertically aligned?")]
 		[DefaultValue(StringAlignment.Center)]
 		public virtual StringAlignment CellVerticalAlignment { get; set; } = StringAlignment.Center;
@@ -1282,7 +1282,7 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>Gets or sets if the selected rows should be copied to the clipboard when the user presses Ctrl-C</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should the control copy the selection to the clipboard when the user presses Ctrl-C?")]
 		[DefaultValue(true)]
 		public virtual Boolean CopySelectionOnControlC { get; set; } = true;
@@ -1293,7 +1293,7 @@ namespace BrightIdeasSoftware
 		/// </summary>
 		/// <remarks>This is normally what is desired, unless a custom DragSource is installed 
 		/// that does some very specialized drag-drop behaviour.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should the Ctrl-C copy process use the DragSource to create the Clipboard data Object?")]
 		[DefaultValue(true)]
 		public Boolean CopySelectionOnControlCUsesDragSource { get; set; } = true;
@@ -1329,7 +1329,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets or sets the style that will be applied to disabled items.</summary>
 		/// <remarks>If this is not set explicitly, <see cref="ObjectListView.DefaultDisabledItemStyle"/> will be used.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The style that will be applied to disabled items")]
 		[DefaultValue(null)]
 		public SimpleItemStyle DisabledItemStyle { get; set; }
@@ -1479,7 +1479,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets or sets the text that should be shown when there are no items in this list view.</summary>
 		/// <remarks>If the EmptyListMsgOverlay has been changed to something other than a TextOverlay, this property does nothing</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("When the list has no items, show this message in the control")]
 		[DefaultValue(null)]
 		[Localizable(true)]
@@ -1503,7 +1503,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or sets the font in which the List Empty message should be drawn</summary>
 		/// <remarks>If the EmptyListMsgOverlay has been changed to something other than a TextOverlay,
 		/// this property does nothing</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("What font should the 'list empty' message be drawn in?")]
 		[DefaultValue(null)]
 		public virtual Font EmptyListMsgFont
@@ -1587,7 +1587,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets or sets the image list from which group header will take their images</summary>
 		/// <remarks>If this is not set, then group headers will not show any images.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The image list from which group header will take their images")]
 		[DefaultValue(null)]
 		public ImageList GroupImageList
@@ -1611,7 +1611,7 @@ namespace BrightIdeasSoftware
 		/// </list>
 		/// </remarks>
 		/// <example>"{0} [{1} items]"</example>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The format to use when suffixing item counts to group titles")]
 		[DefaultValue(null)]
 		[Localizable(true)]
@@ -1631,7 +1631,7 @@ namespace BrightIdeasSoftware
 		/// </list>
 		/// </remarks>
 		/// <example>"{0} [{1} item]"</example>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The format to use when suffixing item counts to group titles")]
 		[DefaultValue(null)]
 		[Localizable(true)]
@@ -1645,7 +1645,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or sets whether or not the groups in this ObjectListView should be collapsible.</summary>
 		/// <remarks>This feature only works under Vista and later.</remarks>
 		[Browsable(true)]
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should the groups in this control be collapsible (Vista and later only).")]
 		[DefaultValue(true)]
 		public Boolean HasCollapsibleGroups { get; set; } = true;
@@ -1693,19 +1693,19 @@ namespace BrightIdeasSoftware
 		/// <para>This is only used when HeaderUsesThemes is false.</para>
 		/// <para>Individual columns can override this through their HeaderFormatStyle property.</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("What style will be used to draw the control's header")]
 		[DefaultValue(null)]
 		public HeaderFormatStyle HeaderFormatStyle { get; set; }
 
 		/// <summary>Gets or sets the maximum height of the header. -1 means no maximum.</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("What is the maximum height of the header? -1 means no maximum")]
 		[DefaultValue(-1)]
 		public Int32 HeaderMaximumHeight { get; set; } = -1;
 
 		/// <summary>Gets or sets the minimum height of the header. -1 means no minimum.</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("What is the minimum height of the header? -1 means no minimum")]
 		[DefaultValue(-1)]
 		public Int32 HeaderMinimumHeight { get; set; } = -1;
@@ -1725,7 +1725,7 @@ namespace BrightIdeasSoftware
 		/// The effect of not being themed will be different from OS to OS. At very least, the sort indicator will not be standard.
 		/// </para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Will the column headers be drawn strictly according to OS theme?")]
 		[DefaultValue(false)]
 		public Boolean HeaderUsesThemes { get; set; }
@@ -1738,7 +1738,7 @@ namespace BrightIdeasSoftware
 		/// the OS will be responsible for drawing the header, and it does not allow word wrapped text.
 		/// </para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Will the text of the column headers be word wrapped?")]
 		[DefaultValue(false)]
 		public Boolean HeaderWordWrap
@@ -1794,7 +1794,7 @@ namespace BrightIdeasSoftware
 		/// <para>If the style has an overlay, it must be set
 		/// *before* assigning it to this property. Adding it afterwards will be ignored. </para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("How should the row under the cursor be highlighted")]
 		[DefaultValue(null)]
 		public virtual HotItemStyle HotItemStyle
@@ -1818,13 +1818,13 @@ namespace BrightIdeasSoftware
 			=> this.HotItemStyle ?? ObjectListView.DefaultHotItemStyle;
 
 		/// <summary>What sort of formatting should be applied to hyperlinks?</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("How should hyperlinks be drawn")]
 		[DefaultValue(null)]
 		public virtual HyperlinkStyle HyperlinkStyle { get; set; }
 
 		/// <summary>What color should be used for the background of selected rows?</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The background of selected rows when the control is owner drawn")]
 		[DefaultValue(typeof(Color), "")]
 		public virtual Color SelectedBackColor { get; set; } = Color.Empty;
@@ -1835,7 +1835,7 @@ namespace BrightIdeasSoftware
 			=> this.SelectedBackColor.IsEmpty ? SystemColors.Highlight : this.SelectedBackColor;
 
 		/// <summary>What color should be used for the foreground of selected rows?</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The foreground color of selected rows (when the control is owner drawn)")]
 		[DefaultValue(typeof(Color), "")]
 		public virtual Color SelectedForeColor { get; set; } = Color.Empty;
@@ -1850,7 +1850,7 @@ namespace BrightIdeasSoftware
 		/// of rows that are copied or dragged to another application. If this is false (the default),
 		/// only visible columns will be included.
 		/// </summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("When rows are copied or dragged, will data in hidden columns be included in the text? If this is false, only visible columns will be included.")]
 		[DefaultValue(false)]
 		public virtual Boolean IncludeHiddenColumnsInDataTransfer { get; set; }
@@ -1860,7 +1860,7 @@ namespace BrightIdeasSoftware
 		/// of rows that are copied or dragged to another application. If this is false (the default),
 		/// only visible columns will be included.
 		/// </summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("When rows are copied, will column headers be in the text?.")]
 		[DefaultValue(false)]
 		public virtual Boolean IncludeColumnHeadersInCopy { get; set; }
@@ -1886,7 +1886,7 @@ namespace BrightIdeasSoftware
 		/// If this is false, the primary column will always be used regardless of the sort column.
 		/// </summary>
 		/// <remarks>When this is true, the behavior is like that of ITunes.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("When the user types into a list, should the values in the current sort column be searched to find a match?")]
 		[DefaultValue(true)]
 		public virtual Boolean IsSearchOnSortColumn { get; set; } = true;
@@ -1900,7 +1900,7 @@ namespace BrightIdeasSoftware
 		/// The need to do these things makes this property mostly useless :(
 		/// </para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should this control will use a SimpleDropSink to receive drops.")]
 		[DefaultValue(false)]
 		public virtual Boolean IsSimpleDropSink
@@ -1911,7 +1911,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets or sets if this control will use a SimpleDragSource to initiate drags</summary>
 		/// <remarks>Setting this replaces any previous DragSource</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should this control use a SimpleDragSource to initiate drags out from this control")]
 		[DefaultValue(false)]
 		public virtual Boolean IsSimpleDragSource
@@ -1928,7 +1928,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>This renderer draws the items when in the list is in non-details view.</summary>
 		/// <remarks>In details view, the renderers for the individuals columns are responsible.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The owner drawn renderer that draws items when the list is in non-Details view.")]
 		[DefaultValue(null)]
 		public IRenderer ItemRenderer { get; set; }
@@ -2059,7 +2059,7 @@ namespace BrightIdeasSoftware
 		/// If you listen for the DrawColumnHeader event, you need to set this to true,
 		/// otherwise your event handler will not be called.
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should the DrawColumnHeader event be triggered")]
 		[DefaultValue(false)]
 		public Boolean OwnerDrawnHeader { get; set; }
@@ -2095,7 +2095,7 @@ namespace BrightIdeasSoftware
 			=> this.Objects;
 
 		/// <summary>Gets or sets the image that will be drawn over the top of the ListView</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The image that will be drawn over the top of the ListView")]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		public ImageOverlay OverlayImage
@@ -2114,7 +2114,7 @@ namespace BrightIdeasSoftware
 		private ImageOverlay _imageOverlay;
 
 		/// <summary>Gets or sets the text that will be drawn over the top of the ListView</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The text that will be drawn over the top of the ListView")]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		public TextOverlay OverlayText
@@ -2184,7 +2184,7 @@ namespace BrightIdeasSoftware
 		///  If you set it to false on virtual lists,
 		/// you have to install CheckStateGetter/Putters.</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Will primary checkboxes persistent their values across list rebuilds")]
 		[DefaultValue(true)]
 		public virtual Boolean PersistentCheckBoxes
@@ -2233,7 +2233,7 @@ namespace BrightIdeasSoftware
 		/// <remarks>
 		/// <para>This only has effect in owner drawn mode.</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should non-editable checkboxes be drawn as disabled?")]
 		[DefaultValue(false)]
 		public virtual Boolean RenderNonEditableCheckboxesAsDisabled { get; set; }
@@ -2246,7 +2246,7 @@ namespace BrightIdeasSoftware
 		/// <para><bold>This feature is experimental!</bold> Strange things may happen to your program,
 		/// your spouse or your pet if you use it.</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Specify the height of each row in pixels. -1 indicates default height")]
 		[DefaultValue(-1)]
 		public virtual Int32 RowHeight
@@ -2311,7 +2311,7 @@ namespace BrightIdeasSoftware
 		public virtual SortOrder SecondarySortOrder { get; set; } = SortOrder.None;
 
 		/// <summary>Gets or sets if all rows should be selected when the user presses Ctrl-A</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should the control select all rows when the user presses Ctrl-A?")]
 		[DefaultValue(true)]
 		public virtual Boolean SelectAllOnControlA { get; set; } = true;
@@ -2322,7 +2322,7 @@ namespace BrightIdeasSoftware
 		/// </summary>
 		/// <remarks>This is just a compatibility wrapper for the SelectColumnsOnRightClickBehaviour
 		/// property.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("When the user right clicks on the column headers, should a menu be presented which will allow them to choose which columns will be shown in the view?")]
 		[DefaultValue(true)]
 		public virtual Boolean SelectColumnsOnRightClick
@@ -2340,7 +2340,7 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>Gets or sets how the user will be able to select columns when the header is right clicked</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("When the user right clicks on the column headers, how will the user be able to select columns?")]
 		[DefaultValue(ColumnSelectBehaviour.InlineMenu)]
 		public virtual ColumnSelectBehaviour SelectColumnsOnRightClickBehaviour { get; set; } = ColumnSelectBehaviour.InlineMenu;
@@ -2351,7 +2351,7 @@ namespace BrightIdeasSoftware
 		/// </summary>
 		/// <remarks>This only works when SelectColumnsOnRightClickBehaviour is set to InlineMenu.
 		/// It has no effect when the behaviour is set to SubMenu.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("When the column select inline menu is open, should it stay open after an item is selected?")]
 		[DefaultValue(true)]
 		public virtual Boolean SelectColumnsMenuStaysOpen { get; set; } = true;
@@ -2391,7 +2391,7 @@ namespace BrightIdeasSoftware
 		/// The tint color must be alpha-blendable, so if the given color is solid
 		/// (i.e. alpha = 255), it will be changed to have a reasonable alpha value.
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The color that will be used to tint the selected column")]
 		[DefaultValue(typeof(Color), "")]
 		public virtual Color SelectedColumnTint
@@ -2485,7 +2485,7 @@ namespace BrightIdeasSoftware
 		/// When the user right clicks on the column headers, should a menu be presented which will allow
 		/// them to choose common tasks to perform on the listview?
 		/// </summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("When the user right clicks on the column headers, should a menu be presented which will allow them to perform common tasks on the listview?")]
 		[DefaultValue(false)]
 		public virtual Boolean ShowCommandMenuOnRightClick { get; set; }
@@ -2494,7 +2494,7 @@ namespace BrightIdeasSoftware
 		/// Gets or sets whether this ObjectListView will show Excel like filtering
 		/// menus when the header control is right clicked
 		/// </summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("If this is true, right clicking on a column header will show a Filter menu option")]
 		[DefaultValue(true)]
 		public Boolean ShowFilterMenuOnRightClick { get; set; } = true;
@@ -2520,7 +2520,7 @@ namespace BrightIdeasSoftware
 		/// as soon as you give a ListView a SmallImageList, the text of column 0 is bumped 16
 		/// pixels to the right, even if you never used an image.
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should the list view show sort indicators in the column headers?")]
 		[DefaultValue(true)]
 		public virtual Boolean ShowSortIndicators { get; set; }
@@ -2529,7 +2529,7 @@ namespace BrightIdeasSoftware
 		/// <remarks>
 		/// <para>Virtual lists have to be owner drawn in order to show images on subitems</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should the list view show images on subitems?")]
 		[DefaultValue(false)]
 		public virtual Boolean ShowImagesOnSubItems
@@ -2550,7 +2550,7 @@ namespace BrightIdeasSoftware
 		/// <remarks>
 		/// The format of the suffix is controlled by GroupWithItemCountFormat/GroupWithItemCountSingularFormat properties
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Will group titles be suffixed with a count of the items in the group?")]
 		[DefaultValue(false)]
 		public virtual Boolean ShowItemCountOnGroups { get; set; }
@@ -2574,7 +2574,7 @@ namespace BrightIdeasSoftware
 		/// <para>
 		/// This property doesn't work on XP.</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Will the control will show column headers in all views?")]
 		[DefaultValue(true)]
 		public Boolean ShowHeaderInAllViews
@@ -2643,7 +2643,7 @@ namespace BrightIdeasSoftware
 		/// <remarks>
 		/// <para>The primary column is always column 0 and is unrelated to the PrimarySort column.</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("When the listview is grouped, should the items be sorted by the primary column? If this is false, the items will be sorted by the same column as they are grouped.")]
 		[DefaultValue(true)]
 		public virtual Boolean SortGroupItemsByPrimaryColumn { get; set; } = true;
@@ -2651,7 +2651,7 @@ namespace BrightIdeasSoftware
 		/// <summary>
 		/// When the listview is grouped, how many pixels should exist between the end of one group and the beginning of the next?
 		/// </summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("How many pixels of space will be between groups")]
 		[DefaultValue(0)]
 		public virtual Int32 SpaceBetweenGroups
@@ -2683,7 +2683,7 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>Should the sort column show a slight tinge?</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should the sort column show a slight tinting?")]
 		[DefaultValue(false)]
 		public virtual Boolean TintSortColumn
@@ -2705,7 +2705,7 @@ namespace BrightIdeasSoftware
 		/// alternate between checked and unchecked. CheckStateGetter can still return Indeterminate when this
 		/// setting is false.
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should the primary column have a checkbox that behaves as a tri-state checkbox?")]
 		[DefaultValue(false)]
 		public virtual Boolean TriStateCheckBoxes
@@ -2773,7 +2773,7 @@ namespace BrightIdeasSoftware
 		/// If this change in behaviour causes your application problems, set this to false.
 		/// If you are interested in knowing when the mouse moves over the header, set this property to true (the default).
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should moving the mouse over the header trigger CellOver events?")]
 		[DefaultValue(true)]
 		public Boolean TriggerCellOverEventsWhenOverHeader { get; set; } = true;
@@ -2795,13 +2795,13 @@ namespace BrightIdeasSoftware
 		/// Given the above behavior is probably best to turn this property off if your space filling
 		/// columns aren't the right-most columns.</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("When resizing a column by dragging its divider, should any space filling columns be resized at each mouse move?")]
 		[DefaultValue(true)]
 		public virtual Boolean UpdateSpaceFillingColumnsWhenDraggingColumnDivider { get; set; } = true;
 
 		/// <summary>What color should be used for the background of selected rows when the control doesn't have the focus?</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The background color of selected rows when the control doesn't have the focus")]
 		[DefaultValue(typeof(Color), "")]
 		public virtual Color UnfocusedSelectedBackColor { get; set; } = Color.Empty;
@@ -2814,7 +2814,7 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>What color should be used for the foreground of selected rows when the control doesn't have the focus?</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The foreground color of selected rows when the control is owner drawn and doesn't have the focus")]
 		[DefaultValue(typeof(Color), "")]
 		public virtual Color UnfocusedSelectedForeColor { get; set; } = Color.Empty;
@@ -2830,7 +2830,7 @@ namespace BrightIdeasSoftware
 		/// <remarks><para>The color of the alternate rows is given by AlternateRowBackColor.</para>
 		/// <para>There is a "feature" in .NET for listviews in non-full-row-select mode, where
 		/// selected rows are not drawn with their correct background color.</para></remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should the list view use a different backcolor to alternate rows?")]
 		[DefaultValue(false)]
 		public virtual Boolean UseAlternatingBackColors { get; set; }
@@ -2848,7 +2848,7 @@ namespace BrightIdeasSoftware
 		/// <para>
 		/// Regardless of this setting, FormatCell events are only raised when the ObjectListView is in Details view.</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should FormatCell events be triggered to every cell that is built?")]
 		[DefaultValue(false)]
 		public Boolean UseCellFormatEvents { get; set; }
@@ -2876,7 +2876,7 @@ namespace BrightIdeasSoftware
 		/// <para>Because of the above, this property should never be set to true for TreeListViews,
 		/// since they *require* owner drawing to be rendered correctly.</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should the list use the same hot item and selection mechanism as Vista?")]
 		[DefaultValue(false)]
 		public Boolean UseExplorerTheme
@@ -2894,7 +2894,7 @@ namespace BrightIdeasSoftware
 		private Boolean _useExplorerTheme;
 
 		/// <summary>Gets or sets whether the list should enable filtering</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should the list enable filtering?")]
 		[DefaultValue(false)]
 		public virtual Boolean UseFiltering
@@ -2913,7 +2913,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or sets whether the list should put an indicator into a column's header to show that it is filtering on that column</summary>
 		/// <remarks>If you set this to true, HeaderUsesThemes is automatically set to false, since
 		/// we can only draw a filter indicator when not using a themed header.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should an image be drawn in a column's header when that column is being used for filtering?")]
 		[DefaultValue(false)]
 		public virtual Boolean UseFilterIndicator
@@ -2939,13 +2939,13 @@ namespace BrightIdeasSoftware
 		/// can skip some processing on mouse move. This make mouse move processing use almost no CPU.
 		/// </para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should controls (checkboxes or buttons) that are under the mouse be drawn hot?")]
 		[DefaultValue(true)]
 		public Boolean UseHotControls { get; set; } = true;
 
 		/// <summary>Should the item under the cursor be formatted in a special way?</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should HotTracking be used? Hot tracking applies special formatting to the row under the cursor")]
 		[DefaultValue(false)]
 		public Boolean UseHotItem
@@ -2963,7 +2963,7 @@ namespace BrightIdeasSoftware
 		private Boolean _useHotItem;
 
 		/// <summary>Gets or sets whether this listview should show hyperlinks in the cells.</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should hyperlinks be shown on this control?")]
 		[DefaultValue(false)]
 		public Boolean UseHyperlinks
@@ -2981,7 +2981,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Should this control show overlays</summary>
 		/// <remarks>Overlays are enabled by default and would only need to be disabled
 		/// if they were causing problems in your development environment.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should this control show overlays")]
 		[DefaultValue(true)]
 		public Boolean UseOverlays { get; set; } = true;
@@ -2990,7 +2990,7 @@ namespace BrightIdeasSoftware
 		/// <remarks>If this is set to True, the control will be given a SmallImageList if it
 		/// doesn't already have one. Also, if it is a virtual list, it will be set to owner
 		/// drawn, since virtual lists can't draw check boxes without being owner drawn.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should this control be configured to show check boxes on subitems.")]
 		[DefaultValue(false)]
 		public Boolean UseSubItemCheckBoxes
@@ -3017,7 +3017,7 @@ namespace BrightIdeasSoftware
 		/// just like this property setter does.
 		/// </para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should the list use a translucent selection mechanism (like Vista)")]
 		[DefaultValue(false)]
 		public Boolean UseTranslucentSelection
@@ -3051,7 +3051,7 @@ namespace BrightIdeasSoftware
 		/// just like this property setter does.
 		/// </para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should the list use a translucent hot row highlighting mechanism (like Vista)")]
 		[DefaultValue(false)]
 		public Boolean UseTranslucentHotItem
@@ -3204,7 +3204,7 @@ namespace BrightIdeasSoftware
 		/// Conversely, later setting the CheckStateGetter or CheckStatePutter properties will take precedence
 		/// over the behavior of this property.</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The name of the property or field that holds the 'checkedness' of the model")]
 		[DefaultValue(null)]
 		public virtual String CheckedAspectName
@@ -4635,7 +4635,7 @@ namespace BrightIdeasSoftware
 		/// walk all the objects in the list trying to subscribe to change notifications.
 		/// If you have 10,000,000 items in your virtual list, this may take some time.</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should ObjectListView listen for property changed events on the model objects?")]
 		[DefaultValue(false)]
 		public Boolean UseNotifyPropertyChanged

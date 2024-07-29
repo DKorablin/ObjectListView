@@ -37,7 +37,6 @@ using System.Windows.Forms;
 
 namespace BrightIdeasSoftware
 {
-
 	/// <summary>A data transfer object that knows how to transform a list of model objects into a text and HTML representation.</summary>
 	public class OLVDataObject : DataObject
 	{
@@ -84,7 +83,6 @@ namespace BrightIdeasSoftware
 		/// <summary>Put a text and HTML representation of our model objects into the data object.</summary>
 		public void CreateTextFormats()
 		{
-
 			OLVExporter exporter = this.CreateExporter();
 
 			// Put both the text and html versions onto the clipboard.
@@ -134,8 +132,8 @@ namespace BrightIdeasSoftware
 			Int32 prefixLength = String.Format(MARKER_BLOCK, 0, 0, 0, 0, SOURCE, "").Length;
 
 			const String DEFAULT_HTML_BODY =
-				"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">" +
-				"<HTML><HEAD></HEAD><BODY><!--StartFragment-->{0}<!--EndFragment--></BODY></HTML>";
+				"<!DOCTYPE html>" +
+				"<html><head></head><body><!--StartFragment-->{0}<!--EndFragment--></body></html>";
 
 			String html = String.Format(DEFAULT_HTML_BODY, fragment);
 			Int32 startFragment = prefixLength + html.IndexOf(fragment, StringComparison.Ordinal);

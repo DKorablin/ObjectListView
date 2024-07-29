@@ -66,40 +66,37 @@ namespace BrightIdeasSoftware
 
 		#region Public properties
 
-		/// <summary></summary>
+		/// <summary>This format String will be used to convert an aspect to its String representation.</summary>
 		public String AspectToStringFormat { get; set; }
-
-		/// <summary></summary>
-		public Boolean CheckBoxes
-		{
-			get => this._checkBoxes;
-			set
-			{
-				this._checkBoxes = value;
-				this.IsCheckBoxesSet = true;
-			}
-		}
-		private Boolean _checkBoxes;
-		internal Boolean IsCheckBoxesSet = false;
 
 		/// <summary></summary>
 		public Int32 DisplayIndex { get; set; } = -1;
 
-		/// <summary></summary>
-		public Boolean FillsFreeSpace { get; set; }
+		/// <summary>Should this column resize to fill the free space in the listview?</summary>
+		public Boolean FillsFreeSpace
+		{
+			get => this._fillsFreeSpace;
+			set
+			{
+				this._fillsFreeSpace = value;
+				this.FillsFreeSpaceSet = true;
+			}
+		}
+		private Boolean _fillsFreeSpace;
+		internal Boolean FillsFreeSpaceSet = false;
 
-		/// <summary></summary>
+		/// <summary>What proportion of the unoccupied horizontal space in the control should be given to this column?</summary>
 		public Int32 FreeSpaceProportion
 		{
 			get => this._freeSpaceProportion;
 			set
 			{
 				this._freeSpaceProportion = value;
-				IsFreeSpaceProportionSet = true;
+				this.FreeSpaceProportionSet = true;
 			}
 		}
 		private Int32 _freeSpaceProportion;
-		internal Boolean IsFreeSpaceProportionSet = false;
+		internal Boolean FreeSpaceProportionSet = false;
 
 		/// <summary>An array of IComparables that mark the cutoff points for values when grouping on this column.</summary>
 		public Object[] GroupCutoffs { get; set; }
@@ -107,19 +104,128 @@ namespace BrightIdeasSoftware
 		/// <summary></summary>
 		public String[] GroupDescriptions { get; set; }
 
-		/// <summary></summary>
+		/// <summary>When the listview is grouped by this column and group title has an item count, how should the label be formatted?</summary>
 		public String GroupWithItemCountFormat { get; set; }
 
-		/// <summary></summary>
+		/// <summary>
+		/// When the listview is grouped by this column and a group title has an item count,
+		/// how should the label be formatted if there is only one item in the group?
+		/// </summary>
 		public String GroupWithItemCountSingularFormat { get; set; }
 
-		/// <summary></summary>
+		/// <summary>Gets or sets whether the text values in this column will act like hyperlinks</summary>
 		public Boolean Hyperlink { get; set; }
 
-		/// <summary></summary>
+		/// <summary>
+		/// This is the name of property that will be invoked to get the image selector of the image that should be shown in this column.
+		/// It can return an int, String, Image or null.
+		/// </summary>
 		public String ImageAspectName { get; set; }
 
+		/// <summary>Can this column be seen by the user?</summary>
+		public Boolean IsVisible { get; set; } = true;
+
+		/// <summary>Get/set whether this column should be used when the view is switched to tile view.</summary>
+		public Boolean IsTileViewColumn { get; set; }
+
+		/// <summary>What is the maximum width that the user can give to this column?</summary>
+		public Int32 MaximumWidth { get; set; } = -1;
+
+		/// <summary>What is the minimum width that the user can give to this column?</summary>
+		public Int32 MinimumWidth { get; set; } = -1;
+
 		/// <summary></summary>
+		public String Name { get; set; }
+
+		/// <summary></summary>
+		public String Tag { get; set; }
+
+		/// <summary>The title of the column</summary>
+		public String Title { get; set; }
+
+		/// <summary>What string should be displayed when the mouse is hovered over the header of this column?</summary>
+		public String ToolTipText { get; set; }
+
+		/// <summary>Group objects by the initial letter of the aspect of the column</summary>
+		public Boolean UseInitialLetterForGroup
+		{
+			get => this._useInitialLetterForGroup;
+			set
+			{
+				this._useInitialLetterForGroup = value;
+				this.UseInitialLetterForGroupSet = true;
+			}
+		}
+		private Boolean _useInitialLetterForGroup;
+		internal Boolean UseInitialLetterForGroupSet = false;
+
+		/// <summary>What is the width of this column?</summary>
+		public Int32 Width
+		{
+			get => this._width;
+			set
+			{
+				this._width = value;
+				this.WidthSet = true;
+			}
+		}
+		private Int32 _width;
+		internal Boolean WidthSet = false;
+
+		/// <summary>Gets or sets whether or not this column should be user filterable</summary>
+		public Boolean UseFiltering
+		{
+			get => this._useFiltering;
+			set
+			{
+				this._useFiltering = value;
+				this.UseFilteringSet = true;
+			}
+		}
+		private Boolean _useFiltering;
+		internal Boolean UseFilteringSet = false;
+
+		/// <summary>Gets or sets whether the cell editor should use AutoComplete</summary>
+		public Boolean AutoCompleteEditor
+		{
+			get => this._autoCompleteEditor;
+			set
+			{
+				this._autoCompleteEditor = value;
+				this.AutoCompleteEditorSet = true;
+			}
+		}
+		private Boolean _autoCompleteEditor;
+		internal Boolean AutoCompleteEditorSet = false;
+
+		/// <summary>Gets or set whether the contents of this column's cells should be word wrapped</summary>
+		public Boolean WordWrap
+		{
+			get => this._wordWrap;
+			set
+			{
+				this._wordWrap = value;
+				this.WordWrapSet = true;
+			}
+		}
+		private Boolean _wordWrap;
+		internal Boolean WordWrapSet = false;
+
+		/// <summary>Gets or sets whether this column will show a checkbox.</summary>
+		public Boolean CheckBoxes
+		{
+			get => this._checkBoxes;
+			set
+			{
+				this._checkBoxes = value;
+				this.CheckBoxesSet = true;
+			}
+		}
+
+		private Boolean _checkBoxes;
+		internal Boolean CheckBoxesSet = false;
+
+		/// <summary>Can the values shown in this column be edited?</summary>
 		public Boolean IsEditable
 		{
 			get => this._isEditable;
@@ -129,64 +235,51 @@ namespace BrightIdeasSoftware
 				this.IsEditableSet = true;
 			}
 		}
-		private Boolean _isEditable = true;
+
+		private Boolean _isEditable;
 		internal Boolean IsEditableSet = false;
 
-		/// <summary></summary>
-		public Boolean IsVisible { get; set; } = true;
-
-		/// <summary></summary>
-		public Boolean IsTileViewColumn { get; set; }
-
-		/// <summary></summary>
-		public Int32 MaximumWidth { get; set; } = -1;
-
-		/// <summary></summary>
-		public Int32 MinimumWidth { get; set; } = -1;
-
-		/// <summary></summary>
-		public String Name { get; set; }
-
-		/// <summary></summary>
+		/// <summary>Gets or sets the horizontal alignment of the contents of the column.</summary>
 		public HorizontalAlignment TextAlign
 		{
 			get => this._textAlign;
 			set
 			{
 				this._textAlign = value;
-				IsTextAlignSet = true;
+				this.TextAlignSet = true;
 			}
 		}
-		private HorizontalAlignment _textAlign = HorizontalAlignment.Left;
-		internal Boolean IsTextAlignSet = false;
 
-		/// <summary></summary>
-		public String Tag { get; set; }
+		private HorizontalAlignment _textAlign;
+		internal Boolean TextAlignSet = false;
 
-		/// <summary></summary>
-		public String Title { get; set; }
-
-		/// <summary></summary>
-		public String ToolTipText { get; set; }
-
-		/// <summary></summary>
+		/// <summary>Should this column have a tri-state checkbox?</summary>
 		public Boolean TriStateCheckBoxes
 		{
 			get => this._triStateCheckBoxes;
 			set
 			{
 				this._triStateCheckBoxes = value;
-				this.IsTriStateCheckBoxesSet = true;
+				this.TriStateCheckBoxesSet = true;
 			}
 		}
+
 		private Boolean _triStateCheckBoxes;
-		internal Boolean IsTriStateCheckBoxesSet = false;
+		internal Boolean TriStateCheckBoxesSet = false;
 
-		/// <summary></summary>
-		public Boolean UseInitialLetterForGroup { get; set; }
+		/// <summary>Gets or sets whether the cell editor should use AutoComplete</summary>
+		public AutoCompleteMode AutoCompleteEditorMode
+		{
+			get => this._autoCompleteEditorMode;
+			set
+			{
+				this._autoCompleteEditorMode = value;
+				this.AutoCompleteEditorModeSet = true;
+			}
+		}
 
-		/// <summary></summary>
-		public Int32 Width { get; set; } = 150;
+		private AutoCompleteMode _autoCompleteEditorMode;
+		internal Boolean AutoCompleteEditorModeSet = false;
 
 		#endregion
 	}

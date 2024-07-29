@@ -51,7 +51,6 @@ namespace BrightIdeasSoftware
 
 	public static class ControlUtilities
 	{
-
 		/// <summary>Configure the given ComboBox so that the dropped down menu is auto-sized to be wide enough to show the widest item.</summary>
 		/// <param name="dropDown"></param>
 		public static void AutoResizeDropDown(ComboBox dropDown)

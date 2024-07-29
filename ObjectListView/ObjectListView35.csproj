@@ -117,6 +117,7 @@
     <Compile Include="Utilities\ColumnSelectionForm.Designer.cs">
       <DependentUpon>ColumnSelectionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\Generator.cs" />
     <Compile Include="SubControls\GlassPanelForm.cs">
       <SubType>Form</SubType>

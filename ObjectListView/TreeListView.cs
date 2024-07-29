@@ -337,7 +337,7 @@ namespace BrightIdeasSoftware
 		/// *every* branch recursively since a single bottom level leaf could change the checkedness
 		/// of the top root.
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Show hierarchical checkboxes be enabled?")]
 		[DefaultValue(false)]
 		public virtual Boolean HierarchicalCheckboxes
@@ -381,7 +381,7 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>After expanding a branch, should the TreeListView attempts to show as much of the revealed descendants as possible.</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should the parent of an expand subtree be scrolled to the top revealing the children?")]
 		[DefaultValue(true)]
 		public Boolean RevealAfterExpand { get; set; } = true;
@@ -460,7 +460,7 @@ namespace BrightIdeasSoftware
 		/// <remarks>When this is true, the wait cursor will be shown whilst the children of the 
 		/// branch are being fetched. If the children of the branch have already been cached, 
 		/// the cursor will not change.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should a wait cursor be shown when a branch is being expanded?")]
 		[DefaultValue(true)]
 		public virtual Boolean UseWaitCursorWhenExpanding { get; set; } = true;

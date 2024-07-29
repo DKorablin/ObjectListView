@@ -266,7 +266,7 @@ namespace BrightIdeasSoftware
 		/// <para>This setting only takes effect when the control is owner drawn.</para>
 		/// <para><see cref="ObjectListView.CellPadding"/> for more details.</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The number of pixels that renderer will leave empty around the edge of the cell")]
 		[DefaultValue(null)]
 		public Rectangle? CellPadding { get; set; }
@@ -279,7 +279,7 @@ namespace BrightIdeasSoftware
 		/// <remarks>
 		/// <para>If this is not set, the value from the column or control itself will be used.</para>
 		/// </remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("How will cell values be vertically aligned?")]
 		[DefaultValue(null)]
 		public virtual StringAlignment? CellVerticalAlignment { get; set; }
@@ -2390,51 +2390,51 @@ namespace BrightIdeasSoftware
 		#region Configuration Properties
 
 		/// <summary>Should this bar be drawn in the system style?</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Should this bar be drawn in the system style?")]
 		[DefaultValue(true)]
 		public Boolean UseStandardBar { get; set; } = true;
 
 		/// <summary>How many pixels in from our cell border will this bar be drawn</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("How many pixels in from our cell border will this bar be drawn")]
 		[DefaultValue(2)]
 		public Int32 Padding { get; set; } = 2;
 
 		/// <summary>What color will be used to fill the interior of the control before the progress bar is drawn?
 		/// </summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The color of the interior of the bar")]
 		[DefaultValue(typeof(Color), "AliceBlue")]
 		public Color BackgroundColor { get; set; } = Color.AliceBlue;
 
 		/// <summary>What color should the frame of the progress bar be?</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("What color should the frame of the progress bar be")]
 		[DefaultValue(typeof(Color), "Black")]
 		public Color FrameColor { get; set; } = Color.Black;
 
 		/// <summary>How many pixels wide should the frame of the progress bar be?</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("How many pixels wide should the frame of the progress bar be")]
 		[DefaultValue(1.0f)]
 		public Single FrameWidth { get; set; } = 1.0f;
 
 		/// <summary>What color should the 'filled in' part of the progress bar be?</summary>
 		/// <remarks>This is only used if GradientStartColor is Color.Empty</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("What color should the 'filled in' part of the progress bar be")]
 		[DefaultValue(typeof(Color), "BlueViolet")]
 		public Color FillColor { get; set; } = Color.BlueViolet;
 
 		/// <summary>Use a gradient to fill the progress bar starting with this color</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Use a gradient to fill the progress bar starting with this color")]
 		[DefaultValue(typeof(Color), "CornflowerBlue")]
 		public Color GradientStartColor { get; set; } = Color.CornflowerBlue;
 
 		/// <summary>Use a gradient to fill the progress bar ending with this color</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("Use a gradient to fill the progress bar ending with this color")]
 		[DefaultValue(typeof(Color), "DarkBlue")]
 		public Color GradientEndColor { get; set; } = Color.DarkBlue;
@@ -2823,7 +2823,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets or set the font that will be used to draw the title of the task</summary>
 		/// <remarks>If this is null, the ListView's font will be used</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The font that will be used to draw the title of the task")]
 		[DefaultValue(null)]
 		public Font TitleFont { get; set; }
@@ -2835,7 +2835,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or set the color of the title of the task</summary>
 		/// <remarks>This color is used when the task is not selected or when the listview
 		/// has a translucent selection mechanism.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The color of the title")]
 		[DefaultValue(typeof(Color), "")]
 		public Color TitleColor { get; set; }
@@ -2857,7 +2857,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets or set the font that will be used to draw the description of the task</summary>
 		/// <remarks>If this is null, the ListView's font will be used</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The font that will be used to draw the description of the task")]
 		[DefaultValue(null)]
 		public Font DescriptionFont { get; set; }
@@ -2869,7 +2869,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or set the color of the description of the task</summary>
 		/// <remarks>This color is used when the task is not selected or when the listview
 		/// has a translucent selection mechanism.</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The color of the description")]
 		[DefaultValue(typeof(Color), "")]
 		public Color DescriptionColor { get; set; } = Color.Empty;
@@ -2890,19 +2890,19 @@ namespace BrightIdeasSoftware
 		private static Color _defaultDescriptionColor = Color.FromArgb(45, 46, 49);
 
 		/// <summary>Gets or sets the number of pixels that will be left between the image and the text</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The number of pixels that will be left between the image and the text")]
 		[DefaultValue(4)]
 		public Int32 ImageTextSpace { get; set; } = 4;
 
 		/// <summary>Gets or sets the number of pixels that will be left between the title and the description</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The number of pixels that that will be left between the title and the description")]
 		[DefaultValue(2)]
 		public Int32 TitleDescriptionSpace { get; set; } = 2;
 
 		/// <summary>Gets or sets the name of the aspect of the model Object that contains the task description</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The name of the aspect of the model Object that contains the task description")]
 		[DefaultValue(null)]
 		public String DescriptionAspectName { get; set; }
@@ -3048,20 +3048,20 @@ namespace BrightIdeasSoftware
 
 		#region Properties
 		/// <summary>Gets or sets how each button will be sized</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("How each button will be sized")]
 		[DefaultValue(OLVColumn.ButtonSizingMode.TextBounds)]
 		public OLVColumn.ButtonSizingMode SizingMode { get; set; } = OLVColumn.ButtonSizingMode.TextBounds;
 
 		/// <summary>Gets or sets the size of the button when the SizingMode is FixedBounds</summary>
 		/// <remarks>If this is not set, the bounds of the cell will be used</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The size of the button when the SizingMode is FixedBounds")]
 		[DefaultValue(null)]
 		public Size? ButtonSize { get; set; }
 
 		/// <summary>Gets or sets the extra space that surrounds the cell when the SizingMode is TextBounds</summary>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The extra space that surrounds the cell when the SizingMode is TextBounds")]
 		public Size? ButtonPadding { get; set; } = new Size(10, 10);
 
@@ -3072,7 +3072,7 @@ namespace BrightIdeasSoftware
 		/// -1 means there is no maximum width.
 		/// </summary>
 		/// <remarks>This is only considered when the SizingMode is TextBounds</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The maximum width that a button can occupy when the SizingMode is TextBounds")]
 		[DefaultValue(-1)]
 		public Int32 MaxButtonWidth { get; set; } = -1;
@@ -3082,7 +3082,7 @@ namespace BrightIdeasSoftware
 		/// -1 means there is no minimum width.
 		/// </summary>
 		/// <remarks>This is only considered when the SizingMode is TextBounds</remarks>
-		[Category("ObjectListView")]
+		[Category(Constants.ObjectListView)]
 		[Description("The minimum width that a button can be when the SizingMode is TextBounds")]
 		[DefaultValue(-1)]
 		public Int32 MinButtonWidth { get; set; } = -1;

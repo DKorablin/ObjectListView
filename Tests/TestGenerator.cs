@@ -146,19 +146,10 @@ namespace BrightIdeasSoftware.Tests
 	{
 		public Int32 Property1 { get; set; }
 
-		public String Property2
-		{
-			get { return this.property2; }
-		}
-		private String property2 = "value";
+		public String Property2 { get; } = "value";
 
 		[OLVChildren]
-		public IList<ClassWithChildren> MyChildren
-		{
-			get { return this.myChildren; }
-			set { this.myChildren = value; }
-		}
-		private IList<ClassWithChildren> myChildren;
+		public IList<ClassWithChildren> MyChildren { get; set; }
 	}
 
 	class ClassWithUntypedChildren

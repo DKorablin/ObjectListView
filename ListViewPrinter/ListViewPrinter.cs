@@ -365,10 +365,10 @@ namespace BrightIdeasSoftware
 			// The best we can do is figure out which group the n'th item belongs to
 			// and then figure out which item it is within the groups items.
 			Int32 i;
-			for(i = this.groupStartPositions.Count - 1; i >= 0; i--)
-				if(n >= this.groupStartPositions[i])
+			for(i = this._groupStartPositions.Count - 1; i >= 0; i--)
+				if(n >= this._groupStartPositions[i])
 					break;
-			Int32 indexInList = n - this.groupStartPositions[i];
+			Int32 indexInList = n - this._groupStartPositions[i];
 			return lv.Groups[i].Items[indexInList];
 		}
 
@@ -391,13 +391,13 @@ namespace BrightIdeasSoftware
 		/// <summary>Return the number of columns to be printed in the report</summary>
 		/// <returns>An int</returns>
 		protected Int32 GetColumnCount()
-			=> this.sortedColumns.Count;
+			=> this._sortedColumns.Count;
 
 		/// <summary>Return the n'th ColumnHeader (ordered as they should be displayed in the report)</summary>
 		/// <param name="i">Which column</param>
 		/// <returns>A ColumnHeader</returns>
 		protected ColumnHeader GetColumn(Int32 i)
-			=> this.sortedColumns[i];
+			=> this._sortedColumns[i];
 
 		/// <summary>
 		/// Return the index of group that starts at the given position.
@@ -406,7 +406,7 @@ namespace BrightIdeasSoftware
 		/// <param name="n">The row position in the list</param>
 		/// <returns>The group index</returns>
 		protected Int32 GetGroupAtPosition(Int32 n)
-			=> this.groupStartPositions.IndexOf(n);
+			=> this._groupStartPositions.IndexOf(n);
 
 		#endregion
 
@@ -473,14 +473,14 @@ namespace BrightIdeasSoftware
 			base.OnBeginPrint(e);
 
 			// Initialize our state information
-			this.rowIndex = -1;
-			this.indexLeftColumn = -1;
-			this.indexRightColumn = -1;
+			this._rowIndex = -1;
+			this._indexLeftColumn = -1;
+			this._indexRightColumn = -1;
 			this.PageNumber = 0;
 
 			// Initialize our caches
-			this.sortedColumns = new SortedList<Int32, ColumnHeader>();
-			this.groupStartPositions = new List<Int32>();
+			this._sortedColumns = new SortedList<Int32, ColumnHeader>();
+			this._groupStartPositions = new List<Int32>();
 
 			this.PreparePrint();
 		}
@@ -525,7 +525,6 @@ namespace BrightIdeasSoftware
 			} else
 				e.HasMorePages = false;
 		}
-
 		#endregion
 
 		#region List printing
@@ -540,9 +539,9 @@ namespace BrightIdeasSoftware
 			foreach(ColumnHeader column in this.ListView.Columns)
 			{
 				if(this.UseColumnDisplayOrder)
-					this.sortedColumns.Add(column.DisplayIndex, column);
+					this._sortedColumns.Add(column.DisplayIndex, column);
 				else
-					this.sortedColumns.Add(column.Index, column);
+					this._sortedColumns.Add(column.Index, column);
 			}
 
 			// If the listview is grouped, build an array to holds the start
@@ -551,7 +550,7 @@ namespace BrightIdeasSoftware
 			Int32 itemCount = 0;
 			foreach(ListViewGroup lvg in this.ListView.Groups)
 			{
-				this.groupStartPositions.Add(itemCount);
+				this._groupStartPositions.Add(itemCount);
 				itemCount += lvg.Items.Count;
 			}
 		}
@@ -575,12 +574,12 @@ namespace BrightIdeasSoftware
 		{
 			// Printing to a real printer doesn't take the printers hard margins into account
 			if(this.PrintController.IsPreview)
-				this.pageBounds = (RectangleF)e.MarginBounds;
+				this._pageBounds = (RectangleF)e.MarginBounds;
 			else
-				this.pageBounds = new RectangleF(e.MarginBounds.X - e.PageSettings.HardMarginX,
+				this._pageBounds = new RectangleF(e.MarginBounds.X - e.PageSettings.HardMarginX,
 					e.MarginBounds.Y - e.PageSettings.HardMarginY, e.MarginBounds.Width, e.MarginBounds.Height);
 
-			this.listBounds = this.pageBounds;
+			this._listBounds = this._pageBounds;
 		}
 
 		/// <summary>Figure out the boundaries for various aspects of the report</summary>
@@ -588,35 +587,34 @@ namespace BrightIdeasSoftware
 		protected void CalculatePrintParameters(ListView lv)
 		{
 			// If we are in the middle of printing a listview, don't change the parameters
-			if(this.rowIndex >= 0 && this.rowIndex < this.GetRowCount(lv))
+			if(this._rowIndex >= 0 && this._rowIndex < this.GetRowCount(lv))
 				return;
 
-			this.rowIndex = 0;
+			this._rowIndex = 0;
 
 			// If we are shrinking the report to fit on the page...
 			if(this.IsShrinkToFit)
 			{
-
 				// ...we print all the columns, but we need to figure how much to shrink
 				// them so that they will fit onto the page
-				this.indexLeftColumn = 0;
-				this.indexRightColumn = this.GetColumnCount() - 1;
+				this._indexLeftColumn = 0;
+				this._indexRightColumn = this.GetColumnCount() - 1;
 
 				Int32 totalWidth = 0;
 				for(Int32 i = 0; i < this.GetColumnCount(); i++)
 					totalWidth += this.GetColumn(i).Width;
-				this.scaleFactor = Math.Min(this.listBounds.Width / totalWidth, 1.0f);
+				this._scaleFactor = Math.Min(this._listBounds.Width / totalWidth, 1.0f);
 			} else
 			{
 				// ...otherwise, we print unscaled but have to figure out which columns
 				// will fit on the current page
-				this.scaleFactor = 1.0f;
-				this.indexLeftColumn = ++this.indexRightColumn;
+				this._scaleFactor = 1.0f;
+				this._indexLeftColumn = ++this._indexRightColumn;
 
 				// Iterate the columns until we find a column that won't fit on the page
 				Int32 width = 0;
-				for(Int32 i = this.indexLeftColumn; i < this.GetColumnCount() && (width += this.GetColumn(i).Width) < this.listBounds.Width; i++)
-					this.indexRightColumn = i;
+				for(Int32 i = this._indexLeftColumn; i < this.GetColumnCount() && (width += this.GetColumn(i).Width) < this._listBounds.Width; i++)
+					this._indexRightColumn = i;
 			}
 		}
 
@@ -624,13 +622,13 @@ namespace BrightIdeasSoftware
 		/// <param name="g"></param>
 		protected void ApplyScaling(Graphics g)
 		{
-			if(this.scaleFactor >= 1.0f)
+			if(this._scaleFactor >= 1.0f)
 				return;
 
-			g.ScaleTransform(this.scaleFactor, this.scaleFactor);
+			g.ScaleTransform(this._scaleFactor, this._scaleFactor);
 
-			Single inverse = 1.0f / this.scaleFactor;
-			this.listBounds = new RectangleF(this.listBounds.X * inverse, this.listBounds.Y * inverse, this.listBounds.Width * inverse, this.listBounds.Height * inverse);
+			Single inverse = 1.0f / this._scaleFactor;
+			this._listBounds = new RectangleF(this._listBounds.X * inverse, this._listBounds.Y * inverse, this._listBounds.Width * inverse, this._listBounds.Height * inverse);
 		}
 
 		/// <summary>Print our watermark on the given Graphic</summary>
@@ -652,7 +650,7 @@ namespace BrightIdeasSoftware
 			// Setup a rotation transform on the Graphic so we can write the watermark at an angle
 			g.ResetTransform();
 			Matrix m = new Matrix();
-			m.RotateAt(watermarkRotation, new PointF(this.pageBounds.X + this.pageBounds.Width / 2, this.pageBounds.Y + this.pageBounds.Height / 2));
+			m.RotateAt(watermarkRotation, new PointF(this._pageBounds.X + this._pageBounds.Width / 2, this._pageBounds.Y + this._pageBounds.Height / 2));
 			g.Transform = m;
 
 			// Calculate the semi-transparent pen required to print the watermark
@@ -660,7 +658,7 @@ namespace BrightIdeasSoftware
 			Brush brush = new SolidBrush(Color.FromArgb(alpha, this.WatermarkColorOrDefault));
 
 			// Finally draw the watermark
-			g.DrawString(this.Watermark, this.WatermarkFontOrDefault, brush, this.pageBounds, strFormat);
+			g.DrawString(this.Watermark, this.WatermarkFontOrDefault, brush, this._pageBounds, strFormat);
 			g.ResetTransform();
 		}
 
@@ -670,15 +668,15 @@ namespace BrightIdeasSoftware
 		/// <returns>Return true if there are still more pages in the report</returns>
 		protected Boolean PrintList(Graphics g, ListView lv)
 		{
-			this.currentOrigin = this.listBounds.Location;
+			this._currentOrigin = this._listBounds.Location;
 
-			if(this.rowIndex == 0 || this.IsListHeaderOnEachPage)
+			if(this._rowIndex == 0 || this.IsListHeaderOnEachPage)
 				this.PrintListHeader(g, lv);
 
 			this.PrintRows(g, lv);
 
 			// We continue to print pages when we have more rows or more columns remaining
-			return (this.rowIndex < this.GetRowCount(lv) || this.indexRightColumn + 1 < this.GetColumnCount());
+			return (this._rowIndex < this.GetRowCount(lv) || this._indexRightColumn + 1 < this.GetColumnCount());
 		}
 
 		/// <summary>Print the header of the listview</summary>
@@ -700,8 +698,8 @@ namespace BrightIdeasSoftware
 			}
 
 			// Draw the header one cell at a time
-			RectangleF cell = new RectangleF(this.currentOrigin.X, this.currentOrigin.Y, 0, height);
-			for(Int32 i = this.indexLeftColumn; i <= this.indexRightColumn; i++)
+			RectangleF cell = new RectangleF(this._currentOrigin.X, this._currentOrigin.Y, 0, height);
+			for(Int32 i = this._indexLeftColumn; i <= this._indexRightColumn; i++)
 			{
 				ColumnHeader col = this.GetColumn(i);
 				cell.Width = col.Width;
@@ -709,7 +707,7 @@ namespace BrightIdeasSoftware
 				cell.Offset(cell.Width, 0);
 			}
 
-			this.currentOrigin.Y += cell.Height;
+			this._currentOrigin.Y += cell.Height;
 		}
 
 		/// <summary>Print the rows of the listview</summary>
@@ -717,33 +715,32 @@ namespace BrightIdeasSoftware
 		/// <param name="lv">The listview to be printed</param>
 		protected void PrintRows(Graphics g, ListView lv)
 		{
-			while(this.rowIndex < this.GetRowCount(lv))
+			while(this._rowIndex < this.GetRowCount(lv))
 			{
-
 				// Will this row fit before the end of page?
-				Single rowHeight = this.CalculateRowHeight(g, lv, this.rowIndex);
-				if(this.currentOrigin.Y + rowHeight > this.listBounds.Bottom)
+				Single rowHeight = this.CalculateRowHeight(g, lv, this._rowIndex);
+				if(this._currentOrigin.Y + rowHeight > this._listBounds.Bottom)
 					break;
 
 				// If we are printing group and there is a group beginning at the current position,
 				// print it so long as the group header and at least one following row will fit on the page
 				if(this.IsShowingGroups)
 				{
-					Int32 groupIndex = this.GetGroupAtPosition(this.rowIndex);
+					Int32 groupIndex = this.GetGroupAtPosition(this._rowIndex);
 					if(groupIndex != -1)
 					{
 						Single groupHeaderHeight = this.GroupHeaderFormat.CalculateHeight(g);
-						if(this.currentOrigin.Y + groupHeaderHeight + rowHeight < this.listBounds.Bottom)
+						if(this._currentOrigin.Y + groupHeaderHeight + rowHeight < this._listBounds.Bottom)
 							this.PrintGroupHeader(g, lv, groupIndex);
 						else
 						{
-							this.currentOrigin.Y = this.listBounds.Bottom;
+							this._currentOrigin.Y = this._listBounds.Bottom;
 							break;
 						}
 					}
 				}
-				this.PrintRow(g, lv, this.rowIndex, rowHeight);
-				this.rowIndex++;
+				this.PrintRow(g, lv, this._rowIndex, rowHeight);
+				this._rowIndex++;
 			}
 		}
 
@@ -792,9 +789,9 @@ namespace BrightIdeasSoftware
 			ListViewGroup lvg = lv.Groups[groupIndex];
 			BlockFormat fmt = this.GroupHeaderFormat;
 			Single height = fmt.CalculateHeight(g);
-			RectangleF r = new RectangleF(this.currentOrigin.X, this.currentOrigin.Y, this.listBounds.Width, height);
+			RectangleF r = new RectangleF(this._currentOrigin.X, this._currentOrigin.Y, this._listBounds.Width, height);
 			fmt.Draw(g, r, lvg.Header, lvg.HeaderAlignment);
-			this.currentOrigin.Y += height;
+			this._currentOrigin.Y += height;
 		}
 
 		/// <summary>Print one row of the listview</summary>
@@ -808,15 +805,15 @@ namespace BrightIdeasSoftware
 
 			// Print the row cell by cell. We only print the cells that are in the range
 			// of columns that are chosen for this page
-			RectangleF cell = new RectangleF(this.currentOrigin, new SizeF(0, rowHeight));
-			for(Int32 i = this.indexLeftColumn; i <= this.indexRightColumn; i++)
+			RectangleF cell = new RectangleF(this._currentOrigin, new SizeF(0, rowHeight));
+			for(Int32 i = this._indexLeftColumn; i <= this._indexRightColumn; i++)
 			{
 				ColumnHeader col = this.GetColumn(i);
 				cell.Width = col.Width;
 				this.PrintCell(g, lv, lvi, row, i, cell);
 				cell.Offset(cell.Width, 0);
 			}
-			this.currentOrigin.Y += rowHeight;
+			this._currentOrigin.Y += rowHeight;
 		}
 
 		/// <summary>Print one cell of the listview</summary>
@@ -856,10 +853,10 @@ namespace BrightIdeasSoftware
 		protected void PrintHeaderFooter(Graphics g)
 		{
 			if(!String.IsNullOrEmpty(this.Header))
-				PrintPageHeader(g);
+				this.PrintPageHeader(g);
 
 			if(!String.IsNullOrEmpty(this.Footer))
-				PrintPageFooter(g);
+				this.PrintPageFooter(g);
 		}
 
 		/// <summary>Print the page header</summary>
@@ -871,12 +868,12 @@ namespace BrightIdeasSoftware
 				return;
 
 			Single height = fmt.CalculateHeight(g);
-			RectangleF headerRect = new RectangleF(this.listBounds.X, this.listBounds.Y, this.listBounds.Width, height);
+			RectangleF headerRect = new RectangleF(this._listBounds.X, this._listBounds.Y, this._listBounds.Width, height);
 			fmt.Draw(g, headerRect, this.SplitAndFormat(this.Header));
 
 			// Move down the top of the area available for the list
-			this.listBounds.Y += height;
-			this.listBounds.Height -= height;
+			this._listBounds.Y += height;
+			this._listBounds.Height -= height;
 		}
 
 		/// <summary>Print the page footer</summary>
@@ -888,11 +885,11 @@ namespace BrightIdeasSoftware
 				return;
 
 			Single height = fmt.CalculateHeight(g);
-			RectangleF r = new RectangleF(this.listBounds.X, this.listBounds.Bottom - height, this.listBounds.Width, height);
+			RectangleF r = new RectangleF(this._listBounds.X, this._listBounds.Bottom - height, this._listBounds.Width, height);
 			fmt.Draw(g, r, this.SplitAndFormat(this.Footer));
 
 			// Decrease the area available for the list
-			this.listBounds.Height -= height;
+			this._listBounds.Height -= height;
 		}
 
 		/// <summary>Split the given string into at most three parts, using Tab as the divider.</summary>
@@ -911,7 +908,9 @@ namespace BrightIdeasSoftware
 
 		/// <summary>What color will all the borders be drawn in?</summary>
 		/// <remarks>This is just a convenience wrapper around ListGridPen</remarks>
-		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Obsolete("Use ListGridPen instead")]
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		[Obsolete("Use ListGridPen instead")]
 		public Color ListGridColor
 		{
 			get => this.ListGridPen?.Color ?? Color.Empty;
@@ -923,19 +922,19 @@ namespace BrightIdeasSoftware
 		#region Private variables
 
 		// These are our state variables.
-		private Int32 rowIndex;
-		private Int32 indexLeftColumn;
-		private Int32 indexRightColumn;
+		private Int32 _rowIndex;
+		private Int32 _indexLeftColumn;
+		private Int32 _indexRightColumn;
 
 		// Cached values
-		private SortedList<Int32, ColumnHeader> sortedColumns;
-		private List<Int32> groupStartPositions;
+		private SortedList<Int32, ColumnHeader> _sortedColumns;
+		private List<Int32> _groupStartPositions;
 
 		// Per-page variables
-		private RectangleF pageBounds;
-		private RectangleF listBounds;
-		private PointF currentOrigin;
-		private Single scaleFactor;
+		private RectangleF _pageBounds;
+		private RectangleF _listBounds;
+		private PointF _currentOrigin;
+		private Single _scaleFactor;
 
 		#endregion
 	}
@@ -1145,11 +1144,9 @@ namespace BrightIdeasSoftware
 		[DefaultValue(false)]
 		public Boolean CanWrap { get; set; } = false;
 
-		/// <summary>
-		/// If this is set, at least this much vertical space will be reserved for the text,
-		/// even if the text is smaller.
-		/// </summary>
-		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		/// <summary>If this is set, at least this much vertical space will be reserved for the text, even if the text is smaller.</summary>
+		[Browsable(false)]
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Single MinimumTextHeight { get; set; } = 0;
 
 		//----------------------------------------------------------------------------------
@@ -1157,9 +1154,7 @@ namespace BrightIdeasSoftware
 		// When programming by hand, use Get/SetBorderPen() 
 		// rather than these methods.
 
-		/// <summary>
-		/// Set the TopBorder
-		/// </summary>
+		/// <summary>Set the TopBorder</summary>
 		[Category("Appearance")]
 		[DisplayName("Border - Top")]
 		[DefaultValue(null)]
@@ -1259,11 +1254,11 @@ namespace BrightIdeasSoftware
 		public Color TextColor
 		{
 			get => this.TextBrush is SolidBrush s
-					? s.Color
-					: Color.Empty;
+				? s.Color
+				: Color.Empty;
 			set => this.TextBrush = value.IsEmpty
-					? null
-					: new SolidBrush(value);
+				? null
+				: new SolidBrush(value);
 		}
 
 		//----------------------------------------------------------------------------------

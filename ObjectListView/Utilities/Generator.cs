@@ -46,21 +46,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
-using System.Reflection.Emit;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace BrightIdeasSoftware
 {
 	/// <summary>
-	/// An Object that implements the IGenerator interface provides the ability 
-	/// to dynamically create columns
-	/// for an ObjectListView based on the characteristics of a given collection
-	/// of model objects.
+	/// An object that implements the IGenerator interface provides the ability to dynamically create columns
+	/// for an ObjectListView based on the characteristics of a given collection of model objects.
 	/// </summary>
 	public interface IGenerator
 	{
-		/// <summary>Generate columns into the given ObjectListView that come from the given model Object type.</summary>
+		/// <summary>Generate columns into the given ObjectListView that come from the given model object type.</summary>
 		/// <param name="olv">The ObjectListView to modify</param>
 		/// <param name="type">The model type whose attributes will be considered.</param>
 		/// <param name="allProperties">Will columns be generated for properties that are not marked with [OLVColumn].</param>
@@ -102,9 +99,8 @@ namespace BrightIdeasSoftware
 		private static IGenerator _instance;
 
 		/// <summary>
-		/// Replace all columns of the given ObjectListView with columns generated
-		/// from the first member of the given enumerable. If the enumerable is 
-		/// empty or null, the ObjectListView will be cleared.
+		/// Replace all columns of the given ObjectListView with columns generated from the first member of the given enumerable.
+		/// If the enumerable is empty or null, the ObjectListView will be cleared.
 		/// </summary>
 		/// <param name="olv">The ObjectListView to modify</param>
 		/// <param name="enumerable">The collection whose first element will be used to generate columns.</param>
@@ -112,9 +108,8 @@ namespace BrightIdeasSoftware
 			=> Generator.GenerateColumns(olv, enumerable, false);
 
 		/// <summary>
-		/// Replace all columns of the given ObjectListView with columns generated
-		/// from the first member of the given enumerable. If the enumerable is 
-		/// empty or null, the ObjectListView will be cleared.
+		/// Replace all columns of the given ObjectListView with columns generated from the first member of the given enumerable.
+		/// If the enumerable is empty or null, the ObjectListView will be cleared.
 		/// </summary>
 		/// <param name="olv">The ObjectListView to modify</param>
 		/// <param name="enumerable">The collection whose first element will be used to generate columns.</param>
@@ -123,13 +118,11 @@ namespace BrightIdeasSoftware
 		{
 			// Generate columns based on the type of the first model in the collection and then quit
 			if(enumerable != null)
-			{
 				foreach(Object model in enumerable)
 				{
 					Generator.Instance.GenerateAndReplaceColumns(olv, model.GetType(), allProperties);
 					return;
 				}
-			}
 
 			// If we reach here, the collection was empty, so we clear the list
 			Generator.Instance.GenerateAndReplaceColumns(olv, null, allProperties);
@@ -195,13 +188,10 @@ namespace BrightIdeasSoftware
 				if(Attribute.GetCustomAttribute(pinfo, typeof(OLVIgnoreAttribute)) != null)
 					continue;
 
-				OLVColumnAttribute attr = Attribute.GetCustomAttribute(pinfo, typeof(OLVColumnAttribute)) as OLVColumnAttribute;
-				if(attr == null)
-				{
-					if(allProperties)
-						columns.Add(this.MakeColumnFromPropertyInfo(pinfo));
-				} else
+				if(Attribute.GetCustomAttribute(pinfo, typeof(OLVColumnAttribute)) is OLVColumnAttribute attr)
 					columns.Add(this.MakeColumnFromAttribute(pinfo, attr));
+				else if(allProperties)
+					columns.Add(this.MakeColumnFromPropertyInfo(pinfo));
 			}
 
 			// How many columns have DisplayIndex specifically set?
@@ -245,9 +235,9 @@ namespace BrightIdeasSoftware
 		/// <param name="olv"></param>
 		public virtual void PostCreateColumns(ObjectListView olv)
 		{
-			if(olv.AllColumns.Exists(delegate (OLVColumn x) { return x.CheckBoxes; }))
+			if(olv.AllColumns.Exists((x) => x.CheckBoxes))
 				olv.UseSubItemCheckBoxes = true;
-			if(olv.AllColumns.Exists(delegate (OLVColumn x) { return x.Index > 0 && (x.ImageGetter != null || !String.IsNullOrEmpty(x.ImageAspectName)); }))
+			if(olv.AllColumns.Exists((x) => x.Index > 0 && (x.ImageGetter != null || !String.IsNullOrEmpty(x.ImageAspectName))))
 				olv.ShowImagesOnSubItems = true;
 			olv.RebuildColumns();
 			olv.AutoSizeColumns();
@@ -258,13 +248,13 @@ namespace BrightIdeasSoftware
 		/// <param name="attr"></param>
 		/// <returns></returns>
 		protected virtual OLVColumn MakeColumnFromAttribute(PropertyInfo pinfo, OLVColumnAttribute attr)
-			=> this.MakeColumn(pinfo.Name, DisplayNameToColumnTitle(pinfo.Name), pinfo.CanWrite, pinfo.PropertyType, attr);
+			=> this.MakeColumn(pinfo.Name, this.DisplayNameToColumnTitle(pinfo.Name), pinfo.CanWrite, pinfo.PropertyType, attr);
 
 		/// <summary>Make a column from the given PropertyInfo</summary>
 		/// <param name="pinfo"></param>
 		/// <returns></returns>
 		protected virtual OLVColumn MakeColumnFromPropertyInfo(PropertyInfo pinfo)
-			=> this.MakeColumn(pinfo.Name, DisplayNameToColumnTitle(pinfo.Name), pinfo.CanWrite, pinfo.PropertyType, null);
+			=> this.MakeColumn(pinfo.Name, this.DisplayNameToColumnTitle(pinfo.Name), pinfo.CanWrite, pinfo.PropertyType, null);
 
 		/// <summary>Make a column from the given PropertyDescriptor</summary>
 		/// <param name="pd"></param>
@@ -272,7 +262,7 @@ namespace BrightIdeasSoftware
 		public virtual OLVColumn MakeColumnFromPropertyDescriptor(PropertyDescriptor pd)
 		{
 			OLVColumnAttribute attr = pd.Attributes[typeof(OLVColumnAttribute)] as OLVColumnAttribute;
-			return this.MakeColumn(pd.Name, DisplayNameToColumnTitle(pd.DisplayName), !pd.IsReadOnly, pd.PropertyType, attr);
+			return this.MakeColumn(pd.Name, this.DisplayNameToColumnTitle(pd.DisplayName), !pd.IsReadOnly, pd.PropertyType, attr);
 		}
 
 		/// <summary>Create a column with all the given information</summary>
@@ -297,44 +287,53 @@ namespace BrightIdeasSoftware
 			}
 
 			column.AspectToStringFormat = attr.AspectToStringFormat;
-			if(attr.IsCheckBoxesSet)
-				column.CheckBoxes = attr.CheckBoxes;
 			column.DisplayIndex = attr.DisplayIndex;
-			column.FillsFreeSpace = attr.FillsFreeSpace;
-			if(attr.IsFreeSpaceProportionSet)
-				column.FreeSpaceProportion = attr.FreeSpaceProportion;
+			if(attr.FillsFreeSpaceSet)
+				column.FillsFreeSpace = attr.FillsFreeSpace;
 			column.GroupWithItemCountFormat = attr.GroupWithItemCountFormat;
 			column.GroupWithItemCountSingularFormat = attr.GroupWithItemCountSingularFormat;
 			column.Hyperlink = attr.Hyperlink;
 			column.ImageAspectName = attr.ImageAspectName;
-			column.IsEditable = attr.IsEditableSet ? attr.IsEditable : editable;
 			column.IsTileViewColumn = attr.IsTileViewColumn;
 			column.IsVisible = attr.IsVisible;
 			column.MaximumWidth = attr.MaximumWidth;
 			column.MinimumWidth = attr.MinimumWidth;
 			column.Tag = attr.Tag;
-			if(attr.IsTextAlignSet)
+			if(attr.CheckBoxesSet)
+				column.CheckBoxes = attr.CheckBoxes;
+			if(attr.FreeSpaceProportionSet)
+				column.FreeSpaceProportion = attr.FreeSpaceProportion;
+			if(attr.TextAlignSet)
 				column.TextAlign = attr.TextAlign;
+			column.IsEditable = attr.IsEditableSet ? attr.IsEditable : editable;
 			column.ToolTipText = attr.ToolTipText;
-			if(attr.IsTriStateCheckBoxesSet)
+			if(attr.TriStateCheckBoxesSet)
 				column.TriStateCheckBoxes = attr.TriStateCheckBoxes;
-			column.UseInitialLetterForGroup = attr.UseInitialLetterForGroup;
-			column.Width = attr.Width;
+			if(attr.UseInitialLetterForGroupSet)
+				column.UseInitialLetterForGroup = attr.UseInitialLetterForGroup;
+			if(attr.WidthSet)
+				column.Width = attr.Width;
 			if(attr.GroupCutoffs != null && attr.GroupDescriptions != null)
 				column.MakeGroupies(attr.GroupCutoffs, attr.GroupDescriptions);
+
+			if(attr.UseFilteringSet)
+				column.UseFiltering = attr.UseFiltering;
+			if(attr.AutoCompleteEditorSet)
+				column.AutoCompleteEditor = attr.AutoCompleteEditor;
+			if(attr.AutoCompleteEditorModeSet)
+				column.AutoCompleteEditorMode = attr.AutoCompleteEditorMode;
+			if(attr.WordWrapSet)
+				column.WordWrap = attr.WordWrap;
 			return column;
 		}
 
 		/// <summary>Create a column.</summary>
 		/// <param name="aspectName"></param>
-		/// <param name="title"></param>
+		/// <param name="title">The title of the column</param>
 		/// <param name="attr"></param>
 		/// <returns></returns>
 		protected virtual OLVColumn MakeColumn(String aspectName, String title, OLVColumnAttribute attr)
-		{
-			String columnTitle = (attr == null || String.IsNullOrEmpty(attr.Title)) ? title : attr.Title;
-			return new OLVColumn(columnTitle, aspectName);
-		}
+			=> new OLVColumn(attr?.Title ?? title, aspectName);
 
 		/// <summary>Convert a property name to a displayable title.</summary>
 		/// <param name="displayName"></param>
@@ -367,14 +366,11 @@ namespace BrightIdeasSoftware
 		protected virtual void TryGenerateChildrenDelegates(TreeListView tlv, Type type)
 		{
 			foreach(PropertyInfo pinfo in type.GetProperties())
-			{
-				OLVChildrenAttribute attr = Attribute.GetCustomAttribute(pinfo, typeof(OLVChildrenAttribute)) as OLVChildrenAttribute;
-				if(attr != null)
+				if(Attribute.GetCustomAttribute(pinfo, typeof(OLVChildrenAttribute)) is OLVChildrenAttribute)
 				{
 					this.GenerateChildrenDelegates(tlv, pinfo);
 					return;
 				}
-			}
 		}
 
 		/// <summary>Generate CanExpand and ChildrenGetter delegates from the given property.</summary>

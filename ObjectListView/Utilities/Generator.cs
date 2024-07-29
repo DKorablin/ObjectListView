@@ -45,6 +45,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -183,15 +184,15 @@ namespace BrightIdeasSoftware
 
 			// Iterate all public properties in the class and build columns from those that have
 			// an OLVColumn attribute and that are not ignored.
-			foreach(PropertyInfo pinfo in type.GetProperties())
+			foreach(PropertyInfo pInfo in type.GetProperties())
 			{
-				if(Attribute.GetCustomAttribute(pinfo, typeof(OLVIgnoreAttribute)) != null)
+				if(Attribute.GetCustomAttribute(pInfo, typeof(OLVIgnoreAttribute)) != null)
 					continue;
 
-				if(Attribute.GetCustomAttribute(pinfo, typeof(OLVColumnAttribute)) is OLVColumnAttribute attr)
-					columns.Add(this.MakeColumnFromAttribute(pinfo, attr));
+				if(Attribute.GetCustomAttribute(pInfo, typeof(OLVColumnAttribute)) is OLVColumnAttribute attr)
+					columns.Add(this.MakeColumnFromAttribute(pInfo, attr));
 				else if(allProperties)
-					columns.Add(this.MakeColumnFromPropertyInfo(pinfo));
+					columns.Add(this.MakeColumnFromPropertyInfo(pInfo));
 			}
 
 			// How many columns have DisplayIndex specifically set?
@@ -244,25 +245,25 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>Create a column from the given PropertyInfo and OLVColumn attribute</summary>
-		/// <param name="pinfo"></param>
+		/// <param name="pInfo">The property information.</param>
 		/// <param name="attr"></param>
 		/// <returns></returns>
-		protected virtual OLVColumn MakeColumnFromAttribute(PropertyInfo pinfo, OLVColumnAttribute attr)
-			=> this.MakeColumn(pinfo.Name, this.DisplayNameToColumnTitle(pinfo.Name), pinfo.CanWrite, pinfo.PropertyType, attr);
+		protected virtual OLVColumn MakeColumnFromAttribute(PropertyInfo pInfo, OLVColumnAttribute attr)
+			=> this.MakeColumn(pInfo.Name, this.DisplayNameToColumnTitle(pInfo), pInfo.CanWrite, pInfo.PropertyType, attr);
 
 		/// <summary>Make a column from the given PropertyInfo</summary>
-		/// <param name="pinfo"></param>
+		/// <param name="pInfo">The property information.</param>
 		/// <returns></returns>
-		protected virtual OLVColumn MakeColumnFromPropertyInfo(PropertyInfo pinfo)
-			=> this.MakeColumn(pinfo.Name, this.DisplayNameToColumnTitle(pinfo.Name), pinfo.CanWrite, pinfo.PropertyType, null);
+		protected virtual OLVColumn MakeColumnFromPropertyInfo(PropertyInfo pInfo)
+			=> this.MakeColumn(pInfo.Name, this.DisplayNameToColumnTitle(pInfo), pInfo.CanWrite, pInfo.PropertyType, null);
 
 		/// <summary>Make a column from the given PropertyDescriptor</summary>
-		/// <param name="pd"></param>
+		/// <param name="pd">The property descriptor.</param>
 		/// <returns></returns>
 		public virtual OLVColumn MakeColumnFromPropertyDescriptor(PropertyDescriptor pd)
 		{
 			OLVColumnAttribute attr = pd.Attributes[typeof(OLVColumnAttribute)] as OLVColumnAttribute;
-			return this.MakeColumn(pd.Name, this.DisplayNameToColumnTitle(pd.DisplayName), !pd.IsReadOnly, pd.PropertyType, attr);
+			return this.MakeColumn(pd.Name, this.PropertyNameToColumnTitle(pd.DisplayName), !pd.IsReadOnly, pd.PropertyType, attr);
 		}
 
 		/// <summary>Create a column with all the given information</summary>
@@ -274,7 +275,6 @@ namespace BrightIdeasSoftware
 		/// <returns></returns>
 		protected virtual OLVColumn MakeColumn(String aspectName, String title, Boolean editable, Type propertyType, OLVColumnAttribute attr)
 		{
-
 			OLVColumn column = this.MakeColumn(aspectName, title, attr);
 			column.Name = (attr == null || String.IsNullOrEmpty(attr.Name)) ? aspectName : attr.Name;
 			this.ConfigurePossibleBooleanColumn(column, propertyType);
@@ -335,12 +335,20 @@ namespace BrightIdeasSoftware
 		protected virtual OLVColumn MakeColumn(String aspectName, String title, OLVColumnAttribute attr)
 			=> new OLVColumn(attr?.Title ?? title, aspectName);
 
+		/// <summary>Extracts <see cref="DisplayNameAttribute"/> from property attributes and uses it's values.</summary>
+		/// <param name="pInfo">The property descriptor.</param>
+		/// <returns>Column title.</returns>
+		protected virtual String DisplayNameToColumnTitle(PropertyInfo pInfo)
+			=> Attribute.GetCustomAttribute(pInfo, typeof(DisplayNameAttribute)) is DisplayNameAttribute attr
+				? attr.DisplayName
+				: this.PropertyNameToColumnTitle(pInfo.Name);
+
 		/// <summary>Convert a property name to a displayable title.</summary>
-		/// <param name="displayName"></param>
-		/// <returns></returns>
-		protected virtual String DisplayNameToColumnTitle(String displayName)
+		/// <param name="propertyName">The name of the property.</param>
+		/// <returns>Column title.</returns>
+		protected virtual String PropertyNameToColumnTitle(String propertyName)
 		{
-			String title = displayName.Replace("_", " ");
+			String title = propertyName.Replace("_", " ");
 			// Put a space between a lower-case letter that is followed immediately by an upper case letter
 			title = Regex.Replace(title, @"(\p{Ll})(\p{Lu})", @"$1 $2");
 			return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(title);

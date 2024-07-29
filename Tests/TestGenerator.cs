@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 using NUnit.Framework;
 
@@ -74,6 +75,13 @@ namespace BrightIdeasSoftware.Tests
 			set { }
 		}
 
+		[DisplayName(nameof(DisplayNameColumn))]
+		[OLVColumn]
+		public String DisplayNameColumn
+		{
+			get => String.Empty;
+			set { }
+		}
 	}
 
 	class GeneratorTestModelSorting
@@ -196,7 +204,7 @@ namespace BrightIdeasSoftware.Tests
 		public void TestBasics()
 		{
 			IList<OLVColumn> columns = Generator.GenerateColumns(typeof(GeneratorTestModel1));
-			Assert.AreEqual(2, columns.Count);
+			Assert.AreEqual(3, columns.Count);
 			Assert.AreEqual("OLVPrimaryColumn", columns[0].AspectName);
 			Assert.AreEqual("AspectToStringFormat", columns[0].AspectToStringFormat);
 			Assert.AreEqual(true, columns[0].CheckBoxes);
@@ -243,6 +251,8 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(false, columns[1].TriStateCheckBoxes);
 			Assert.AreEqual(false, columns[1].UseInitialLetterForGroup);
 			Assert.AreEqual(-1, columns[1].Width);
+
+			Assert.AreEqual(nameof(GeneratorTestModel1.DisplayNameColumn), columns[2].Text);
 		}
 
 		[Test]

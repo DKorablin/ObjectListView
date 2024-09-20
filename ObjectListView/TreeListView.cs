@@ -1541,11 +1541,16 @@ namespace BrightIdeasSoftware
 				this.SetObjects(newRoots);
 			}
 
-			/// <summary></summary>
+			/// <summary>Insert objects to the new position</summary>
 			/// <param name="index"></param>
 			/// <param name="modelObjects"></param>
 			public void InsertObjects(Int32 index, ICollection modelObjects)
-				=> throw new NotImplementedException();
+			{
+				ArrayList newRoots = ObjectListView.EnumerableToArray(this._treeView.Roots, true);
+				foreach(Object x in modelObjects)
+					newRoots.Insert(index++, x);
+				this.SetObjects(newRoots);
+			}
 
 			/// <summary>
 			/// Remove all of the given objects from the roots of the tree.

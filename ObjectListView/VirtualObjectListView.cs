@@ -137,15 +137,14 @@ namespace BrightIdeasSoftware
 
 		/// <summary>
 		/// Get or set the collection of model objects that are checked.
-		/// When setting this property, any row whose model Object isn't
-		/// in the given collection will be unchecked. Setting to null is
-		/// equivalent to unchecking all.
+		/// When setting this property, any row whose model Object isn't in the given collection will be unchecked.
+		/// Setting to null is equivalent to unchecking all.
 		/// </summary>
 		/// <remarks>
 		/// <para>
-		/// This property returns a simple collection. Changes made to the returned
-		/// collection do NOT affect the list. This is different to the behaviour of
-		/// CheckedIndicies collection.
+		/// This property returns a simple collection.
+		/// Changes made to the returned collection do NOT affect the list.
+		/// This is different to the behaviour of CheckedIndicies collection.
 		/// </para>
 		/// <para>
 		/// When getting CheckedObjects, the performance of this method is O(n) where n is the number of checked objects.
@@ -153,14 +152,15 @@ namespace BrightIdeasSoftware
 		/// the number of objects to be checked.
 		/// </para>
 		/// <para>
-		/// If the ListView is not currently showing CheckBoxes, this property does nothing. It does
-		/// not remember any check box settings made.
+		/// If the ListView is not currently showing CheckBoxes, this property does nothing.
+		/// It does not remember any check box settings made.
 		/// </para>
 		/// <para>
-		/// This class optimizes the management of CheckStates so that it will work efficiently even on
-		/// large lists of item. However, those optimizations are impossible if you install a CheckStateGetter.
-		/// With a CheckStateGetter installed, the performance of this method is O(n) where n is the size 
-		/// of the list. This could be painfully slow.</para>
+		/// This class optimizes the management of CheckStates so that it will work efficiently even on large lists of item.
+		/// However, those optimizations are impossible if you install a CheckStateGetter.
+		/// With a CheckStateGetter installed, the performance of this method is O(n) where n is the size of the list.
+		/// This could be painfully slow.
+		/// </para>
 		/// </remarks>
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -520,6 +520,24 @@ namespace BrightIdeasSoftware
 				this.VirtualListDataSource.InsertObjects(index, args.ObjectsToAdd);
 				this.BuildList();
 				this.SubscribeNotifications(args.ObjectsToAdd);
+			} finally
+			{
+				this.EndUpdate();
+			}
+		}
+
+		public override void MoveObjects(Int32 index, ICollection modelObjects)
+		{
+			if(this.VirtualListDataSource == null)
+				return;
+
+			try
+			{//TODO: Fix items selection after objects are moved
+				this.BeginUpdate();
+
+				this.VirtualListDataSource.RemoveObjects(modelObjects);
+				this.VirtualListDataSource.InsertObjects(index, modelObjects);
+				this.BuildList();
 			} finally
 			{
 				this.EndUpdate();

@@ -38,7 +38,7 @@ namespace ObjectListViewDemo.Properties {
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
-                if (Object.ReferenceEquals(resourceMan, null)) {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ObjectListViewDemo.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
@@ -65,7 +65,7 @@ namespace ObjectListViewDemo.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap limeleaf {
             get {
-                Object obj = ResourceManager.GetObject("limeleaf", resourceCulture);
+                object obj = ResourceManager.GetObject("limeleaf", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

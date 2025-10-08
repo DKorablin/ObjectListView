@@ -9,7 +9,6 @@ namespace ObjectListViewDemo
 {
 	public partial class TabFileExplorer : OlvDemoTab
 	{
-
 		public TabFileExplorer()
 		{
 			this.InitializeComponent();

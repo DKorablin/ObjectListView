@@ -3,129 +3,116 @@ using System.ComponentModel;
 using System.Drawing;
 using BrightIdeasSoftware;
 
-namespace ObjectListViewDemo {
+namespace ObjectListViewDemo
+{
 
-    public enum MaritalStatus
-    {
-        Single,
-        Married,
-        Divorced,
-        Partnered
-    }
+	public enum MaritalStatus
+	{
+		Single,
+		Married,
+		Divorced,
+		Partnered
+	}
 
-    public class Person : INotifyPropertyChanged
-    {
-        public bool IsActive = true;
+	public class Person : INotifyPropertyChanged
+	{
+		public Boolean IsActive = true;
 
-        public Person(string name) {
-            this.name = name;
-        }
+		public Person(String name)
+			=> this._name = name;
 
-        public Person(string name, string occupation, int culinaryRating, DateTime birthDate, double hourlyRate, bool canTellJokes, string photo, string comments) {
-            this.name = name;
-            this.Occupation = occupation;
-            this.culinaryRating = culinaryRating;
-            this.birthDate = birthDate;
-            this.hourlyRate = hourlyRate;
-            this.CanTellJokes = canTellJokes;
-            this.Comments = comments;
-            this.Photo = photo;
-        }
+		public Person(String name, String occupation, Int32 culinaryRating, DateTime birthDate, Double hourlyRate, Boolean canTellJokes, String photo, String comments)
+		{
+			this._name = name;
+			this.Occupation = occupation;
+			this.CulinaryRating = culinaryRating;
+			this.BirthDate = birthDate;
+			this._hourlyRate = hourlyRate;
+			this.CanTellJokes = canTellJokes;
+			this.Comments = comments;
+			this.Photo = photo;
+		}
 
-        public Person(Person other) {
-            this.name = other.Name;
-            this.Occupation = other.Occupation;
-            this.culinaryRating = other.CulinaryRating;
-            this.birthDate = other.BirthDate;
-            this.hourlyRate = other.GetRate();
-            this.CanTellJokes = other.CanTellJokes;
-            this.Photo = other.Photo;
-            this.Comments = other.Comments;
-            this.MaritalStatus = other.MaritalStatus;
-        }
+		public Person(Person other)
+		{
+			this._name = other.Name;
+			this.Occupation = other.Occupation;
+			this.CulinaryRating = other.CulinaryRating;
+			this.BirthDate = other.BirthDate;
+			this._hourlyRate = other.GetRate();
+			this.CanTellJokes = other.CanTellJokes;
+			this.Photo = other.Photo;
+			this.Comments = other.Comments;
+			this.MaritalStatus = other.MaritalStatus;
+		}
 
-        [OLVIgnore]
-        public Image ImageAspect {
-            get {
-                return Resource1.folder16;
-            }
-        }
+		[OLVIgnore]
+		public Image ImageAspect { get; } = Resource.folder16;
 
-        [OLVIgnore]
-        public string ImageName {
-            get {
-                return "user";
-            }
-        }
+		[OLVIgnore]
+		public String ImageName { get; } = "user";
 
-        // Allows tests for properties.
-        [OLVColumn(ImageAspectName = "ImageName")]
-        public string Name {
-            get { return name; }
-            set {
-                if (name == value) return;
-                name = value;
-                this.OnPropertyChanged("Name");
-            }
-        }
-        private string name;
+		// Allows tests for properties.
+		[OLVColumn(ImageAspectName = "ImageName")]
+		public String Name
+		{
+			get => this._name;
+			set
+			{
+				if(this._name == value) return;
+				this._name = value;
+				this.OnPropertyChanged(nameof(this.Name));
+			}
+		}
+		private String _name;
 
-        [OLVColumn(ImageAspectName = "ImageName")]
-        public string Occupation {
-            get { return occupation; }
-            set {
-                if (occupation == value) return;
-                occupation = value;
-                this.OnPropertyChanged("Occupation");
-            }
-        }
-        private string occupation;
+		[OLVColumn(ImageAspectName = "ImageName")]
+		public String Occupation
+		{
+			get => this._occupation;
+			set
+			{
+				if(this._occupation == value) return;
+				this._occupation = value;
+				this.OnPropertyChanged(nameof(this.Occupation));
+			}
+		}
+		private String _occupation;
 
-        public int CulinaryRating {
-            get { return culinaryRating; }
-            set { culinaryRating = value; }
-        }
-        private int culinaryRating;
+		public Int32 CulinaryRating { get; set; }
 
-        public DateTime BirthDate {
-            get { return birthDate; }
-            set { birthDate = value; }
-        }
-        private DateTime birthDate;
+		public DateTime BirthDate { get; set; }
 
-        public int YearOfBirth {
-            get { return this.BirthDate.Year; }
-            set { this.BirthDate = new DateTime(value, birthDate.Month, birthDate.Day); }
-        }
+		public Int32 YearOfBirth
+		{
+			get => this.BirthDate.Year;
+			set => this.BirthDate = new DateTime(value, this.BirthDate.Month, this.BirthDate.Day);
+		}
 
-        // Allow tests for methods
-        public double GetRate() {
-            return hourlyRate;
-        }
-        private double hourlyRate;
+		// Allow tests for methods
+		public Double GetRate()
+			=> this._hourlyRate;
+		public void SetRate(Double value)
+			=> this._hourlyRate = value;
 
-        public void SetRate(double value) {
-            hourlyRate = value;
-        }
+		private Double _hourlyRate;
 
-        // Allows tests for fields.
-        public string Photo;
-        public string Comments;
-        public int serialNumber;
-        public bool? CanTellJokes;
+		// Allows tests for fields.
+		public String Photo;
+		public String Comments;
+		public Int32 serialNumber;
+		public Boolean? CanTellJokes;
 
-        // Allow tests for enums
-        public MaritalStatus MaritalStatus = MaritalStatus.Single;
+		// Allow tests for enums
+		public MaritalStatus MaritalStatus = MaritalStatus.Single;
 
-        #region Implementation of INotifyPropertyChanged
+		#region Implementation of INotifyPropertyChanged
 
-        public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string propertyName) {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
+		private void OnPropertyChanged(String propertyName)
+				=> this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        #endregion
-    }
+		#endregion
+	}
 }

@@ -8,18 +8,18 @@
  * 10/25/2008 JPP  Initial Version
  */
 
-using System.Collections;
-using System.Drawing;
-using NUnit.Framework;
-using System.Collections.Generic;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BrightIdeasSoftware.Tests
 {
-	[TestFixture]
+	[TestClass]
 	public class TestOlvBasics
 	{
-		[SetUp]
+		[TestInitialize]
 		public void SetupTest()
 		{
 			PersonDb.Reset();
@@ -32,29 +32,30 @@ namespace BrightIdeasSoftware.Tests
 		protected virtual ObjectListView GetObjectListView()
 			=> mainForm.objectListView1;
 
-		[TearDown]
+		[TestCleanup]
 		public void TearDownTest()
 		{
 			mainForm.Close();
 		}
+
 		protected ObjectListView olv;
 		protected MainForm mainForm;
 
-		[Test]
+		[TestMethod]
 		public void Test_SetObjects_All()
 		{
 			this.olv.SetObjects(PersonDb.All);
 			Assert.AreEqual(PersonDb.All.Count, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_SetObjects_Null()
 		{
 			this.olv.SetObjects(null);
 			Assert.AreEqual(0, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_GetModelObject()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -62,7 +63,7 @@ namespace BrightIdeasSoftware.Tests
 				Assert.AreEqual(PersonDb.All[i], this.olv.GetModelObject(i));
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_AddObject()
 		{
 			this.olv.SetObjects(null);
@@ -73,7 +74,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(2, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_AddObjects()
 		{
 			this.olv.SetObjects(null);
@@ -83,7 +84,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(PersonDb.All.Count, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_AddObject_ModelFilter()
 		{
 			ArrayList somePeople = new ArrayList(PersonDb.All);
@@ -105,7 +106,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(somePeople.Count, this.olv.IndexOf(first));
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_RemoveObject()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -114,7 +115,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(PersonDb.All.Count - 1, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_RemoveObjects()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -128,7 +129,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(PersonDb.All.Count - toRemove.Count, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_EffectiveRowHeight()
 		{
 			this.olv.RowHeight = 32;
@@ -136,7 +137,7 @@ namespace BrightIdeasSoftware.Tests
 			this.olv.RowHeight = -1;
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_RefreshObject()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -154,7 +155,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(another.Occupation, item2.SubItems[1].Text);
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_UpdateObject_AddsWhenNew()
 		{
 			List<Person> people = new List<Person>();
@@ -174,7 +175,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(newGuy.Occupation, item2.SubItems[1].Text);
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_UpdateObject_AddsWhenNew_WithFilterInstalled()
 		{
 			List<Person> people = new List<Person>
@@ -196,17 +197,16 @@ namespace BrightIdeasSoftware.Tests
 			Assert.IsNotNull(item2);
 			Assert.AreEqual(newGuy.Occupation, item2.SubItems[1].Text);
 		}
-
 	}
 
-	[TestFixture]
+	[TestClass]
 	public class TestFastOlvBasics : TestOlvBasics
 	{
 		protected override ObjectListView GetObjectListView()
 			=> mainForm.fastObjectListView1;
 	}
 
-	[TestFixture]
+	[TestClass]
 	public class TestTreeListViewBasics : TestOlvBasics
 	{
 		protected override ObjectListView GetObjectListView()

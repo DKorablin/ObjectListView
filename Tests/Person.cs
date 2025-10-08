@@ -19,7 +19,7 @@ namespace BrightIdeasSoftware.Tests
 
 	public class Person : INotifyPropertyChanged, ITreeModel
 	{
-		public bool? IsActive = null;
+		public Boolean? IsActive = null;
 
 		public Person(String name)
 			=> this._name = name;

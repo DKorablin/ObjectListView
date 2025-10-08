@@ -26,16 +26,16 @@
  */
 
 using System.Drawing;
-using NUnit.Framework;
 using System.Collections.Generic;
 using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BrightIdeasSoftware.Tests
 {
-	[TestFixture]
+	[TestClass]
 	public class TestNotifications
 	{
-		[SetUp]
+		[TestInitialize]
 		public void InitEachTest()
 		{
 			mainForm = new MainForm
@@ -54,21 +54,21 @@ namespace BrightIdeasSoftware.Tests
 			return mainForm.objectListView1;
 		}
 
-		[TearDown]
+		[TestCleanup]
 		public void TestTearDown()
 		{
 			PersonDb.Reset();
 			mainForm.Close();
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_UseNotifyPropertyChangedIsTrue_PropertyChange_CellChanges()
 		{
 			this.olv.SetObjects(PersonDb.All);
 			this.SetAndCheckOccupationColumnValue(1, "new occupation 2");
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_UseNotifyPropertyChangedIsFalse_PropertyChange_CellDoesntChanges()
 		{
 			// This test can't work on virtual lists, since the list doesn't hold any text itself
@@ -87,11 +87,11 @@ namespace BrightIdeasSoftware.Tests
 		private void SetAndCheckOccupationColumnValue(Int32 personIndex, String newOccupation)
 		{
 			PersonDb.All[personIndex].Occupation = newOccupation;
-			int row = this.olv.IndexOf(PersonDb.All[personIndex]);
+			Int32 row = this.olv.IndexOf(PersonDb.All[personIndex]);
 			Assert.AreEqual(newOccupation, this.olv.GetItem(row).SubItems[1].Text);
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_SetObjects_SubscriptionCountMaintained()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -99,7 +99,7 @@ namespace BrightIdeasSoftware.Tests
 				Assert.AreEqual(1, x.CountNotifyPropertyChangedSubscriptions);
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_SetObjects_Subset_SubscriptionCountMaintained()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -118,7 +118,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(0, PersonDb.All[5].CountNotifyPropertyChangedSubscriptions);
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_SetObjects_Superset_SubscriptionCountMaintained()
 		{
 			List<Person> subset = new List<Person>();
@@ -133,7 +133,7 @@ namespace BrightIdeasSoftware.Tests
 				Assert.AreEqual(1, x.CountNotifyPropertyChangedSubscriptions);
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_SetObjects_Multiple_SubscriptionCountMaintained()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -143,7 +143,7 @@ namespace BrightIdeasSoftware.Tests
 				Assert.AreEqual(1, x.CountNotifyPropertyChangedSubscriptions);
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_SetObjects_WithFiltering_SubscriptionCountMaintained()
 		{
 			this.olv.UseFiltering = true;
@@ -155,7 +155,7 @@ namespace BrightIdeasSoftware.Tests
 			this.olv.UseFiltering = false;
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_SetObjects_Unsubscribes()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -164,7 +164,7 @@ namespace BrightIdeasSoftware.Tests
 				Assert.AreEqual(0, x.CountNotifyPropertyChangedSubscriptions);
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_AddObject_SubscribesToChanges()
 		{
 			this.olv.SetObjects(null);
@@ -175,7 +175,7 @@ namespace BrightIdeasSoftware.Tests
 			this.SetAndCheckOccupationColumnValue(2, "new name 3");
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_RemoveObject_SubscriptionsRemoved()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -184,7 +184,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(0, PersonDb.All[1].CountNotifyPropertyChangedSubscriptions);
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_RemoveObjects()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -197,24 +197,19 @@ namespace BrightIdeasSoftware.Tests
 				Assert.AreEqual(-1, this.olv.IndexOf(x));
 			Assert.AreEqual(PersonDb.All.Count - toRemove.Count, this.olv.GetItemCount());
 		}
-
 	}
 
-	[TestFixture]
+	[TestClass]
 	public class TestFastTestNotifications : TestNotifications
 	{
 		protected override ObjectListView GetObjectListView()
-		{
-			return mainForm.fastObjectListView1;
-		}
+			=> mainForm.fastObjectListView1;
 	}
 
-	[TestFixture]
+	[TestClass]
 	public class TestTreeListViewTestNotifications : TestNotifications
 	{
 		protected override ObjectListView GetObjectListView()
-		{
-			return mainForm.treeListView1;
-		}
+			=> mainForm.treeListView1;
 	}
 }

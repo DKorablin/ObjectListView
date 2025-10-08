@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
-using ObjectListViewDemo.Properties;
 
 namespace ObjectListViewDemo
 {
@@ -32,11 +31,11 @@ namespace ObjectListViewDemo
 
 		private void SetupDragAndDrop()
 		{
-			// Make each listview capable of dragging rows out
+			// Make each ListView capable of dragging rows out
 			this.olvGeeks.DragSource = new SimpleDragSource();
 			this.olvFroods.DragSource = new SimpleDragSource();
 
-			// Make each listview capable of accepting drops.
+			// Make each ListView capable of accepting drops.
 			// More than that, make it so it's items can be rearranged
 			this.olvGeeks.DropSink = new RearrangingDropSink(true);
 			this.olvFroods.DropSink = new RearrangingDropSink(true);

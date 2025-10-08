@@ -26,11 +26,11 @@
  */
 
 using System;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BrightIdeasSoftware.Tests
 {
-	[TestFixture]
+	[TestClass]
 	public class TestExport
 	{
 
@@ -40,7 +40,7 @@ namespace BrightIdeasSoftware.Tests
 			PersonDb.Reset();
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_TabSeparated_Simple()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -58,7 +58,7 @@ zzz Last Alphabetical Name	occupation6	60	True
 ");
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_TabSeparated_WithoutHeader()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -70,7 +70,7 @@ zzz Last Alphabetical Name	occupation6	60	True
 ");
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_Csv_Simple()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -88,7 +88,7 @@ zzz Last Alphabetical Name	occupation6	60	True
 ");
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_Csv_EscapedValues()
 		{
 			PersonDb.All[0].Occupation = @"Some, ""value""";
@@ -101,7 +101,7 @@ zzz Last Alphabetical Name	occupation6	60	True
 ");
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_Html_Simple()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -120,7 +120,7 @@ zzz Last Alphabetical Name	occupation6	60	True
 ");
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_Html_EscapedValues()
 		{
 			PersonDb.All[0].Occupation = @"Complex <T> "" & String";

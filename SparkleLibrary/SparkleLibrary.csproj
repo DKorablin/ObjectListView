@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net35;net8.0-windows</TargetFrameworks>
+		<TargetFrameworks>net48;net8.0-windows</TargetFrameworks>
 		<UseWindowsForms>true</UseWindowsForms>
 		<OutputType>Library</OutputType>
-		<RootNamespace>BrightIdeasSoftware</RootNamespace>
+		<RootNamespace>SparkleLibrary</RootNamespace>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<Configuration>Debug</Configuration>
 		<Deterministic>false</Deterministic>
 		<GenerateDocumentationFile>False</GenerateDocumentationFile>
-		<NoWarn>$(NoWarn);SYSLIB0011;CA1416</NoWarn>
+		<NoWarn>$(NoWarn);SYSLIB0011</NoWarn>
 		<DefineConstants>$(DefineConstants)</DefineConstants>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -17,7 +17,7 @@
 		<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="SonarAnalyzer.CSharp" />
+	  <PackageReference Include="SonarAnalyzer.CSharp" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net35'">
 		<Reference Include="System.Data" />
@@ -25,14 +25,6 @@
 		<Reference Include="System.Design" />
 	</ItemGroup>
 	<ItemGroup>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-		<Compile Update="Properties\Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
-		</Compile>
+	  <ProjectReference Include="..\ObjectListView\ObjectListView.csproj" />
 	</ItemGroup>
 </Project>

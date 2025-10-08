@@ -1,13 +1,13 @@
 ﻿
 using System.Collections;
-using NUnit.Framework;
 using System;
 using System.Drawing;
 using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BrightIdeasSoftware.Tests
 {
-	[TestFixture]
+	[TestClass]
 	public class TestFilters
 	{
 		[SetUp]
@@ -30,7 +30,7 @@ namespace BrightIdeasSoftware.Tests
 			mainForm.Close();
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_Filter_UseFiltering()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -40,7 +40,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(0, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_ModelFilter_None()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -51,7 +51,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(0, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_ModelFilter_All()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -62,7 +62,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(originalCount, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_ListFilter_None()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -73,7 +73,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(0, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_ListFilter_All()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -84,7 +84,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(originalCount, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_ListFilter_Tail()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -95,7 +95,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(PersonDb.All[PersonDb.All.Count - 1], this.olv.GetModelObject(1));
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_ListFilter_Tail_Zero()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -104,7 +104,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(PersonDb.All.Count, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_ListFilter_Tail_Large()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -113,7 +113,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(PersonDb.All.Count, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_CaseInsensitive()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -122,7 +122,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(1, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_CaseSensitive()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -131,7 +131,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(0, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_Prefix()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -140,7 +140,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(1, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_Prefix_CaseSensitive()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -151,7 +151,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(1, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_Prefix_NoMatch()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -160,7 +160,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(0, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_NoMatch()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -169,7 +169,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(0, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_Regex()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -178,7 +178,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(1, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_Regex_CaseInsensitive()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -190,7 +190,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(1, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_Regex_CaseSensitive()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -201,7 +201,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(0, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_Regex_Invalid()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -210,7 +210,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(PersonDb.All.Count, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_Columns()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -221,7 +221,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(PersonDb.All.Count, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_Columns_NoMatch()
 		{
 			this.olv.SetObjects(PersonDb.All);
@@ -232,7 +232,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(0, this.olv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_FindAll_Text()
 		{
 			TextMatchFilter filter = new TextMatchFilter(this.olv, "abc");
@@ -244,7 +244,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(3, ranges[1].Length);
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_FindAll_Text_Multiple()
 		{
 			TextMatchFilter filter = TextMatchFilter.Contains(this.olv, "abc", "DE");
@@ -258,7 +258,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(2, ranges[2].Length);
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_FindAll_Text_NoMatch()
 		{
 			TextMatchFilter filter = new TextMatchFilter(this.olv, "xyz");
@@ -266,7 +266,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(0, ranges.Count);
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_FindAll_Text_NoMatch_Multiple()
 		{
 			TextMatchFilter filter = TextMatchFilter.Contains(this.olv, "xyz", "jpp");
@@ -274,7 +274,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(0, ranges.Count);
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_FindAll_StringStart()
 		{
 			TextMatchFilter filter = TextMatchFilter.Prefix(this.olv, "abc");
@@ -284,7 +284,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(3, ranges[0].Length);
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_FindAll_StringStart_Multiple()
 		{
 			TextMatchFilter filter = TextMatchFilter.Prefix(this.olv, "xyz", "abc");
@@ -294,7 +294,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(3, ranges[0].Length);
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_FindAll_StringStart_NoMatch()
 		{
 			TextMatchFilter filter = TextMatchFilter.Prefix(this.olv, "abc");
@@ -302,7 +302,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(0, ranges.Count);
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_FindAll_Regex()
 		{
 			TextMatchFilter filter = TextMatchFilter.Regex(this.olv, "[abcd]+");
@@ -318,7 +318,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(4, ranges[3].Length);
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_FindAll_Regex_Multiple()
 		{
 			TextMatchFilter filter = TextMatchFilter.Regex(this.olv, "x.*z", "a.*c");
@@ -330,7 +330,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(3, ranges[1].Length);
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void Test_TextFilter_FindAll_Regex_NoMatch()
 		{
 			TextMatchFilter filter = TextMatchFilter.Regex(this.olv, "[yz]+");
@@ -348,7 +348,7 @@ namespace BrightIdeasSoftware.Tests
 		protected MainForm mainForm;
 	}
 
-	[TestFixture]
+	[TestClass]
 	public class TestFastFilters : TestFilters
 	{
 		protected override ObjectListView GetObjectListView()
@@ -357,32 +357,32 @@ namespace BrightIdeasSoftware.Tests
 		}
 	}
 
-	[TestFixture]
+	[TestClass]
 	public class TestTreeListFilters : TestFilters
 	{
 		// ListFilters don't work on TreeListViews
 
-		[Test]
+		[TestMethod]
 		override public void Test_ListFilter_None()
 		{
 		}
 
-		[Test]
+		[TestMethod]
 		override public void Test_ListFilter_All()
 		{
 		}
 
-		[Test]
+		[TestMethod]
 		override public void Test_ListFilter_Tail()
 		{
 		}
 
-		[Test]
+		[TestMethod]
 		override public void Test_ListFilter_Tail_Zero()
 		{
 		}
 
-		[Test]
+		[TestMethod]
 		override public void Test_ListFilter_Tail_Large()
 		{
 		}

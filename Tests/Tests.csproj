@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net48;net8.0-windows</TargetFrameworks>
+		<UseWindowsForms>true</UseWindowsForms>
+		<IsTestProject>true</IsTestProject>
+		<IsPackable>false</IsPackable>
+		<Configuration>Debug</Configuration>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Parallelize>true</Parallelize>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="TestMunger.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" />
+		<PackageReference Include="MSTest.TestFramework" />
+		<PackageReference Include="MSTest.TestAdapter" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+		<Reference Include="System.Data" />
+		<Reference Include="System.Drawing" />
+		<Reference Include="System.Design" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\ObjectListView\ObjectListView.csproj" />
+	</ItemGroup>
+</Project>

@@ -10,11 +10,11 @@
 
 using System;
 using System.Windows.Forms;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BrightIdeasSoftware.Tests
 {
-	[TestFixture]
+	[TestClass]
 	public class TestOlvSelection
 	{
 		[SetUp]
@@ -24,7 +24,7 @@ namespace BrightIdeasSoftware.Tests
 			this.olv.SelectedObjects = null;
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestSelectedObject()
 		{
 			Assert.IsNull(this.olv.SelectedObject);
@@ -32,7 +32,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(PersonDb.All[1], this.olv.SelectedObject);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestSelectedObjects()
 		{
 			Assert.IsEmpty(this.olv.SelectedObjects);
@@ -42,14 +42,14 @@ namespace BrightIdeasSoftware.Tests
 			Assert.IsEmpty(this.olv.SelectedObjects);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestSelectAll()
 		{
 			this.olv.SelectAll();
 			Assert.AreEqual(PersonDb.All, this.olv.SelectedObjects);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestDeselectAll()
 		{
 			this.olv.SelectedObject = PersonDb.All[1];
@@ -63,7 +63,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.IsEmpty(this.olv.SelectedObjects);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestSortingShouldNotRaiseSelectionChangedEvents()
 		{
 			this.olv.SelectionChanged += new EventHandler(olv_SelectionChanged);
@@ -82,7 +82,7 @@ namespace BrightIdeasSoftware.Tests
 			this.olv.SelectionChanged -= new EventHandler(olv_SelectionChanged);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestAddingAColumnShouldNotRaiseSelectionChangedEvents()
 		{
 			this.olv.SelectionChanged += new EventHandler(olv_SelectionChanged);
@@ -101,7 +101,7 @@ namespace BrightIdeasSoftware.Tests
 			this.olv.SelectionChanged -= new EventHandler(olv_SelectionChanged);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestSelectionEvents()
 		{
 			countSelectedIndexChanged = 0;
@@ -148,7 +148,7 @@ namespace BrightIdeasSoftware.Tests
 		protected ObjectListView olv;
 	}
 
-	[TestFixture]
+	[TestClass]
 	public class TestFastOlvSelection : TestOlvSelection
 	{
 		[TestFixtureSetUp]
@@ -158,7 +158,7 @@ namespace BrightIdeasSoftware.Tests
 		}
 	}
 
-	[TestFixture]
+	[TestClass]
 	public class TestTreeListViewSelection : TestOlvSelection
 	{
 		[TestFixtureSetUp]
@@ -176,7 +176,7 @@ namespace BrightIdeasSoftware.Tests
 		}
 		private TreeListView treeListView;
 
-		[Test]
+		[TestMethod]
 		public void TestCollapseExpandShouldNotRaiseSelectionChangedEvents()
 		{
 			this.olv.SelectedObjects = PersonDb.All;

@@ -68,11 +68,13 @@ namespace BrightIdeasSoftware.Tests
 		// Base line: Elapsed time:  442ms 2010-08-10 New SimpleMunger implementation
 
 		[STAThread]
-		private static void Main(String[] args) {
+		private static void Main(String[] args)
+		{
 			GenerateDocs();
 		}
 
-		static void GenerateDocs() {
+		static void GenerateDocs()
+		{
 			StringBuilder sb = new StringBuilder();
 
 			sb.AppendLine("");
@@ -127,13 +129,11 @@ namespace BrightIdeasSoftware.Tests
 			Clipboard.SetText(sb.ToString());
 		}
 
-		static bool IsStatic(PropertyInfo prop) {
-			if (prop.GetGetMethod() == null)
-				return false;
-			return prop.GetGetMethod().IsStatic;
-		}
+		static Boolean IsStatic(PropertyInfo prop)
+			=> prop.GetGetMethod()?.IsStatic ?? false;
 
-		static void GenerateDocs(Type type, StringBuilder sb) {
+		static void GenerateDocs(Type type, StringBuilder sb)
+		{
 
 			sb.AppendLine("");
 			sb.AppendLine(type.Name);
@@ -144,18 +144,22 @@ namespace BrightIdeasSoftware.Tests
 			GenerateMethodsDocs(type, sb);
 		}
 
-		static void GeneratePropertiesDocs(Type type, StringBuilder sb) {
+		static void GeneratePropertiesDocs(Type type, StringBuilder sb)
+		{
 
 			List<PropertyInfo> properties = new List<PropertyInfo>(type.GetProperties(
 				BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly
 			));
-			if (properties.Count == 0)
+			if(properties.Count == 0)
 				return;
 
-			properties.Sort(delegate(PropertyInfo x, PropertyInfo y) {
-				if (IsStatic(x) == IsStatic(y)) {
+			properties.Sort(delegate (PropertyInfo x, PropertyInfo y)
+			{
+				if(IsStatic(x) == IsStatic(y))
+				{
 					return x.Name.CompareTo(y.Name);
-				} else {
+				} else
+				{
 					return IsStatic(x) ? -1 : 1;
 				}
 			});
@@ -167,35 +171,36 @@ namespace BrightIdeasSoftware.Tests
 			List<String[]> values = new List<String[]>();
 			values.Add(new String[] { "*Name*", "*Info*", "*Description*" });
 
-			foreach (PropertyInfo pinfo in properties) {
+			foreach(PropertyInfo pinfo in properties)
+			{
 
 				values.Add(new String[] { }); // marks a new entry
 				DescriptionAttribute descAttr = Attribute.GetCustomAttribute(pinfo, typeof(DescriptionAttribute)) as DescriptionAttribute;
 				//OLVDocAttribute docAttr = Attribute.GetCustomAttribute(pinfo, typeof(OLVDocAttribute)) as OLVDocAttribute;
-				values.Add(new String[] {                 
+				values.Add(new String[] {
 						GetName(pinfo),
 						String.Format("* Type: {0}",  GetTypeName(pinfo.PropertyType)),
 						(descAttr == null ? "" : descAttr.Description)
 					});
 				DefaultValueAttribute defaultValueAttr = Attribute.GetCustomAttribute(pinfo, typeof(DefaultValueAttribute)) as DefaultValueAttribute;
-				if (defaultValueAttr != null)
-					values.Add(new String[] {                 
+				if(defaultValueAttr != null)
+					values.Add(new String[] {
 							String.Empty,
 							String.Format("* Default: {0}",  Convert.ToString(defaultValueAttr.Value)),
 							String.Empty
 						});
 				CategoryAttribute categoryAttr = Attribute.GetCustomAttribute(pinfo, typeof(CategoryAttribute)) as CategoryAttribute;
-				values.Add(new String[] {                 
+				values.Add(new String[] {
 						String.Empty,
 						String.Format("* IDE?: {0}",  (categoryAttr == null || categoryAttr.Category != "ObjectListView" ? "No" : "Yes")),
 						String.Empty
 					});
-				values.Add(new String[] {                 
+				values.Add(new String[] {
 						String.Empty,
 						String.Format("* Access: {0}",  GetAccessLevel(pinfo)),
 						String.Empty
 					});
-				values.Add(new String[] {                 
+				values.Add(new String[] {
 						String.Empty,
 						String.Format("* Writeable: {0}",  (pinfo.CanWrite ? "Read-Write" : "Read")),
 						String.Empty
@@ -206,14 +211,16 @@ namespace BrightIdeasSoftware.Tests
 		}
 
 
-		static void GenerateEventsDocs(Type type, StringBuilder sb) {
+		static void GenerateEventsDocs(Type type, StringBuilder sb)
+		{
 			List<EventInfo> events = new List<EventInfo>(type.GetEvents(
 				BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly
 			));
-			if (events.Count == 0)
+			if(events.Count == 0)
 				return;
 
-			events.Sort(delegate(EventInfo x, EventInfo y) {
+			events.Sort(delegate (EventInfo x, EventInfo y)
+			{
 				return x.Name.CompareTo(y.Name);
 			});
 
@@ -223,10 +230,11 @@ namespace BrightIdeasSoftware.Tests
 
 			List<String[]> values = new List<String[]>();
 			values.Add(new String[] { "*Name*", "*Parameters*", "*Description*" });
-			foreach (EventInfo einfo in events) {
+			foreach(EventInfo einfo in events)
+			{
 				values.Add(new String[] { }); // marks a new entry
 				DescriptionAttribute descAttr = Attribute.GetCustomAttribute(einfo, typeof(DescriptionAttribute)) as DescriptionAttribute;
-				values.Add(new String[] {                 
+				values.Add(new String[] {
 						einfo.Name,
 						GetTypeName(einfo.EventHandlerType),
 						(descAttr == null ? "" : descAttr.Description)
@@ -274,9 +282,10 @@ namespace BrightIdeasSoftware.Tests
 			GenerateTable(sb, values);
 		}
 
-		private static String GetName(PropertyInfo pinfo) {
+		private static String GetName(PropertyInfo pinfo)
+		{
 			String name = pinfo.Name;
-			
+
 			// Some name are so long they make the formatting strange.
 			List<String[]> pairs = new List<String[]>(new String[][] {
 				new String[] { "GroupWithItemCountSingularFormatOrDefault", "GroupWithItemCountSingularFormat OrDefault" },
@@ -284,30 +293,33 @@ namespace BrightIdeasSoftware.Tests
 				new String[] { "UpdateSpaceFillingColumnsWhenDraggingColumnDivider", "UpdateSpaceFillingColumnsWhenDragging ColumnDivider" },
 				new String[] { "UnfocusedSelectedForeColorOrDefault", "UnfocusedHighlightForegroundColorOr Default" },
 				new String[] { "UnfocusedSelectedBackColorOrDefault", "UnfocusedHighlightBackgroundColorOr Default" }
-			
+
 			});
 
-			foreach (String[] pair in pairs) {
-				if (name == pair[0]) {
+			foreach(String[] pair in pairs)
+			{
+				if(name == pair[0])
+				{
 					name = pair[1];
 					break;
 				}
 			}
 
-			if (IsStatic(pinfo)) 
+			if(IsStatic(pinfo))
 				name += " (static)";
 
 			return name;
 		}
 
-		private static String GetTypeName(Type type) {
+		private static String GetTypeName(Type type)
+		{
 			//System.EventHandler`1[[BrightIdeasSoftware.CreateGroupsEventArgs, ObjectListView, Version=2.4.1.15087, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4]]"
 			Match eventHandlerMatch = Regex.Match(type.FullName, @"EventHandler.*\[.*?\.(.*?),");
-			if (eventHandlerMatch.Success)
+			if(eventHandlerMatch.Success)
 				return eventHandlerMatch.Groups[1].Value;
-			
+
 			Match genericTypeMatch = Regex.Match(type.FullName, @"\.([^.]+?)`1\[\[.+?\.(.+?),");
-			if (genericTypeMatch.Success)
+			if(genericTypeMatch.Success)
 				return String.Format("{0}<{1}>", genericTypeMatch.Groups[1].Value, genericTypeMatch.Groups[2].Value);
 
 
@@ -321,50 +333,57 @@ namespace BrightIdeasSoftware.Tests
 				? String.Empty
 				: attr.Value.ToString();
 
-		
-		private static String GetAccessLevel(PropertyInfo pinfo) {
-			return GetAccessLevel(pinfo.GetGetMethod(true) ?? pinfo.GetSetMethod(true));
+
+		private static String GetAccessLevel(PropertyInfo pInfo)
+		{
+			return GetAccessLevel(pInfo.GetGetMethod(true) ?? pInfo.GetSetMethod(true));
 		}
 
-		private static String GetAccessLevel(MethodInfo minfo) {
-			if (minfo == null)
+		private static String GetAccessLevel(MethodInfo mInfo)
+		{
+			if(mInfo == null)
 				return String.Empty;
 
 			StringBuilder sb = new StringBuilder();
-			MethodAttributes attrs = minfo.Attributes;
-			if ((attrs & MethodAttributes.NewSlot) == MethodAttributes.NewSlot) {
-				if (minfo != minfo.GetBaseDefinition())
+			MethodAttributes attrs = mInfo.Attributes;
+			if((attrs & MethodAttributes.NewSlot) == MethodAttributes.NewSlot)
+			{
+				if(mInfo != mInfo.GetBaseDefinition())
 					sb.Append("new ");
 			}
 
-			if ((attrs & MethodAttributes.Public) == MethodAttributes.Public)
+			if((attrs & MethodAttributes.Public) == MethodAttributes.Public)
 				sb.Append("public");
-			else if ((attrs & MethodAttributes.FamANDAssem) == MethodAttributes.FamANDAssem)
+			else if((attrs & MethodAttributes.FamANDAssem) == MethodAttributes.FamANDAssem)
 				sb.Append("internal");
-			else if ((attrs & MethodAttributes.Family) == MethodAttributes.Family)
+			else if((attrs & MethodAttributes.Family) == MethodAttributes.Family)
 				sb.Append("protected");
-			else if ((attrs & MethodAttributes.Private) == MethodAttributes.Private)
+			else if((attrs & MethodAttributes.Private) == MethodAttributes.Private)
 				sb.Append("private");
 
-			if ((attrs & MethodAttributes.Virtual) == MethodAttributes.Virtual)
+			if((attrs & MethodAttributes.Virtual) == MethodAttributes.Virtual)
 				sb.Append(" virtual");
 
 			return sb.ToString();
 		}
 
-		private static void GenerateTable(StringBuilder sb, List<String[]> values) {
-			int[] valueMaxLength = new int[values[0].Length];
-			foreach (String[] value in values) {
-				for (int i = 0; i < value.Length; i++) {
-						valueMaxLength[i] = Math.Max(valueMaxLength[i], value[i].Length);
+		private static void GenerateTable(StringBuilder sb, List<String[]> values)
+		{
+			Int32[] valueMaxLength = new Int32[values[0].Length];
+			foreach(String[] value in values)
+			{
+				for(Int32 i = 0; i < value.Length; i++)
+				{
+					valueMaxLength[i] = Math.Max(valueMaxLength[i], value[i].Length);
 				}
 			}
-			for (int i = 0; i < valueMaxLength.Length; i++)
-				valueMaxLength[i] = Math.Max(20, valueMaxLength[i]+2);
+			for(Int32 i = 0; i < valueMaxLength.Length; i++)
+				valueMaxLength[i] = Math.Max(20, valueMaxLength[i] + 2);
 
 			String titleDivider = "";
 			String rowDivider = "";
-			for (int i = 0; i < valueMaxLength.Length; i++) {
+			for(Int32 i = 0; i < valueMaxLength.Length; i++)
+			{
 				titleDivider += new String('=', valueMaxLength[i]) + " ";
 				rowDivider += new String('-', valueMaxLength[i]) + " ";
 			}
@@ -373,15 +392,19 @@ namespace BrightIdeasSoftware.Tests
 			sb.AppendLine(titleDivider);
 
 			// Print rows
-			int rowCount = 0;
-			foreach (String[] value in values) {
-				if (value.Length == 0) {
-					if (rowCount <= 1)
+			Int32 rowCount = 0;
+			foreach(String[] value in values)
+			{
+				if(value.Length == 0)
+				{
+					if(rowCount <= 1)
 						sb.AppendLine(titleDivider);
 					else
 						sb.AppendLine(rowDivider);
-				} else {
-					for (int i = 0; i < value.Length; i++) {
+				} else
+				{
+					for(Int32 i = 0; i < value.Length; i++)
+					{
 						String formatString = String.Format("{0}0,-{1}{2} ", "{", valueMaxLength[i], "}");
 						sb.AppendFormat(formatString, value[i]);
 					}
@@ -392,10 +415,12 @@ namespace BrightIdeasSoftware.Tests
 			sb.AppendLine(titleDivider);
 		}
 
-		private static String MakeParameterList(MethodInfo info) {
+		private static String MakeParameterList(MethodInfo info)
+		{
 			StringBuilder sb = new StringBuilder();
 
-			foreach (ParameterInfo parameter in info.GetParameters()) {
+			foreach(ParameterInfo parameter in info.GetParameters())
+			{
 				sb.Append(GetTypeName(parameter.ParameterType));
 				sb.Append(" ");
 				sb.Append(parameter.Name);
@@ -403,7 +428,7 @@ namespace BrightIdeasSoftware.Tests
 			}
 
 			// remove trailing comma and space
-			if (sb.Length > 2)
+			if(sb.Length > 2)
 				sb.Length -= 2;
 
 			return sb.ToString();

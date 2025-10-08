@@ -76,7 +76,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Reflection;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
@@ -360,8 +359,8 @@ namespace BrightIdeasSoftware
 				// Get around the 'private' marker on 'virtualListSize' field using reflection
 				if(_virtualListSizeFieldInfo == null)
 				{
-					_virtualListSizeFieldInfo = typeof(ListView).GetField("_virtualListSize", BindingFlags.NonPublic | BindingFlags.Instance)
-						?? typeof(ListView).GetField("virtualListSize", BindingFlags.NonPublic | BindingFlags.Instance);//.NET 7 Fix
+					_virtualListSizeFieldInfo = typeof(ListView).GetField("_virtualListSize", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+						?? typeof(ListView).GetField("virtualListSize", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);//.NET 7+ Fix
 
 					Debug.Assert(_virtualListSizeFieldInfo != null);
 				}
@@ -374,7 +373,7 @@ namespace BrightIdeasSoftware
 					NativeMethods.SetItemCount(this, value);
 			}
 		}
-		private static FieldInfo _virtualListSizeFieldInfo;
+		private static System.Reflection.FieldInfo _virtualListSizeFieldInfo;
 
 		#endregion
 
@@ -393,7 +392,7 @@ namespace BrightIdeasSoftware
 				? this.VirtualListDataSource.GetNthObject(index)
 				: null;
 
-		/// <summary>Find the given model Object within the listview and return its index</summary>
+		/// <summary>Find the given model Object within the ListView and return its index</summary>
 		/// <param name="modelObject">The model Object to be found</param>
 		/// <returns>The index of the Object. -1 means the Object was not present</returns>
 		public override Int32 IndexOf(Object modelObject)
@@ -462,7 +461,7 @@ namespace BrightIdeasSoftware
 			}
 		}
 
-		/// <summary>Scroll the listview so that the given group is at the top.</summary>
+		/// <summary>Scroll the ListView so that the given group is at the top.</summary>
 		/// <param name="groupIndex">The index of the group to be revealed</param>
 		/// <remarks><para>
 		/// If the group is already visible, the list will still be scrolled to move
@@ -766,6 +765,7 @@ namespace BrightIdeasSoftware
 		#region Implementation
 
 		/// <summary>Rebuild the list with its current contents.</summary>
+		/// <param name="shouldPreserveSelection"></param>
 		/// <remarks>Invalidate any cached information when we rebuild the list.</remarks>
 		public override void BuildList(Boolean shouldPreserveSelection)
 		{

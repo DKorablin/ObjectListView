@@ -158,13 +158,13 @@ namespace BrightIdeasSoftware.Design
 			// before you modify the properties collection.
 			base.PreFilterProperties(properties);
 
-			// Give the listviewdesigner a chance to filter the properties
+			// Give the ListViewDesigner a chance to filter the properties
 			// (though we already know it's not going to do anything)
 			this._designerFilter.PreFilterProperties(properties);
 
 			// I'd like to just remove the redundant properties, but that would
-			// break backward compatibility. The deserialiser that handles the XXX.Designer.cs file
-			// works off the designer, so even if the property exists in the class, the deserialiser will
+			// break backward compatibility. The Deserialiser that handles the XXX.Designer.cs file
+			// works off the designer, so even if the property exists in the class, the Deserialiser will
 			// throw an error if the associated designer actually removes that property.
 			// So we shadow the unwanted properties, and give the replacement properties
 			// non-browsable attributes so that they are hidden from the user

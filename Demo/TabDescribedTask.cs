@@ -16,8 +16,7 @@ namespace ObjectListViewDemo
 
 		protected override void InitializeTab()
 		{
-
-			this.SetupDescibedTaskColumn();
+			this.SetupDescribedTaskColumn();
 			this.SetupColumns();
 			this.SetupColumnWithButton();
 
@@ -72,7 +71,7 @@ namespace ObjectListViewDemo
 			};
 		}
 
-		private void SetupDescibedTaskColumn()
+		private void SetupDescribedTaskColumn()
 		{
 			// Setup a described task renderer, which draws a large icon
 			// with a title, and a description under the title.
@@ -148,7 +147,7 @@ namespace ObjectListViewDemo
 			{
 				// Give the renderer its own collection of images.
 				// If this isn't set, the renderer will use the SmallImageList from the ObjectListView.
-				// (this is standard Renderer behaviour, not specific to DescribedTaskRenderer).
+				// (this is standard Renderer behavior, not specific to DescribedTaskRenderer).
 				ImageList = this.imageListTasks,
 
 				// Tell the renderer which property holds the text to be used as a description
@@ -163,7 +162,7 @@ namespace ObjectListViewDemo
 				// Use older Gdi rendering, since most people think the text looks clearer
 				UseGdiTextRendering = true,
 
-				// If you like colours other than black and grey, you could uncomment these
+				// If you like colors other than black and grey, you could uncomment these
 				//            renderer.TitleColor = Color.DarkBlue;
 				//            renderer.DescriptionColor = Color.CornflowerBlue;
 			};
@@ -276,7 +275,7 @@ namespace ObjectListViewDemo
 				this.Status = ServiceTask.TaskStatus.NotStarted;
 				break;
 			default:
-				throw new ArgumentOutOfRangeException();
+				throw new NotSupportedException();
 			}
 		}
 	}

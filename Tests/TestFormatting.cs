@@ -10,11 +10,11 @@
 
 using System;
 using System.Drawing;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BrightIdeasSoftware.Tests
 {
-	[TestFixture]
+	[TestClass]
 	public class TestOlvFormatting
 	{
 		[SetUp]
@@ -28,26 +28,26 @@ namespace BrightIdeasSoftware.Tests
 				column.Hyperlink = false;
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestNoFormatting()
 		{
 			this.olv.HyperlinkStyle = null;
 			this.olv.SetObjects(PersonDb.All);
-			for(int i = 0; i < this.olv.GetItemCount(); i++)
+			for(Int32 i = 0; i < this.olv.GetItemCount(); i++)
 			{
 				Assert.AreEqual(this.olv.ForeColor, this.olv.GetItem(i).ForeColor);
 				Assert.AreEqual(this.olv.BackColor, this.olv.GetItem(i).BackColor);
 			}
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestAlternateBackColors()
 		{
 			this.olv.UseAlternatingBackColors = true;
 			this.olv.AlternateRowBackColor = Color.Pink;
 
 			this.olv.SetObjects(PersonDb.All);
-			for(int i = 0; i < this.olv.GetItemCount(); i++)
+			for(Int32 i = 0; i < this.olv.GetItemCount(); i++)
 			{
 				if((i % 2) == 0)
 					Assert.AreEqual(this.olv.BackColor, this.olv.GetItem(i).BackColor);
@@ -56,7 +56,7 @@ namespace BrightIdeasSoftware.Tests
 			}
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestRowFormatter()
 		{
 			Color testForeColor = Color.Yellow;
@@ -68,19 +68,21 @@ namespace BrightIdeasSoftware.Tests
 				olvi.BackColor = testBackColor;
 			};
 			this.olv.SetObjects(PersonDb.All);
-			for(int i = 0; i < this.olv.GetItemCount(); i++)
+
+			for(Int32 i = 0; i < this.olv.GetItemCount(); i++)
 			{
 				Assert.AreEqual(testForeColor, this.olv.GetItem(i).ForeColor);
 				Assert.AreEqual(testBackColor, this.olv.GetItem(i).BackColor);
 			}
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestFormatRowEvent()
 		{
 			this.olv.FormatRow += new EventHandler<FormatRowEventArgs>(olv_FormatRow1);
 			this.olv.SetObjects(PersonDb.All);
-			for(int i = 0; i < this.olv.GetItemCount(); i++)
+
+			for(Int32 i = 0; i < this.olv.GetItemCount(); i++)
 			{
 				Assert.AreEqual(this.testForeColor, this.olv.GetItem(i).ForeColor);
 				Assert.AreEqual(this.testBackColor, this.olv.GetItem(i).BackColor);
@@ -96,7 +98,7 @@ namespace BrightIdeasSoftware.Tests
 			e.Item.BackColor = this.testBackColor;
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestFormatCellEvent()
 		{
 			this.olv.FormatRow += new EventHandler<FormatRowEventArgs>(olv_FormatRow2);
@@ -132,11 +134,9 @@ namespace BrightIdeasSoftware.Tests
 		}
 
 		void olv_FormatRow2(Object sender, FormatRowEventArgs e)
-		{
-			e.UseCellFormatEvents = (e.RowIndex % 2 == 0);
-		}
+			=> e.UseCellFormatEvents = (e.RowIndex % 2 == 0);
 
-		[Test]
+		[TestMethod]
 		public void TestFormatRowAndCell_CellTakesPriority()
 		{
 			Color formatCellForeground = Color.PaleGoldenrod;
@@ -159,9 +159,9 @@ namespace BrightIdeasSoftware.Tests
 
 			this.olv.SetObjects(PersonDb.All);
 
-			for(int i = 0; i < this.olv.GetItemCount(); i++)
+			for(Int32 i = 0; i < this.olv.GetItemCount(); i++)
 			{
-				for(int j = 0; j < this.olv.Columns.Count; j++)
+				for(Int32 j = 0; j < this.olv.Columns.Count; j++)
 				{
 					Assert.AreEqual(formatCellForeground, this.olv.GetItem(i).SubItems[j].ForeColor);
 					Assert.AreEqual(formatRowBackground, this.olv.GetItem(i).SubItems[j].BackColor);
@@ -172,7 +172,7 @@ namespace BrightIdeasSoftware.Tests
 		}
 
 
-		[Test]
+		[TestMethod]
 		public void TestHyperlinks()
 		{
 			this.olv.UseHyperlinks = true;
@@ -187,10 +187,10 @@ namespace BrightIdeasSoftware.Tests
 			}
 
 			this.olv.SetObjects(PersonDb.All);
-			for(int j = 0; j < this.olv.GetItemCount(); j++)
+			for(Int32 j = 0; j < this.olv.GetItemCount(); j++)
 			{
 				OLVListItem item = this.olv.GetItem(j);
-				for(int i = 0; i < this.olv.Columns.Count; i++)
+				for(Int32 i = 0; i < this.olv.Columns.Count; i++)
 				{
 					OLVColumn column = this.olv.GetColumn(i);
 					if(column.Hyperlink)
@@ -208,7 +208,7 @@ namespace BrightIdeasSoftware.Tests
 			}
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestHyperlinksAndFormatCell_HyperlinkHasPriority()
 		{
 			Color hyperlinkForeground = Color.Thistle;
@@ -264,7 +264,7 @@ namespace BrightIdeasSoftware.Tests
 		protected ObjectListView olv;
 	}
 
-	[TestFixture]
+	[TestClass]
 	public class TestFastOlvFormatting : TestOlvFormatting
 	{
 		[TestFixtureSetUp]
@@ -274,7 +274,7 @@ namespace BrightIdeasSoftware.Tests
 		}
 	}
 
-	[TestFixture]
+	[TestClass]
 	public class TestTreeListViewFormatting : TestOlvFormatting
 	{
 		[TestFixtureSetUp]

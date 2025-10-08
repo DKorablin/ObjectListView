@@ -11,14 +11,14 @@
 using System;
 using System.Collections;
 using System.Windows.Forms;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BrightIdeasSoftware.Tests
 {
-	[TestFixture]
+	[TestClass]
 	public class TestSorting
 	{
-		[SetUp]
+		[TestInitialize]
 		public void InitEachTest()
 		{
 			this.olv.LastSortColumn = null;
@@ -26,17 +26,17 @@ namespace BrightIdeasSoftware.Tests
 			this.olv.SetObjects(PersonDb.All);
 		}
 
-		[TearDown]
+		[TestCleanup]
 		public void TearDownEachTest()
 		{
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestInitialConditions()
 		{
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestSecondarySorting()
 		{
 			this.olv.SecondarySortColumn = this.olv.GetColumn(0);
@@ -50,7 +50,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(PersonDb.FirstAlphabeticalName, ((Person)this.olv.GetModelObject(0)).Name);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestSortingByStringColumn()
 		{
 			this.olv.Sort(this.olv.GetColumn(0), SortOrder.Ascending);
@@ -59,7 +59,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(PersonDb.LastAlphabeticalName, ((Person)this.olv.GetModelObject(0)).Name);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestSortingByIntColumn()
 		{
 			OLVColumn columnToSort = this.olv.GetColumn(2);
@@ -69,7 +69,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(PersonDb.All[0].Name, ((Person)this.olv.GetModelObject(0)).Name);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestNoSorting()
 		{
 			ArrayList beforeContents = GetContents();
@@ -93,7 +93,7 @@ namespace BrightIdeasSoftware.Tests
 			return contents;
 		}
 
-		[Test]
+		[TestMethod]
 		virtual public void TestCustomSorting()
 		{
 			this.olv.Sort(this.olv.GetColumn(0), SortOrder.Ascending);
@@ -113,7 +113,7 @@ namespace BrightIdeasSoftware.Tests
 			}
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestAfterSortingEvent()
 		{
 			try
@@ -136,7 +136,7 @@ namespace BrightIdeasSoftware.Tests
 			this.afterSortingCount++;
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestBeforeSortingEvent()
 		{
 			try
@@ -161,7 +161,7 @@ namespace BrightIdeasSoftware.Tests
 			e.SortOrder = SortOrder.Descending;
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCancelSorting()
 		{
 			this.olv.Sort(this.olv.GetColumn(0), SortOrder.Descending);
@@ -188,7 +188,7 @@ namespace BrightIdeasSoftware.Tests
 			e.Canceled = true;
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestPreserveSelection()
 		{
 			this.olv.SelectedObject = PersonDb.All[0];
@@ -196,7 +196,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(PersonDb.All[0], this.olv.SelectedObject);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestPreserveSelectionMultiple()
 		{
 			this.olv.SelectedObjects = PersonDb.All;
@@ -206,7 +206,7 @@ namespace BrightIdeasSoftware.Tests
 				Assert.Contains(x, PersonDb.All);
 		}
 
-		[Test]
+		[TestMethod]
 		virtual public void TestUnsort()
 		{
 			this.olv.Sort(this.olv.GetColumn(0), SortOrder.Ascending);
@@ -225,15 +225,15 @@ namespace BrightIdeasSoftware.Tests
 		protected ObjectListView olv;
 	}
 
-	[TestFixture]
+	[TestClass]
 	public class TestFastOlvSorting : TestSorting
 	{
-		[Test]
+		[TestMethod]
 		override public void TestCustomSorting()
 		{
 		}
 
-		[Test]
+		[TestMethod]
 		override public void TestUnsort()
 		{
 			// FastObjectListViews don't really support Unsort()

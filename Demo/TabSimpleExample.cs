@@ -2,8 +2,6 @@
 using System.Drawing;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
-using ObjectListViewDemo.Models;
-using ObjectListViewDemo.Properties;
 
 namespace ObjectListViewDemo
 {

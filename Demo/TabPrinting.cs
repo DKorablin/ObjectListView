@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using BrightIdeasSoftware;
-using ObjectListViewDemo.Properties;
 
 namespace ObjectListViewDemo
 {

@@ -31,9 +31,9 @@ namespace ObjectListViewDemo
 		private void SetupCellFormatting()
 		{
 
-			// Setup cell formatting so that any cell that contains of the following colours
-			// will have a foreground text of the same colour. If you prefix the colour with
-			// "bk-" the colour will be applied to the background instead.
+			// Setup cell formatting so that any cell that contains of the following colors
+			// will have a foreground text of the same color. If you prefix the color with
+			// "bk-" the color will be applied to the background instead.
 			// Similarly, if the text contains "bold", "italic", "underline" or "strikeout"...
 			// well... you get the picture :)
 

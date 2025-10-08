@@ -8,28 +8,27 @@
  * 10/25/2008 JPP  Initial Version
  */
 
-using System;
 using System.Drawing;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BrightIdeasSoftware.Tests
 {
-	[SetUpFixture]
+	[TestClass]
 	public class MyGlobals
 	{
-		[SetUp]
-		public void RunBeforeAnyTests()
+		[AssemblyInitialize]
+		public static void RunBeforeAnyTests(TestContext context)
 		{
-			MyGlobals.mainForm = new MainForm();
-			MyGlobals.mainForm.Size = new Size();
-			MyGlobals.mainForm.Show();
+			mainForm = new MainForm();
+			mainForm.Size = new Size();
+			mainForm.Show();
 		}
 		public static MainForm mainForm;
 
-		[TearDown]
-		public void RunAfterAnyTests()
+		[AssemblyCleanup]
+		public static void RunAfterAnyTests()
 		{
-			MyGlobals.mainForm.Close();
+			mainForm?.Close();
 		}
 	}
 }

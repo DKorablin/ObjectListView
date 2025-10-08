@@ -101,16 +101,16 @@ namespace ListViewPrinterDemo
 			this.listViewPrinter1.IsListHeaderOnEachPage = this.cbListHeaderOnEveryPage.Checked;
 			this.listViewPrinter1.IsPrintSelectionOnly = this.cbPrintSelection.Checked;
 
-			if(this.rbStyleMinimal.Checked == true)
+			if(this.rbStyleMinimal.Checked)
 				this.ApplyMinimalFormatting();
-			else if(this.rbStyleModern.Checked == true)
+			else if(this.rbStyleModern.Checked)
 				this.ApplyModernFormatting();
-			else if(this.rbStyleOTT.Checked == true)
+			else if(this.rbStyleOTT.Checked)
 				this.ApplyOverTheTopFormatting();
-			else if(this.rbStyleCustom.Checked == true)
+			else if(this.rbStyleCustom.Checked)
 				this.ApplyCustomFormatting();
 
-			if(this.cbUseGridLines.Checked == false)
+			if(!this.cbUseGridLines.Checked)
 				this.listViewPrinter1.ListGridPen = null;
 
 			//this.listViewPrinter1.FirstPage = (int)this.numericUpDown1.Value;

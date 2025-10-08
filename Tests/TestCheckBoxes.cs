@@ -11,11 +11,11 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BrightIdeasSoftware.Tests
 {
-	[TestFixture]
+	[TestClass]
 	public class TestOlvCheckBoxes
 	{
 		[SetUp]
@@ -53,7 +53,7 @@ namespace BrightIdeasSoftware.Tests
 		protected MainForm mainForm;
 		protected ObjectListView olv;
 
-		[Test]
+		[TestMethod]
 		public void TestCheckObject()
 		{
 			Person p = PersonDb.All[1];
@@ -65,7 +65,7 @@ namespace BrightIdeasSoftware.Tests
 
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCheckIndeterminateObject()
 		{
 			this.olv.TriStateCheckBoxes = true;
@@ -77,7 +77,7 @@ namespace BrightIdeasSoftware.Tests
 
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestUncheckObject()
 		{
 			Person p = PersonDb.All[1];
@@ -88,7 +88,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(CheckState.Unchecked, this.olv.ModelToItem(p).CheckState);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestToggleCheckObject()
 		{
 			this.olv.ToggleCheckObject(PersonDb.All[1]);
@@ -97,14 +97,14 @@ namespace BrightIdeasSoftware.Tests
 			Assert.IsFalse(this.olv.IsChecked(PersonDb.All[1]));
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCheckedObject()
 		{
 			this.olv.CheckedObject = PersonDb.All[1];
 			Assert.AreEqual(PersonDb.All[1], this.olv.CheckedObject);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCheckedObjects()
 		{
 			this.olv.CheckedObjects = PersonDb.All;
@@ -113,7 +113,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(PersonDb.All.Count, this.olv.CheckedObjects.Count);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCheckStateGetter()
 		{
 			this.olv.TriStateCheckBoxes = true;
@@ -144,7 +144,7 @@ namespace BrightIdeasSoftware.Tests
 			}
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestBooleanCheckStateGetter()
 		{
 			this.olv.BooleanCheckStateGetter = x => x == PersonDb.All[1];
@@ -163,7 +163,7 @@ namespace BrightIdeasSoftware.Tests
 			}
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCheckStatePutter()
 		{
 			this.olv.CheckStateGetter = delegate (Object x)
@@ -202,7 +202,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.IsFalse(person.IsActive.Value);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCheckStatePutterWithDifferentReturnValue()
 		{
 			this.olv.CheckStatePutter = delegate (Object x, CheckState state)
@@ -235,7 +235,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(CheckState.Unchecked, this.olv.ModelToItem(PersonDb.All[1]).CheckState);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestItemCheckEvent()
 		{
 			this.olv.TriStateCheckBoxes = true;
@@ -274,7 +274,7 @@ namespace BrightIdeasSoftware.Tests
 			this.stateInEvent = e.NewValue;
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestSpaceBar()
 		{
 			// For some reason, SendKeys doesn't work here
@@ -285,7 +285,7 @@ namespace BrightIdeasSoftware.Tests
 			//Assert.AreEqual(this.olv.GetItemCount(), this.olv.CheckedObjects.Count);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCheckedAspectName()
 		{
 			foreach(Person p in PersonDb.All)
@@ -303,7 +303,7 @@ namespace BrightIdeasSoftware.Tests
 			this.olv.CheckedAspectName = null;
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestSubItemCheckBox()
 		{
 			PersonDb.All[0].IsActive = true;
@@ -322,7 +322,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.IsTrue(this.olv.IsSubItemChecked(PersonDb.All[1], column));
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCheckBoxPersistent()
 		{
 			this.olv.PersistentCheckBoxes = true;
@@ -334,7 +334,7 @@ namespace BrightIdeasSoftware.Tests
 			this.olv.PersistentCheckBoxes = false;
 		}
 
-		[Test]
+		[TestMethod]
 		public virtual void TestCheckBoxFiltering()
 		{
 			// Make sure that persistent check boxes work when we have a filter
@@ -354,7 +354,7 @@ namespace BrightIdeasSoftware.Tests
 			this.olv.UseFiltering = false;
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestSubItemCheckBoxFiltering()
 		{
 			// Make sure that check boxes work when we have a filter
@@ -364,14 +364,14 @@ namespace BrightIdeasSoftware.Tests
 		}
 	}
 
-	[TestFixture]
+	[TestClass]
 	public class TestFastOlvCheckBoxes : TestOlvCheckBoxes
 	{
 		protected override ObjectListView GetObjectListView()
 			=> mainForm.fastObjectListView1;
 	}
 
-	[TestFixture]
+	[TestClass]
 	public class TestTreeListViewCheckBoxes : TestOlvCheckBoxes
 	{
 		protected override ObjectListView GetObjectListView()
@@ -381,6 +381,5 @@ namespace BrightIdeasSoftware.Tests
 		{
 			// CheckBoxes and filtering interact differently on a TreeListView
 		}
-
 	}
 }

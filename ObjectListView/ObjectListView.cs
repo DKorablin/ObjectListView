@@ -596,7 +596,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
@@ -5367,11 +5366,11 @@ namespace BrightIdeasSoftware
 			case CDDS_SUBITEMPREPAINT:
 				//System.Diagnostics.Debug.WriteLine(String.Format("CDDS_SUBITEMPREPAINT ({0},{1})", (int)nmcustomdraw.nmcd.dwItemSpec, nmcustomdraw.iSubItem));
 
-				// There is a bug in the .NET framework which appears when column 0 of an owner drawn listview
+				// There is a bug in the .NET framework which appears when column 0 of an owner drawn ListView
 				// is dragged to another column position.
 				// The bounds calculation always returns the left edge of column 0 as being 0.
 				// The effects of this bug become apparent
-				// when the listview is scrolled horizontally: the control can think that column 0
+				// when the ListView is scrolled horizontally: the control can think that column 0
 				// is no longer visible (the horizontal scroll position is subtracted from the bounds, giving a
 				// rectangle that is offscreen). In those circumstances, column 0 is not redraw because
 				// the control thinks it is not visible and so does not trigger a DrawSubItem event.
@@ -6375,12 +6374,6 @@ namespace BrightIdeasSoftware
 
 			return m;
 		}
-
-		/// <summary>The user has right clicked on the column headers. Do whatever is required</summary>
-		/// <returns>Return true if this event has been handle</returns>
-		[Obsolete("Use HandleHeaderRightClick(int) instead")]
-		protected virtual Boolean HandleHeaderRightClick()
-			=> false;
 
 		/// <summary>Show a popup menu at the given point which will allow the user to choose which columns are visible on this listview</summary>
 		/// <param name="pt">Where should the menu be placed</param>
@@ -8941,7 +8934,7 @@ namespace BrightIdeasSoftware
 
 			try
 			{
-				return control.GetType().InvokeMember("Value", BindingFlags.GetProperty, null, control, null);
+				return control.GetType().InvokeMember("Value", System.Reflection.BindingFlags.GetProperty, null, control, null);
 			} catch(MissingMethodException)
 			{ // Microsoft throws this
 				return control.Text;

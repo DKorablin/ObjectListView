@@ -6,7 +6,6 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
-using ObjectListViewDemo.Models;
 
 namespace ObjectListViewDemo
 {

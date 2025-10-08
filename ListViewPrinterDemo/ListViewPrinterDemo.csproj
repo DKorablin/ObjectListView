@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net35;net8.0-windows</TargetFrameworks>
+		<TargetFrameworks>net48;net8.0-windows</TargetFrameworks>
 		<UseWindowsForms>true</UseWindowsForms>
-		<OutputType>Library</OutputType>
-		<RootNamespace>BrightIdeasSoftware</RootNamespace>
+		<OutputType>WinExe</OutputType>
+		<RootNamespace>ListViewPrinterDemo</RootNamespace>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<Configuration>Debug</Configuration>
 		<Deterministic>false</Deterministic>
@@ -17,12 +17,17 @@
 		<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="SonarAnalyzer.CSharp" />
+	  <PackageReference Include="SonarAnalyzer.CSharp" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net35'">
 		<Reference Include="System.Data" />
 		<Reference Include="System.Drawing" />
 		<Reference Include="System.Design" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Persons.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Update="Properties\Resources.resx">
@@ -34,5 +39,19 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\ListViewPrinter\ListViewPrinter.csproj" />
 	</ItemGroup>
 </Project>

@@ -4,8 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-using NUnit.Framework;
-
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BrightIdeasSoftware.Tests
 {
@@ -180,7 +179,7 @@ namespace BrightIdeasSoftware.Tests
 		public String PublicProperty { get; set; }
 	}
 
-	[TestFixture]
+	[TestClass]
 	public class TestGenerator
 	{
 		[TestFixtureSetUp]
@@ -193,14 +192,14 @@ namespace BrightIdeasSoftware.Tests
 		public void InitEachTest()
 			=> this.olv.Clear();
 
-		[Test]
+		[TestMethod]
 		public void TestEmpty()
 		{
 			IList<OLVColumn> columns = Generator.GenerateColumns(typeof(GeneratorTestModelEmpty));
 			Assert.AreEqual(0, columns.Count);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestBasics()
 		{
 			IList<OLVColumn> columns = Generator.GenerateColumns(typeof(GeneratorTestModel1));
@@ -255,7 +254,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(nameof(GeneratorTestModel1.DisplayNameColumn), columns[2].Text);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestSorting()
 		{
 			IList<OLVColumn> columns = Generator.GenerateColumns(typeof(GeneratorTestModelSorting));
@@ -267,7 +266,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual("OLVMustBeLast", columns[4].AspectName);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestBuilding()
 		{
 			Assert.AreEqual(0, this.olv.Columns.Count);
@@ -276,7 +275,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(5, this.olv.AllColumns.Count);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestGroupies()
 		{
 			IList<OLVColumn> columns = Generator.GenerateColumns(typeof(GeneratorTestModelGroupies));
@@ -289,7 +288,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual("Above thirty", columns[0].ConvertGroupKeyToTitle(3));
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestGenerateClearSorting()
 		{
 			Generator.GenerateColumns(this.olv, typeof(GeneratorTestModelSorting));
@@ -300,7 +299,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.IsNull(this.olv.PrimarySortColumn);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestEmptyCollection()
 		{
 			this.olv.Columns.Add(new OLVColumn("not used", "NoAttribute"));
@@ -310,7 +309,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(0, this.olv.Columns.Count);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestNonEmptyCollection()
 		{
 			this.olv.Columns.Add(new OLVColumn("not used", "NoAttribute"));
@@ -323,14 +322,14 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(4, this.olv.Columns.Count);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestPropertiesWithoutAttributes_Ignored()
 		{
 			Generator.GenerateColumns(this.olv, typeof(GeneratorTestPropertiesWithoutOlvColumnAttribute));
 			Assert.AreEqual(0, this.olv.AllColumns.Count);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestPropertiesWithoutAttributes_Basics()
 		{
 			Generator.GenerateColumns(this.olv, typeof(GeneratorTestPropertiesWithoutOlvColumnAttribute), true);
@@ -344,7 +343,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual("CheckBoxProperty", this.olv.GetColumn(2).AspectName);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestPropertiesWithoutAttributes_Editable()
 		{
 			Generator.GenerateColumns(this.olv, typeof(GeneratorTestPropertiesWithoutOlvColumnAttribute), true);
@@ -352,7 +351,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.IsFalse(this.olv.GetColumn("Property2").IsEditable);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestPropertiesWithoutAttributes_CheckBox()
 		{
 			Generator.GenerateColumns(this.olv, typeof(GeneratorTestPropertiesWithoutOlvColumnAttribute), true);
@@ -361,7 +360,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.IsTrue(this.olv.GetColumn("Tri State Check Box").TriStateCheckBoxes);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestPropertiesWithoutAttributes_DisplayIndexSetCorrectly()
 		{
 			Generator.GenerateColumns(this.olv, typeof(GeneratorTestPropertiesWithoutOlvColumnAttribute), true);
@@ -369,7 +368,7 @@ namespace BrightIdeasSoftware.Tests
 				Assert.AreEqual(i, this.olv.GetColumn(i).DisplayIndex);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestIgnoreAttribute_NoColumnCreated()
 		{
 			Generator.GenerateColumns(this.olv, typeof(ClassWithIgnoredProperties), true);
@@ -378,7 +377,7 @@ namespace BrightIdeasSoftware.Tests
 	}
 
 
-	[TestFixture]
+	[TestClass]
 	public class TestColumnBuildingForTreeListView
 	{
 
@@ -392,7 +391,7 @@ namespace BrightIdeasSoftware.Tests
 		public void InitEachTest()
 			=> this.tolv.Reset();
 
-		[Test]
+		[TestMethod]
 		public void TestDelegatesCreated()
 		{
 			Generator.GenerateColumns(this.tolv, typeof(ClassWithChildren), true);
@@ -400,7 +399,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.IsNotNull(this.tolv.ChildrenGetter);
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCanExpandDelegateWorks()
 		{
 			Generator.GenerateColumns(this.tolv, typeof(ClassWithChildren), true);
@@ -421,7 +420,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.IsTrue(this.tolv.CanExpand(parent));
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestGetChildrenDelegateWorks()
 		{
 			Generator.GenerateColumns(this.tolv, typeof(ClassWithChildren), true);
@@ -437,7 +436,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(2, this.tolv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestGetChildrenDelegateWorksWithUntypedChildren_NestedChildren()
 		{
 			Generator.GenerateColumns(this.tolv, typeof(ClassWithUntypedChildren), true);
@@ -460,7 +459,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(5, this.tolv.GetItemCount());
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestGetChildrenDelegateWorksWithUntypedChildren_WrongTypes()
 		{
 			Generator.GenerateColumns(this.tolv, typeof(ClassWithUntypedChildren), true);

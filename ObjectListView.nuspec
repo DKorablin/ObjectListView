@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>AlphaOmega.ObjectListView</id>
+		<title>ObjectListView (Unofficial)</title>
+		<version>2.9.2-alpha2</version>
+		<authors>Phillip Piper, Danila Korablin</authors>
+		<owners>Phillip Piper, Danila Korablin</owners>
+		<readme>docs\README.md</readme>
+		<license type="expression">GPL 3.0</license>
+		<projectUrl>https://github.com/DKorablin/ObjectListView</projectUrl>
+		<icon>images\icon.png</icon>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<summary>ObjectListView is a .NET ListView wired on caffeine, guarana and steroids.</summary>
+		<description>ObjectListView is a .NET ListView wired on caffeine, guarana and steroids. More calmly, it is a C# wrapper around a .NET ListView, which makes the ListView much easier to use and teaches it lots of neat new tricks.</description>
+		<copyright>Copyright 2006-2016 Bright Ideas Software</copyright>
+		<tags>.Net WinForms Net35 Net80 ListView Controls</tags>
+		<dependencies>
+			<group targetFramework="net35">
+			</group>
+			<group targetFramework="net8.0-windows">
+			</group>
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="README.md" target="docs" />
+		<file src="index-icon.png" target="images\icon.png" />
+		<!--Documentation-->
+		<file src="bin\PushSharp_Binaries\net35\ObjectListView.xml" target="xml" />
+		<!--Binaries-->
+		<file src="bin\PushSharp_Binaries\net35\ObjectListView.dll" target="lib\net35" />
+		<file src="bin\PushSharp_Binaries\net8.0-windows\ObjectListView.dll" target="lib\net8.0-windows" />
+	</files>
+</package>

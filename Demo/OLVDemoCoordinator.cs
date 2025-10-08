@@ -8,7 +8,6 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
-using ObjectListViewDemo.Models;
 
 namespace ObjectListViewDemo
 {
@@ -17,7 +16,7 @@ namespace ObjectListViewDemo
 	public class OLVDemoCoordinator
 	{
 		private List<Person> _personList;
-		private MainForm _form;
+		private readonly MainForm _form;
 		private String _prefixForNextSelectionMessage;
 
 		public OLVDemoCoordinator(MainForm mainForm)

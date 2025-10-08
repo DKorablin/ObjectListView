@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BrightIdeasSoftware.Tests
 {
-	[TestFixture]
+	[TestClass]
 	public class TestFlagClusteringStrategy
 	{
 
-		[Test]
+		[TestMethod]
 		public void Test_EnumConstruction_Values()
 		{
 			FlagClusteringStrategy strategy = new FlagClusteringStrategy(typeof(TestFlagEnum));
@@ -19,7 +19,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.Contains(16, strategy.Values);
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_EnumConstruction_Labels()
 		{
 			FlagClusteringStrategy strategy = new FlagClusteringStrategy(typeof(TestFlagEnum));
@@ -30,53 +30,53 @@ namespace BrightIdeasSoftware.Tests
 			Assert.Contains("FlagValue4", strategy.Labels);
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_GetClusterKey()
 		{
 			FlagClusteringStrategy strategy = new FlagClusteringStrategy(typeof(TestFlagEnum));
 			strategy.Column = new OLVColumn();
 			strategy.Column.AspectGetter = delegate (Object x) { return TestFlagEnum.FlagValue1 | TestFlagEnum.FlagValue4; };
 			Object result = strategy.GetClusterKey(null);
-			Assert.IsInstanceOf<IEnumerable>(result);
+			Assert.IsInstanceOfType<IEnumerable>(result);
 			Assert.AreEqual(2, ((ICollection)result).Count);
 			Assert.Contains((ulong)TestFlagEnum.FlagValue1, result as ICollection);
 			Assert.Contains((ulong)TestFlagEnum.FlagValue4, result as ICollection);
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_GetClusterKey_ZeroValue()
 		{
 			FlagClusteringStrategy strategy = new FlagClusteringStrategy(typeof(TestFlagEnum));
 			strategy.Column = new OLVColumn();
 			strategy.Column.AspectGetter = delegate (Object x) { return 0; };
 			Object result = strategy.GetClusterKey(null);
-			Assert.IsInstanceOf<IEnumerable>(result);
+			Assert.IsInstanceOfType<IEnumerable>(result);
 			Assert.AreEqual(0, ((ICollection)result).Count);
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_GetClusterKey_NonNumericValue()
 		{
 			FlagClusteringStrategy strategy = new FlagClusteringStrategy(typeof(TestFlagEnum));
 			strategy.Column = new OLVColumn();
 			strategy.Column.AspectGetter = delegate (Object x) { return "not number"; };
 			Object result = strategy.GetClusterKey(null);
-			Assert.IsInstanceOf<IEnumerable>(result);
+			Assert.IsInstanceOfType<IEnumerable>(result);
 			Assert.AreEqual(0, ((ICollection)result).Count);
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_GetClusterKey_NonConvertibleValue()
 		{
 			FlagClusteringStrategy strategy = new FlagClusteringStrategy(typeof(TestFlagEnum));
 			strategy.Column = new OLVColumn();
 			strategy.Column.AspectGetter = delegate (Object x) { return new Object(); };
 			Object result = strategy.GetClusterKey(null);
-			Assert.IsInstanceOf<IEnumerable>(result);
+			Assert.IsInstanceOfType<IEnumerable>(result);
 			Assert.AreEqual(0, ((ICollection)result).Count);
 		}
 
-		[Test]
+		[TestMethod]
 		public void Test_GetClusterDisplayLabel()
 		{
 			FlagClusteringStrategy strategy = new FlagClusteringStrategy(typeof(TestFlagEnum));

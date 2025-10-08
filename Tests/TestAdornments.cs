@@ -1,13 +1,12 @@
 ﻿using System.Drawing;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BrightIdeasSoftware.Tests
 {
-
-	[TestFixture]
+	[TestClass]
 	public class TestAdornments
 	{
-		[Test]
+		[TestMethod]
 		public void TestCalculateAlignedPosition() {
 			GraphicAdornment ga = new GraphicAdornment();
 			Rectangle r = new Rectangle(10, 20, 30, 40);
@@ -18,7 +17,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(new Point(75, 170), ga.CalculateAlignedPosition(pt, sz, ContentAlignment.MiddleCenter));
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCalculateCorner() {
 			GraphicAdornment ga = new GraphicAdornment();
 			Rectangle r = new Rectangle(10, 20, 30, 40);
@@ -29,7 +28,7 @@ namespace BrightIdeasSoftware.Tests
 			Assert.AreEqual(r.Location + r.Size, ga.CalculateCorner(r, ContentAlignment.BottomRight));
 		}
 
-		[Test]
+		[TestMethod]
 		public void TestCreateAlignedRectangle() {
 			GraphicAdornment ga = new GraphicAdornment();
 			Rectangle r = new Rectangle(10, 20, 30, 40);

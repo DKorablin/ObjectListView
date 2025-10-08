@@ -17,10 +17,10 @@ using BrightIdeasSoftware;
 namespace ObjectListViewDemo
 {
 	/// <summary>
-	/// This helper class allows listviews and tree views to use image from the system image list.
+	/// This helper class allows ListViews and tree views to use image from the system image list.
 	/// </summary>
 	/// <remarks>Instances of this helper class know how to retrieve icon from the Windows shell for
-	/// a given file path. These icons are then added to the imagelist on the given control. ListViews need 
+	/// a given file path. These icons are then added to the ImageList on the given control. ListViews need 
 	/// special handling since they have two image lists which need to be kept in sync.</remarks>
 	public class SysImageListHelper
 	{
@@ -72,11 +72,11 @@ namespace ObjectListViewDemo
 		}
 		protected TreeView treeView;
 
-		/// <summary>Create a SysImageListHelper that will fetch images for the given listview control.</summary>
-		/// <param name="listView">The listview that will use the images</param>
-		/// <remarks>Listviews manage two image lists, but each item can only have one image index.
+		/// <summary>Create a SysImageListHelper that will fetch images for the given ListView control.</summary>
+		/// <param name="listView">The ListView that will use the images</param>
+		/// <remarks>ListViews manage two image lists, but each item can only have one image index.
 		/// This means that the image for an item must occur at the same index in the two lists. 
-		/// SysImageListHelper instances handle this requirement. However, if the listview already
+		/// SysImageListHelper instances handle this requirement. However, if the ListView already
 		/// has image lists installed, they <b>must</b> be of the same length.</remarks>
 		public SysImageListHelper(ObjectListView listView)
 		{

@@ -40,10 +40,13 @@
 				<_Parameter1>Tests</_Parameter1>
 			</AssemblyAttributes>
 		</ItemGroup>
-		<ItemGroup Condition="'$(TargetFramework)' != 'net35'">
+		<ItemGroup Condition="'$(TargetFramework)' != 'net35' AND '$(TargetFramework)' != 'net48'">
 			<AssemblyAttributes Include="AssemblyMetadata">
 				<_Parameter1>ProjectUrl</_Parameter1>
 				<_Parameter2>https://github.com/DKorablin/ObjectListView</_Parameter2>
+			</AssemblyAttributes>
+			<AssemblyAttributes Include="System.Runtime.Versioning.SupportedOSPlatform">
+				<_Parameter1>windows</_Parameter1>
 			</AssemblyAttributes>
 		</ItemGroup>
 		<MakeDir Directories="$(IntermediateOutputPath)" />

@@ -337,8 +337,11 @@ namespace BrightIdeasSoftware.Design
 		/// only have to modify the returned collection of actions, but we have to implement
 		/// the properties and commands that the returned actions use. </para>
 		/// </remarks>
-		private class ListViewActionListAdapter : DesignerActionList
+		private sealed class ListViewActionListAdapter : DesignerActionList
 		{
+			private readonly ObjectListViewDesigner _designer;
+			private readonly DesignerActionList _wrappedList;
+
 			public ListViewActionListAdapter(ObjectListViewDesigner designer, DesignerActionList wrappedList)
 				: base(wrappedList.Component)
 			{
@@ -348,7 +351,7 @@ namespace BrightIdeasSoftware.Design
 
 			public override DesignerActionItemCollection GetSortedActionItems()
 			{
-				DesignerActionItemCollection items = _wrappedList.GetSortedActionItems();
+				DesignerActionItemCollection items = this._wrappedList.GetSortedActionItems();
 				items.RemoveAt(2); // remove Edit Groups
 				items.RemoveAt(0); // remove Edit Items
 				return items;
@@ -396,16 +399,13 @@ namespace BrightIdeasSoftware.Design
 				get => ((ListView)base.Component).View;
 				set => this.SetValue(base.Component, "View", value);
 			}
-
-			private readonly ObjectListViewDesigner _designer;
-			private readonly DesignerActionList _wrappedList;
 		}
 
 		#endregion
 
 		#region DesignerCommandSet
 
-		private class CDDesignerCommandSet : DesignerCommandSet
+		private sealed class CDDesignerCommandSet : DesignerCommandSet
 		{
 			private readonly ComponentDesigner _componentDesigner;
 

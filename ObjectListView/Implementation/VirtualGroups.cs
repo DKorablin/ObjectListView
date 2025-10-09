@@ -236,7 +236,7 @@ namespace BrightIdeasSoftware
 		public OwnerDataCallbackImpl(VirtualObjectListView olv)
 			=> this._olv = olv;
 
-		VirtualObjectListView _olv;
+		private readonly VirtualObjectListView _olv;
 
 		#region IOwnerDataCallback Members
 

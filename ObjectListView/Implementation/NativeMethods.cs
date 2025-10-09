@@ -545,39 +545,54 @@ namespace BrightIdeasSoftware
 
 		#region Entry points
 
-		// Various flavours of SendMessage: plain vanilla, and passing references to various structures
+		// Various flavors of SendMessage: plain vanilla, and passing references to various structures
 		[DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
 		public static extern IntPtr SendMessage(IntPtr hWnd, Int32 msg, Int32 wParam, Int32 lParam);
+
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern IntPtr SendMessage(IntPtr hWnd, Int32 msg, IntPtr wParam, Int32 lParam);
+
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern IntPtr SendMessage(IntPtr hWnd, Int32 msg, Int32 wParam, IntPtr lParam);
+
 		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
 		public static extern IntPtr SendMessageLVItem(IntPtr hWnd, Int32 msg, Int32 wParam, ref LVITEM lvi);
+
 		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
 		public static extern IntPtr SendMessage(IntPtr hWnd, Int32 msg, Int32 wParam, ref LVHITTESTINFO ht);
-		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
-		public static extern IntPtr SendMessageRECT(IntPtr hWnd, Int32 msg, Int32 wParam, ref RECT r);
-		//[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
-		//private static extern IntPtr SendMessageLVColumn(IntPtr hWnd, int m, int wParam, ref LVCOLUMN lvc);
-		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
-		private static extern IntPtr SendMessageHDItem(IntPtr hWnd, Int32 msg, Int32 wParam, ref HDITEM hdi);
-		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
-		public static extern IntPtr SendMessageHDHITTESTINFO(IntPtr hWnd, Int32 Msg, IntPtr wParam, [In, Out] HDHITTESTINFO lParam);
-		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
-		public static extern IntPtr SendMessageTOOLINFO(IntPtr hWnd, Int32 Msg, Int32 wParam, NativeMethods.TOOLINFO lParam);
-		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
-		public static extern IntPtr SendMessageLVBKIMAGE(IntPtr hWnd, Int32 Msg, Int32 wParam, ref NativeMethods.LVBKIMAGE lParam);
-		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
-		public static extern IntPtr SendMessageString(IntPtr hWnd, Int32 Msg, Int32 wParam, String lParam);
-		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
-		public static extern IntPtr SendMessageIUnknown(IntPtr hWnd, Int32 msg, [MarshalAs(UnmanagedType.IUnknown)] Object wParam, Int32 lParam);
+
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern IntPtr SendMessage(IntPtr hWnd, Int32 msg, Int32 wParam, ref LVGROUP lParam);
+
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern IntPtr SendMessage(IntPtr hWnd, Int32 msg, Int32 wParam, ref LVGROUP2 lParam);
+
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern IntPtr SendMessage(IntPtr hWnd, Int32 msg, Int32 wParam, ref LVGROUPMETRICS lParam);
+
+		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
+		public static extern IntPtr SendMessageRECT(IntPtr hWnd, Int32 msg, Int32 wParam, ref RECT r);
+
+		//[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
+		//private static extern IntPtr SendMessageLVColumn(IntPtr hWnd, int m, int wParam, ref LVCOLUMN lvc);
+
+		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
+		private static extern IntPtr SendMessageHDItem(IntPtr hWnd, Int32 msg, Int32 wParam, ref HDITEM hdi);
+
+		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
+		public static extern IntPtr SendMessageHDHITTESTINFO(IntPtr hWnd, Int32 Msg, IntPtr wParam, [In, Out] HDHITTESTINFO lParam);
+
+		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
+		public static extern IntPtr SendMessageTOOLINFO(IntPtr hWnd, Int32 Msg, Int32 wParam, NativeMethods.TOOLINFO lParam);
+
+		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
+		public static extern IntPtr SendMessageLVBKIMAGE(IntPtr hWnd, Int32 Msg, Int32 wParam, ref NativeMethods.LVBKIMAGE lParam);
+
+		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
+		public static extern IntPtr SendMessageString(IntPtr hWnd, Int32 Msg, Int32 wParam, String lParam);
+
+		[DllImport("user32.dll", EntryPoint = "SendMessage", CharSet = CharSet.Auto)]
+		public static extern IntPtr SendMessageIUnknown(IntPtr hWnd, Int32 msg, [MarshalAs(UnmanagedType.IUnknown)] Object wParam, Int32 lParam);
 
 		[DllImport("gdi32.dll")]
 		public static extern Boolean DeleteObject(IntPtr objectHandle);

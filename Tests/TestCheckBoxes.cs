@@ -18,7 +18,7 @@ namespace BrightIdeasSoftware.Tests
 	[TestClass]
 	public class TestOlvCheckBoxes
 	{
-		[SetUp]
+		[TestInitialize]
 		public void InitEachTest()
 		{
 			mainForm = new MainForm
@@ -39,7 +39,7 @@ namespace BrightIdeasSoftware.Tests
 		protected virtual ObjectListView GetObjectListView()
 			=> mainForm.objectListView1;
 
-		[TearDown]
+		[TestCleanup]
 		public void TearDownEachTest()
 		{
 			this.olv.CheckStateGetter = null;
@@ -110,7 +110,7 @@ namespace BrightIdeasSoftware.Tests
 			this.olv.CheckedObjects = PersonDb.All;
 			// We really want to check that the collections contain the same members, but 
 			// there is no easy way to do that
-			Assert.AreEqual(PersonDb.All.Count, this.olv.CheckedObjects.Count);
+			Assert.HasCount(PersonDb.All.Count, this.olv.CheckedObjects);
 		}
 
 		[TestMethod]
@@ -119,7 +119,7 @@ namespace BrightIdeasSoftware.Tests
 			this.olv.TriStateCheckBoxes = true;
 			this.olv.CheckStateGetter = delegate (Object x)
 			{
-				int idx = PersonDb.All.IndexOf((Person)x);
+				Int32 idx = PersonDb.All.IndexOf((Person)x);
 				switch(idx)
 				{
 				case 0:
@@ -134,10 +134,10 @@ namespace BrightIdeasSoftware.Tests
 			Application.DoEvents();
 
 			Assert.IsTrue(this.olv.IsChecked(PersonDb.All[0]));
-			Assert.IsTrue(this.olv.ModelToItem(PersonDb.All[0]).CheckState == CheckState.Checked);
+			Assert.AreEqual(CheckState.Checked, this.olv.ModelToItem(PersonDb.All[0]).CheckState);
 			Assert.IsFalse(this.olv.IsChecked(PersonDb.All[1]));
-			Assert.IsTrue(this.olv.ModelToItem(PersonDb.All[1]).CheckState == CheckState.Unchecked);
-			for(int i = 2; i < PersonDb.All.Count; i++)
+			Assert.AreEqual(CheckState.Unchecked, this.olv.ModelToItem(PersonDb.All[1]).CheckState);
+			for(Int32 i = 2; i < PersonDb.All.Count; i++)
 			{
 				Assert.IsTrue(this.olv.IsCheckedIndeterminate(PersonDb.All[i]));
 				Assert.IsTrue(this.olv.ModelToItem(PersonDb.All[i]).CheckState == CheckState.Indeterminate);
@@ -279,7 +279,7 @@ namespace BrightIdeasSoftware.Tests
 		{
 			// For some reason, SendKeys doesn't work here
 
-			//this.olv.Select(); // Make the listview have the keyboard focus
+			//this.olv.Select(); // Make the ListView have the keyboard focus
 			//this.olv.SelectAll();
 			//SendKeys.SendWait(" ");
 			//Assert.AreEqual(this.olv.GetItemCount(), this.olv.CheckedObjects.Count);
@@ -298,7 +298,7 @@ namespace BrightIdeasSoftware.Tests
 			foreach(Person p in PersonDb.All)
 				p.IsActive = true;
 			this.olv.SetObjects(PersonDb.All);
-			Assert.AreEqual(PersonDb.All.Count, this.olv.CheckedObjects.Count);
+			Assert.HasCount(PersonDb.All.Count, this.olv.CheckedObjects);
 
 			this.olv.CheckedAspectName = null;
 		}
@@ -327,10 +327,10 @@ namespace BrightIdeasSoftware.Tests
 		{
 			this.olv.PersistentCheckBoxes = true;
 			this.olv.CheckedObjects = PersonDb.All;
-			Assert.AreEqual(this.olv.CheckedObjects.Count, PersonDb.All.Count);
+			Assert.HasCount(this.olv.CheckedObjects.Count, PersonDb.All);
 
 			this.olv.BuildList();
-			Assert.AreEqual(this.olv.CheckedObjects.Count, PersonDb.All.Count);
+			Assert.HasCount(this.olv.CheckedObjects.Count, PersonDb.All);
 			this.olv.PersistentCheckBoxes = false;
 		}
 
@@ -341,15 +341,15 @@ namespace BrightIdeasSoftware.Tests
 
 			this.olv.PersistentCheckBoxes = true;
 			this.olv.CheckedObjects = PersonDb.All;
-			Assert.AreEqual(this.olv.CheckedObjects.Count, PersonDb.All.Count);
+			Assert.HasCount(this.olv.CheckedObjects.Count, PersonDb.All);
 
 			this.olv.UseFiltering = true;
 			this.olv.ModelFilter = new TextMatchFilter(this.olv, PersonDb.FirstAlphabeticalName);
 			Assert.AreEqual(1, this.olv.GetItemCount());
-			Assert.AreEqual(1, this.olv.CheckedObjects.Count);
+			Assert.HasCount(1, this.olv.CheckedObjects);
 
 			this.olv.ModelFilter = null;
-			Assert.AreEqual(this.olv.CheckedObjects.Count, PersonDb.All.Count);
+			Assert.HasCount(this.olv.CheckedObjects.Count, PersonDb.All);
 			this.olv.PersistentCheckBoxes = false;
 			this.olv.UseFiltering = false;
 		}

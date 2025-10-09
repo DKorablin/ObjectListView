@@ -20,8 +20,6 @@
 		<PackageReference Include="SonarAnalyzer.CSharp" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net35'">
-		<Reference Include="System.Data" />
-		<Reference Include="System.Drawing" />
 		<Reference Include="System.Design" />
 	</ItemGroup>
 	<ItemGroup>

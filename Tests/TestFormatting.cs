@@ -17,42 +17,47 @@ namespace BrightIdeasSoftware.Tests
 	[TestClass]
 	public class TestOlvFormatting
 	{
-		[SetUp]
+		protected ObjectListView _olv;
+
+		public TestOlvFormatting()
+			=> this._olv = MyGlobals.mainForm.objectListView1;
+
+		[TestInitialize]
 		public void InitEachTest()
 		{
-			this.olv.UseAlternatingBackColors = false;
-			this.olv.UseHyperlinks = false;
-			this.olv.RowFormatter = null;
-			this.olv.HyperlinkStyle = null;
-			foreach(OLVColumn column in this.olv.Columns)
+			this._olv.UseAlternatingBackColors = false;
+			this._olv.UseHyperlinks = false;
+			this._olv.RowFormatter = null;
+			this._olv.HyperlinkStyle = null;
+			foreach(OLVColumn column in this._olv.Columns)
 				column.Hyperlink = false;
 		}
 
 		[TestMethod]
 		public void TestNoFormatting()
 		{
-			this.olv.HyperlinkStyle = null;
-			this.olv.SetObjects(PersonDb.All);
-			for(Int32 i = 0; i < this.olv.GetItemCount(); i++)
+			this._olv.HyperlinkStyle = null;
+			this._olv.SetObjects(PersonDb.All);
+			for(Int32 i = 0; i < this._olv.GetItemCount(); i++)
 			{
-				Assert.AreEqual(this.olv.ForeColor, this.olv.GetItem(i).ForeColor);
-				Assert.AreEqual(this.olv.BackColor, this.olv.GetItem(i).BackColor);
+				Assert.AreEqual(this._olv.ForeColor, this._olv.GetItem(i).ForeColor);
+				Assert.AreEqual(this._olv.BackColor, this._olv.GetItem(i).BackColor);
 			}
 		}
 
 		[TestMethod]
 		public void TestAlternateBackColors()
 		{
-			this.olv.UseAlternatingBackColors = true;
-			this.olv.AlternateRowBackColor = Color.Pink;
+			this._olv.UseAlternatingBackColors = true;
+			this._olv.AlternateRowBackColor = Color.Pink;
 
-			this.olv.SetObjects(PersonDb.All);
-			for(Int32 i = 0; i < this.olv.GetItemCount(); i++)
+			this._olv.SetObjects(PersonDb.All);
+			for(Int32 i = 0; i < this._olv.GetItemCount(); i++)
 			{
 				if((i % 2) == 0)
-					Assert.AreEqual(this.olv.BackColor, this.olv.GetItem(i).BackColor);
+					Assert.AreEqual(this._olv.BackColor, this._olv.GetItem(i).BackColor);
 				else
-					Assert.AreEqual(this.olv.AlternateRowBackColor, this.olv.GetItem(i).BackColor);
+					Assert.AreEqual(this._olv.AlternateRowBackColor, this._olv.GetItem(i).BackColor);
 			}
 		}
 
@@ -62,32 +67,32 @@ namespace BrightIdeasSoftware.Tests
 			Color testForeColor = Color.Yellow;
 			Color testBackColor = Color.Violet;
 
-			this.olv.RowFormatter = delegate (OLVListItem olvi)
+			this._olv.RowFormatter = delegate (OLVListItem olvi)
 			{
 				olvi.ForeColor = testForeColor;
 				olvi.BackColor = testBackColor;
 			};
-			this.olv.SetObjects(PersonDb.All);
+			this._olv.SetObjects(PersonDb.All);
 
-			for(Int32 i = 0; i < this.olv.GetItemCount(); i++)
+			for(Int32 i = 0; i < this._olv.GetItemCount(); i++)
 			{
-				Assert.AreEqual(testForeColor, this.olv.GetItem(i).ForeColor);
-				Assert.AreEqual(testBackColor, this.olv.GetItem(i).BackColor);
+				Assert.AreEqual(testForeColor, this._olv.GetItem(i).ForeColor);
+				Assert.AreEqual(testBackColor, this._olv.GetItem(i).BackColor);
 			}
 		}
 
 		[TestMethod]
 		public void TestFormatRowEvent()
 		{
-			this.olv.FormatRow += new EventHandler<FormatRowEventArgs>(olv_FormatRow1);
-			this.olv.SetObjects(PersonDb.All);
+			this._olv.FormatRow += new EventHandler<FormatRowEventArgs>(olv_FormatRow1);
+			this._olv.SetObjects(PersonDb.All);
 
-			for(Int32 i = 0; i < this.olv.GetItemCount(); i++)
+			for(Int32 i = 0; i < this._olv.GetItemCount(); i++)
 			{
-				Assert.AreEqual(this.testForeColor, this.olv.GetItem(i).ForeColor);
-				Assert.AreEqual(this.testBackColor, this.olv.GetItem(i).BackColor);
+				Assert.AreEqual(this.testForeColor, this._olv.GetItem(i).ForeColor);
+				Assert.AreEqual(this.testBackColor, this._olv.GetItem(i).BackColor);
 			}
-			this.olv.FormatRow -= new EventHandler<FormatRowEventArgs>(olv_FormatRow1);
+			this._olv.FormatRow -= new EventHandler<FormatRowEventArgs>(olv_FormatRow1);
 		}
 		Color testForeColor = Color.Yellow;
 		Color testBackColor = Color.Violet;
@@ -101,28 +106,28 @@ namespace BrightIdeasSoftware.Tests
 		[TestMethod]
 		public void TestFormatCellEvent()
 		{
-			this.olv.FormatRow += new EventHandler<FormatRowEventArgs>(olv_FormatRow2);
-			this.olv.FormatCell += new EventHandler<FormatCellEventArgs>(olv_FormatCell);
-			this.olv.SetObjects(PersonDb.All);
-			for(int i = 0; i < this.olv.GetItemCount(); i++)
+			this._olv.FormatRow += new EventHandler<FormatRowEventArgs>(olv_FormatRow2);
+			this._olv.FormatCell += new EventHandler<FormatCellEventArgs>(olv_FormatCell);
+			this._olv.SetObjects(PersonDb.All);
+			for(int i = 0; i < this._olv.GetItemCount(); i++)
 			{
 				if(i % 2 == 0)
 				{
-					Assert.IsFalse(this.olv.GetItem(i).UseItemStyleForSubItems);
-					for(int j = 0; j < this.olv.Columns.Count; j++)
+					Assert.IsFalse(this._olv.GetItem(i).UseItemStyleForSubItems);
+					for(int j = 0; j < this._olv.Columns.Count; j++)
 					{
-						Assert.AreEqual(this.testCellForeColor, this.olv.GetItem(i).SubItems[j].ForeColor);
-						Assert.AreEqual(this.testCellBackColor, this.olv.GetItem(i).SubItems[j].BackColor);
+						Assert.AreEqual(this.testCellForeColor, this._olv.GetItem(i).SubItems[j].ForeColor);
+						Assert.AreEqual(this.testCellBackColor, this._olv.GetItem(i).SubItems[j].BackColor);
 					}
 				} else
 				{
-					Assert.IsTrue(this.olv.GetItem(i).UseItemStyleForSubItems);
-					Assert.AreEqual(this.olv.ForeColor, this.olv.GetItem(i).ForeColor);
-					Assert.AreEqual(this.olv.BackColor, this.olv.GetItem(i).BackColor);
+					Assert.IsTrue(this._olv.GetItem(i).UseItemStyleForSubItems);
+					Assert.AreEqual(this._olv.ForeColor, this._olv.GetItem(i).ForeColor);
+					Assert.AreEqual(this._olv.BackColor, this._olv.GetItem(i).BackColor);
 				}
 			}
-			this.olv.FormatRow -= new EventHandler<FormatRowEventArgs>(olv_FormatRow2);
-			this.olv.FormatCell -= new EventHandler<FormatCellEventArgs>(olv_FormatCell);
+			this._olv.FormatRow -= new EventHandler<FormatRowEventArgs>(olv_FormatRow2);
+			this._olv.FormatCell -= new EventHandler<FormatCellEventArgs>(olv_FormatCell);
 		}
 		Color testCellForeColor = Color.Aquamarine;
 		Color testCellBackColor = Color.BlanchedAlmond;
@@ -133,7 +138,7 @@ namespace BrightIdeasSoftware.Tests
 			e.SubItem.BackColor = this.testCellBackColor;
 		}
 
-		void olv_FormatRow2(Object sender, FormatRowEventArgs e)
+		private void olv_FormatRow2(Object sender, FormatRowEventArgs e)
 			=> e.UseCellFormatEvents = (e.RowIndex % 2 == 0);
 
 		[TestMethod]
@@ -154,54 +159,52 @@ namespace BrightIdeasSoftware.Tests
 				args.SubItem.ForeColor = formatCellForeground;
 			};
 
-			this.olv.FormatRow += olvOnFormatRow;
-			this.olv.FormatCell += olvOnFormatCell;
+			this._olv.FormatRow += olvOnFormatRow;
+			this._olv.FormatCell += olvOnFormatCell;
 
-			this.olv.SetObjects(PersonDb.All);
+			this._olv.SetObjects(PersonDb.All);
 
-			for(Int32 i = 0; i < this.olv.GetItemCount(); i++)
+			for(Int32 i = 0; i < this._olv.GetItemCount(); i++)
 			{
-				for(Int32 j = 0; j < this.olv.Columns.Count; j++)
+				for(Int32 j = 0; j < this._olv.Columns.Count; j++)
 				{
-					Assert.AreEqual(formatCellForeground, this.olv.GetItem(i).SubItems[j].ForeColor);
-					Assert.AreEqual(formatRowBackground, this.olv.GetItem(i).SubItems[j].BackColor);
+					Assert.AreEqual(formatCellForeground, this._olv.GetItem(i).SubItems[j].ForeColor);
+					Assert.AreEqual(formatRowBackground, this._olv.GetItem(i).SubItems[j].BackColor);
 				}
 			}
-			this.olv.FormatRow -= olvOnFormatRow;
-			this.olv.FormatCell -= olvOnFormatCell;
+			this._olv.FormatRow -= olvOnFormatRow;
+			this._olv.FormatCell -= olvOnFormatCell;
 		}
 
 
 		[TestMethod]
 		public void TestHyperlinks()
 		{
-			this.olv.UseHyperlinks = true;
-			this.olv.HyperlinkStyle = new HyperlinkStyle();
-			this.olv.HyperlinkStyle.Normal.ForeColor = Color.Thistle;
-			this.olv.HyperlinkStyle.Normal.BackColor = Color.SpringGreen;
-			this.olv.HyperlinkStyle.Normal.FontStyle = FontStyle.Bold;
+			this._olv.UseHyperlinks = true;
+			this._olv.HyperlinkStyle = new HyperlinkStyle();
+			this._olv.HyperlinkStyle.Normal.ForeColor = Color.Thistle;
+			this._olv.HyperlinkStyle.Normal.BackColor = Color.SpringGreen;
+			this._olv.HyperlinkStyle.Normal.FontStyle = FontStyle.Bold;
 
-			foreach(OLVColumn column in this.olv.Columns)
-			{
+			foreach(OLVColumn column in this._olv.Columns)
 				column.Hyperlink = (column.Index < 2);
-			}
 
-			this.olv.SetObjects(PersonDb.All);
-			for(Int32 j = 0; j < this.olv.GetItemCount(); j++)
+			this._olv.SetObjects(PersonDb.All);
+			for(Int32 j = 0; j < this._olv.GetItemCount(); j++)
 			{
-				OLVListItem item = this.olv.GetItem(j);
-				for(Int32 i = 0; i < this.olv.Columns.Count; i++)
+				OLVListItem item = this._olv.GetItem(j);
+				for(Int32 i = 0; i < this._olv.Columns.Count; i++)
 				{
-					OLVColumn column = this.olv.GetColumn(i);
+					OLVColumn column = this._olv.GetColumn(i);
 					if(column.Hyperlink)
 					{
-						Assert.AreEqual(this.olv.HyperlinkStyle.Normal.ForeColor, item.SubItems[i].ForeColor);
-						Assert.AreEqual(this.olv.HyperlinkStyle.Normal.BackColor, item.SubItems[i].BackColor);
+						Assert.AreEqual(this._olv.HyperlinkStyle.Normal.ForeColor, item.SubItems[i].ForeColor);
+						Assert.AreEqual(this._olv.HyperlinkStyle.Normal.BackColor, item.SubItems[i].BackColor);
 						Assert.IsTrue(item.SubItems[i].Font.Bold);
 					} else
 					{
-						Assert.AreEqual(this.olv.ForeColor, item.SubItems[i].ForeColor);
-						Assert.AreEqual(this.olv.BackColor, item.SubItems[i].BackColor);
+						Assert.AreEqual(this._olv.ForeColor, item.SubItems[i].ForeColor);
+						Assert.AreEqual(this._olv.BackColor, item.SubItems[i].BackColor);
 						Assert.IsFalse(item.SubItems[i].Font.Bold);
 					}
 				}
@@ -215,72 +218,57 @@ namespace BrightIdeasSoftware.Tests
 			Color formatCellForeground = Color.PaleGoldenrod;
 			Color formatCellBackground = Color.DarkKhaki;
 
-			this.olv.UseCellFormatEvents = true;
+			this._olv.UseCellFormatEvents = true;
 			EventHandler<FormatCellEventArgs> olvOnFormatCell = delegate (Object sender, FormatCellEventArgs args)
 			{
 				args.SubItem.ForeColor = formatCellForeground;
 				args.SubItem.BackColor = formatCellBackground;
 			};
-			this.olv.FormatCell += olvOnFormatCell;
+			this._olv.FormatCell += olvOnFormatCell;
 
-			this.olv.UseHyperlinks = true;
-			this.olv.HyperlinkStyle = new HyperlinkStyle();
-			this.olv.HyperlinkStyle.Normal.ForeColor = hyperlinkForeground;
+			this._olv.UseHyperlinks = true;
+			this._olv.HyperlinkStyle = new HyperlinkStyle();
+			this._olv.HyperlinkStyle.Normal.ForeColor = hyperlinkForeground;
 
-			foreach(OLVColumn column in this.olv.Columns)
+			foreach(OLVColumn column in this._olv.Columns)
 				column.Hyperlink = column.Index < 2;
 
-			this.olv.SetObjects(PersonDb.All);
+			this._olv.SetObjects(PersonDb.All);
 
 			try
 			{
-				for(int j = 0; j < this.olv.GetItemCount(); j++)
+				for(Int32 j = 0; j < this._olv.GetItemCount(); j++)
 				{
-					OLVListItem item = this.olv.GetItem(j);
-					for(int i = 0; i < this.olv.Columns.Count; i++)
+					OLVListItem item = this._olv.GetItem(j);
+					for(Int32 i = 0; i < this._olv.Columns.Count; i++)
 					{
-						OLVColumn column = this.olv.GetColumn(i);
+						OLVColumn column = this._olv.GetColumn(i);
 						if(column.Hyperlink)
-						{
 							Assert.AreEqual(hyperlinkForeground, item.SubItems[i].ForeColor);
-						} else
-						{
+						else
 							Assert.AreEqual(formatCellForeground, item.SubItems[i].ForeColor);
-						}
+
 						Assert.AreEqual(formatCellBackground, item.SubItems[i].BackColor);
 					}
 				}
 			} finally
 			{
-				this.olv.FormatCell -= olvOnFormatCell;
+				this._olv.FormatCell -= olvOnFormatCell;
 			}
 		}
-
-		[TestFixtureSetUp]
-		public void Init()
-		{
-			this.olv = MyGlobals.mainForm.objectListView1;
-		}
-		protected ObjectListView olv;
 	}
 
 	[TestClass]
 	public class TestFastOlvFormatting : TestOlvFormatting
 	{
-		[TestFixtureSetUp]
-		new public void Init()
-		{
-			this.olv = MyGlobals.mainForm.fastObjectListView1;
-		}
+		public TestFastOlvFormatting()
+			=> this._olv = MyGlobals.mainForm.fastObjectListView1;
 	}
 
 	[TestClass]
 	public class TestTreeListViewFormatting : TestOlvFormatting
 	{
-		[TestFixtureSetUp]
-		new public void Init()
-		{
-			this.olv = MyGlobals.mainForm.treeListView1;
-		}
+		public TestTreeListViewFormatting()
+			=> this._olv = MyGlobals.mainForm.treeListView1;
 	}
 }

@@ -33,12 +33,14 @@ namespace BrightIdeasSoftware.Tests
 	[TestClass]
 	public class TestExport
 	{
+		protected ObjectListView olv;
 
-		[SetUp]
+		public TestExport()
+			=> this.olv = MyGlobals.mainForm.objectListView1;
+
+		[TestInitialize]
 		public void TestSetup()
-		{
-			PersonDb.Reset();
-		}
+			=> PersonDb.Reset();
 
 		[TestMethod]
 		public void Test_TabSeparated_Simple()
@@ -133,12 +135,5 @@ zzz Last Alphabetical Name	occupation6	60	True
 </table>
 ");
 		}
-
-		[TestFixtureSetUp]
-		public void Init()
-		{
-			this.olv = MyGlobals.mainForm.objectListView1;
-		}
-		protected ObjectListView olv;
 	}
 }

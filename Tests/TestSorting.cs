@@ -18,12 +18,17 @@ namespace BrightIdeasSoftware.Tests
 	[TestClass]
 	public class TestSorting
 	{
+		protected ObjectListView _olv;
+
+		public TestSorting()
+			=> this._olv = MyGlobals.mainForm.objectListView1;
+
 		[TestInitialize]
 		public void InitEachTest()
 		{
-			this.olv.LastSortColumn = null;
-			this.olv.LastSortOrder = SortOrder.None;
-			this.olv.SetObjects(PersonDb.All);
+			this._olv.LastSortColumn = null;
+			this._olv.LastSortOrder = SortOrder.None;
+			this._olv.SetObjects(PersonDb.All);
 		}
 
 		[TestCleanup]
@@ -39,101 +44,99 @@ namespace BrightIdeasSoftware.Tests
 		[TestMethod]
 		public void TestSecondarySorting()
 		{
-			this.olv.SecondarySortColumn = this.olv.GetColumn(0);
-			this.olv.SecondarySortOrder = SortOrder.Descending;
-			this.olv.Sort(this.olv.GetColumn(3), SortOrder.Ascending);
-			Assert.AreEqual(PersonDb.LastAlphabeticalName, ((Person)this.olv.GetModelObject(0)).Name);
+			this._olv.SecondarySortColumn = this._olv.GetColumn(0);
+			this._olv.SecondarySortOrder = SortOrder.Descending;
+			this._olv.Sort(this._olv.GetColumn(3), SortOrder.Ascending);
+			Assert.AreEqual(PersonDb.LastAlphabeticalName, ((Person)this._olv.GetModelObject(0)).Name);
 
-			this.olv.SecondarySortColumn = this.olv.GetColumn(0);
-			this.olv.SecondarySortOrder = SortOrder.Ascending;
-			this.olv.Sort(this.olv.GetColumn(3), SortOrder.Ascending);
-			Assert.AreEqual(PersonDb.FirstAlphabeticalName, ((Person)this.olv.GetModelObject(0)).Name);
+			this._olv.SecondarySortColumn = this._olv.GetColumn(0);
+			this._olv.SecondarySortOrder = SortOrder.Ascending;
+			this._olv.Sort(this._olv.GetColumn(3), SortOrder.Ascending);
+			Assert.AreEqual(PersonDb.FirstAlphabeticalName, ((Person)this._olv.GetModelObject(0)).Name);
 		}
 
 		[TestMethod]
 		public void TestSortingByStringColumn()
 		{
-			this.olv.Sort(this.olv.GetColumn(0), SortOrder.Ascending);
-			Assert.AreEqual(PersonDb.FirstAlphabeticalName, ((Person)this.olv.GetModelObject(0)).Name);
-			this.olv.Sort(this.olv.GetColumn(0), SortOrder.Descending);
-			Assert.AreEqual(PersonDb.LastAlphabeticalName, ((Person)this.olv.GetModelObject(0)).Name);
+			this._olv.Sort(this._olv.GetColumn(0), SortOrder.Ascending);
+			Assert.AreEqual(PersonDb.FirstAlphabeticalName, ((Person)this._olv.GetModelObject(0)).Name);
+			this._olv.Sort(this._olv.GetColumn(0), SortOrder.Descending);
+			Assert.AreEqual(PersonDb.LastAlphabeticalName, ((Person)this._olv.GetModelObject(0)).Name);
 		}
 
 		[TestMethod]
 		public void TestSortingByIntColumn()
 		{
-			OLVColumn columnToSort = this.olv.GetColumn(2);
-			this.olv.Sort(columnToSort, SortOrder.Ascending);
-			Assert.AreEqual(PersonDb.All[PersonDb.All.Count - 1].Name, ((Person)this.olv.GetModelObject(0)).Name);
-			this.olv.Sort(columnToSort, SortOrder.Descending);
-			Assert.AreEqual(PersonDb.All[0].Name, ((Person)this.olv.GetModelObject(0)).Name);
+			OLVColumn columnToSort = this._olv.GetColumn(2);
+			this._olv.Sort(columnToSort, SortOrder.Ascending);
+			Assert.AreEqual(PersonDb.All[PersonDb.All.Count - 1].Name, ((Person)this._olv.GetModelObject(0)).Name);
+			this._olv.Sort(columnToSort, SortOrder.Descending);
+			Assert.AreEqual(PersonDb.All[0].Name, ((Person)this._olv.GetModelObject(0)).Name);
 		}
 
 		[TestMethod]
 		public void TestNoSorting()
 		{
-			ArrayList beforeContents = GetContents();
+			ArrayList beforeContents = this.GetContents();
 
-			this.olv.Sort();
+			this._olv.Sort();
 
-			Assert.AreEqual(beforeContents, GetContents());
+			Assert.HasCount(beforeContents.Count, this.GetContents());
 
-			this.olv.LastSortColumn = this.olv.GetColumn(0);
-			this.olv.LastSortOrder = SortOrder.Descending;
-			this.olv.Sort();
+			this._olv.LastSortColumn = this._olv.GetColumn(0);
+			this._olv.LastSortOrder = SortOrder.Descending;
+			this._olv.Sort();
 
-			Assert.AreNotEqual(beforeContents, GetContents());
+			Assert.AreNotEqual(beforeContents, this.GetContents());
 		}
 
 		private ArrayList GetContents()
 		{
 			ArrayList contents = new ArrayList();
-			for(int i = 0; i < this.olv.GetItemCount(); i++)
-				contents.Add(this.olv.GetModelObject(i));
+			for(Int32 i = 0; i < this._olv.GetItemCount(); i++)
+				contents.Add(this._olv.GetModelObject(i));
 			return contents;
 		}
 
 		[TestMethod]
 		virtual public void TestCustomSorting()
 		{
-			this.olv.Sort(this.olv.GetColumn(0), SortOrder.Ascending);
-			Assert.AreEqual(PersonDb.FirstAlphabeticalName, ((Person)this.olv.GetModelObject(0)).Name);
+			this._olv.Sort(this._olv.GetColumn(0), SortOrder.Ascending);
+			Assert.AreEqual(PersonDb.FirstAlphabeticalName, ((Person)this._olv.GetModelObject(0)).Name);
 
 			try
 			{
-				this.olv.CustomSorter = delegate (OLVColumn column, SortOrder order)
-				{
-					this.olv.ListViewItemSorter = new ColumnComparer(new OLVColumn("dummy", "BirthDate"), SortOrder.Descending);
-				};
-				this.olv.Sort(this.olv.GetColumn(0), SortOrder.Ascending);
-				Assert.AreNotEqual(PersonDb.FirstAlphabeticalName, ((Person)this.olv.GetModelObject(0)).Name);
+				this._olv.CustomSorter = (column, order) => this._olv.ListViewItemSorter = new ColumnComparer(new OLVColumn("dummy", "BirthDate"), SortOrder.Descending);
+
+				this._olv.Sort(this._olv.GetColumn(0), SortOrder.Ascending);
+				Assert.AreNotEqual(PersonDb.FirstAlphabeticalName, ((Person)this._olv.GetModelObject(0)).Name);
 			} finally
 			{
-				this.olv.CustomSorter = null;
+				this._olv.CustomSorter = null;
 			}
 		}
 
 		[TestMethod]
 		public void TestAfterSortingEvent()
 		{
+			Int32 afterSortingCount = 0;
 			try
 			{
-				this.olv.AfterSorting += new EventHandler<AfterSortingEventArgs>(olvAfterSorting1);
-				this.afterSortingCount = 0;
-				this.olv.Sort(this.olv.GetColumn(0), SortOrder.Ascending);
-				this.olv.Sort();
-				this.olv.Sort(this.olv.GetColumn(0));
+				this._olv.AfterSorting += new EventHandler<AfterSortingEventArgs>(OnAfterSorting);
+				this._olv.Sort(this._olv.GetColumn(0), SortOrder.Ascending);
+				this._olv.Sort();
+				this._olv.Sort(this._olv.GetColumn(0));
 			} finally
 			{
-				this.olv.AfterSorting -= new EventHandler<AfterSortingEventArgs>(olvAfterSorting1);
+				this._olv.AfterSorting -= new EventHandler<AfterSortingEventArgs>(OnAfterSorting);
 			}
-			Assert.AreEqual(3, this.afterSortingCount);
-		}
-		int afterSortingCount;
 
-		void olvAfterSorting1(Object sender, AfterSortingEventArgs e)
-		{
-			this.afterSortingCount++;
+			Assert.AreEqual(3, afterSortingCount);
+
+			void OnAfterSorting(Object sender, AfterSortingEventArgs e)
+			{
+				afterSortingCount++;
+			}
 		}
 
 		[TestMethod]
@@ -141,93 +144,90 @@ namespace BrightIdeasSoftware.Tests
 		{
 			try
 			{
-				this.olv.BeforeSorting += new EventHandler<BeforeSortingEventArgs>(olvBeforeSorting1);
-				this.olv.Sort(this.olv.GetColumn(2), SortOrder.Ascending);
+				this._olv.BeforeSorting += new EventHandler<BeforeSortingEventArgs>(OnBeforeSorting);
+				this._olv.Sort(this._olv.GetColumn(2), SortOrder.Ascending);
 
 				// The BeforeSorting event should have changed the sort to descending by name
-				Assert.AreEqual(PersonDb.LastAlphabeticalName, ((Person)this.olv.GetModelObject(0)).Name);
+				Assert.AreEqual(PersonDb.LastAlphabeticalName, ((Person)this._olv.GetModelObject(0)).Name);
 			} finally
 			{
-				this.olv.BeforeSorting -= new EventHandler<BeforeSortingEventArgs>(olvBeforeSorting1);
+				this._olv.BeforeSorting -= new EventHandler<BeforeSortingEventArgs>(OnBeforeSorting);
 			}
-		}
 
-		void olvBeforeSorting1(Object sender, BeforeSortingEventArgs e)
-		{
-			Assert.AreEqual(this.olv.GetColumn(2), e.ColumnToSort);
-			Assert.AreEqual(SortOrder.Ascending, e.SortOrder);
+			void OnBeforeSorting(Object sender, BeforeSortingEventArgs e)
+			{
+				Assert.AreEqual(this._olv.GetColumn(2), e.ColumnToSort);
+				Assert.AreEqual(SortOrder.Ascending, e.SortOrder);
 
-			e.ColumnToSort = this.olv.GetColumn(0);
-			e.SortOrder = SortOrder.Descending;
+				e.ColumnToSort = this._olv.GetColumn(0);
+				e.SortOrder = SortOrder.Descending;
+			}
 		}
 
 		[TestMethod]
 		public void TestCancelSorting()
 		{
-			this.olv.Sort(this.olv.GetColumn(0), SortOrder.Descending);
-			Assert.AreEqual(PersonDb.LastAlphabeticalName, ((Person)this.olv.GetModelObject(0)).Name);
+			this._olv.Sort(this._olv.GetColumn(0), SortOrder.Descending);
+			Assert.AreEqual(PersonDb.LastAlphabeticalName, ((Person)this._olv.GetModelObject(0)).Name);
 
 			try
 			{
-				this.olv.BeforeSorting += new EventHandler<BeforeSortingEventArgs>(olvBeforeSorting2);
-				this.olv.Sort(this.olv.GetColumn(2), SortOrder.Ascending);
+				this._olv.BeforeSorting += new EventHandler<BeforeSortingEventArgs>(OnBeforeSorting);
+				this._olv.Sort(this._olv.GetColumn(2), SortOrder.Ascending);
 
 				// The BeforeSorting event should have cancelled the sort so the second Sort() should not have had an effect
-				Assert.AreEqual(PersonDb.LastAlphabeticalName, ((Person)this.olv.GetModelObject(0)).Name);
+				Assert.AreEqual(PersonDb.LastAlphabeticalName, ((Person)this._olv.GetModelObject(0)).Name);
 			} finally
 			{
-				this.olv.BeforeSorting -= new EventHandler<BeforeSortingEventArgs>(olvBeforeSorting2);
+				this._olv.BeforeSorting -= new EventHandler<BeforeSortingEventArgs>(OnBeforeSorting);
 			}
-		}
 
-		void olvBeforeSorting2(Object sender, BeforeSortingEventArgs e)
-		{
-			Assert.AreEqual(this.olv.GetColumn(2), e.ColumnToSort);
-			Assert.AreEqual(SortOrder.Ascending, e.SortOrder);
+			void OnBeforeSorting(Object sender, BeforeSortingEventArgs e)
+			{
+				Assert.AreEqual(this._olv.GetColumn(2), e.ColumnToSort);
+				Assert.AreEqual(SortOrder.Ascending, e.SortOrder);
 
-			e.Canceled = true;
+				e.Canceled = true;
+			}
 		}
 
 		[TestMethod]
 		public void TestPreserveSelection()
 		{
-			this.olv.SelectedObject = PersonDb.All[0];
-			this.olv.Sort(this.olv.GetColumn(2), SortOrder.Ascending);
-			Assert.AreEqual(PersonDb.All[0], this.olv.SelectedObject);
+			this._olv.SelectedObject = PersonDb.All[0];
+			this._olv.Sort(this._olv.GetColumn(2), SortOrder.Ascending);
+			Assert.AreEqual(PersonDb.All[0], this._olv.SelectedObject);
 		}
 
 		[TestMethod]
 		public void TestPreserveSelectionMultiple()
 		{
-			this.olv.SelectedObjects = PersonDb.All;
-			this.olv.Sort(this.olv.GetColumn(1), SortOrder.Ascending);
-			Assert.AreEqual(PersonDb.All.Count, this.olv.SelectedObjects.Count);
-			foreach(Object x in this.olv.SelectedObjects)
+			this._olv.SelectedObjects = PersonDb.All;
+			this._olv.Sort(this._olv.GetColumn(1), SortOrder.Ascending);
+			Assert.HasCount(PersonDb.All.Count, this._olv.SelectedObjects);
+
+			foreach(Object x in this._olv.SelectedObjects)
 				Assert.Contains(x, PersonDb.All);
 		}
 
 		[TestMethod]
 		virtual public void TestUnsort()
 		{
-			this.olv.Sort(this.olv.GetColumn(0), SortOrder.Ascending);
-			Assert.AreEqual(PersonDb.FirstAlphabeticalName, ((Person)this.olv.GetModelObject(0)).Name);
-			this.olv.Unsort();
-			Assert.IsNull(this.olv.PrimarySortColumn);
+			this._olv.Sort(this._olv.GetColumn(0), SortOrder.Ascending);
+			Assert.AreEqual(PersonDb.FirstAlphabeticalName, ((Person)this._olv.GetModelObject(0)).Name);
+			this._olv.Unsort();
+			Assert.IsNull(this._olv.PrimarySortColumn);
 			//Assert.AreEqual(SortOrder.None, this.olv.PrimarySortOrder);
-			Assert.AreEqual(PersonDb.All[0].Name, ((Person)this.olv.GetModelObject(0)).Name);
+			Assert.AreEqual(PersonDb.All[0].Name, ((Person)this._olv.GetModelObject(0)).Name);
 		}
-
-		[TestFixtureSetUp]
-		public void Init()
-		{
-			this.olv = MyGlobals.mainForm.objectListView1;
-		}
-		protected ObjectListView olv;
 	}
 
 	[TestClass]
 	public class TestFastOlvSorting : TestSorting
 	{
+		public TestFastOlvSorting()
+			=> this._olv = MyGlobals.mainForm.fastObjectListView1;
+
 		[TestMethod]
 		override public void TestCustomSorting()
 		{
@@ -237,12 +237,6 @@ namespace BrightIdeasSoftware.Tests
 		override public void TestUnsort()
 		{
 			// FastObjectListViews don't really support Unsort()
-		}
-
-		[TestFixtureSetUp]
-		new public void Init()
-		{
-			this.olv = MyGlobals.mainForm.fastObjectListView1;
 		}
 	}
 }

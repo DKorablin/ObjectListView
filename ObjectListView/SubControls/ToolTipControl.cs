@@ -185,8 +185,11 @@ namespace BrightIdeasSoftware
 					this.WindowStyle |= WS_BORDER;
 				else
 					this.WindowStyle &= ~WS_BORDER;
+
+				this._hasBorder = value;
 			}
 		}
+
 		private Boolean _hasBorder = true;
 
 		/// <summary>Get or set the background color of the tooltip</summary>
@@ -265,10 +268,10 @@ namespace BrightIdeasSoftware
 		{
 			get
 			{
-				IntPtr hfont = NativeMethods.SendMessage(this.Handle, WM_GETFONT, 0, 0);
-				return hfont == IntPtr.Zero
+				IntPtr hFont = NativeMethods.SendMessage(this.Handle, WM_GETFONT, 0, 0);
+				return hFont == IntPtr.Zero
 					? Control.DefaultFont
-					: Font.FromHfont(hfont);
+					: Font.FromHfont(hFont);
 			}
 			set
 			{
@@ -277,8 +280,8 @@ namespace BrightIdeasSoftware
 					return;
 
 				this._font = newFont;
-				IntPtr hfont = this._font.ToHfont(); // THINK: When should we delete this hfont?
-				NativeMethods.SendMessage(this.Handle, WM_SETFONT, hfont, 0);
+				IntPtr hFont = this._font.ToHfont(); // THINK: When should we delete this hFont?
+				NativeMethods.SendMessage(this.Handle, WM_SETFONT, hFont, 0);
 			}
 		}
 		private Font _font;
@@ -579,23 +582,23 @@ namespace BrightIdeasSoftware
 		/// <summary>Mess with the basic message pump of the tooltip</summary>
 		/// <param name="msg"></param>
 		[SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-		override protected void WndProc(ref Message msg)
+		override protected void WndProc(ref Message m)
 		{
 			//System.Diagnostics.Trace.WriteLine(String.Format("xx {0:x}", msg.Msg));
-			switch(msg.Msg)
+			switch(m.Msg)
 			{
 			case 0x4E: // WM_NOTIFY
-				if(!this.HandleNotify(ref msg))
+				if(!this.HandleNotify(ref m))
 					return;
 				break;
 
 			case 0x204E: // WM_REFLECT_NOTIFY
-				if(!this.HandleReflectNotify(ref msg))
+				if(!this.HandleReflectNotify(ref m))
 					return;
 				break;
 			}
 
-			base.WndProc(ref msg);
+			base.WndProc(ref m);
 		}
 
 		#endregion

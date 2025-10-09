@@ -55,7 +55,7 @@ namespace BrightIdeasSoftware
 			public TreeListView TreeListView => (TreeListView)this.ListView;
 
 			/// <summary>How many pixels will be reserved for each level of indentation?</summary>
-			public static Int32 PIXELS_PER_LEVEL = 16 + 1;
+			public const Int32 PIXELS_PER_LEVEL = 16 + 1;
 
 			/// <summary>The real work of drawing the tree is done in this method</summary>
 			/// <param name="g"></param>

@@ -65,7 +65,7 @@ namespace BrightIdeasSoftware
 	/// </code>
 	/// To iterate over the selected objects, you can write something elegant like this:
 	/// <code>
-	/// foreach (Person x in tlist.SelectedObjects) {
+	/// foreach (Person x in tList.SelectedObjects) {
 	///     x.GrantSalaryIncrease();
 	/// }
 	/// </code>
@@ -73,9 +73,9 @@ namespace BrightIdeasSoftware
 	public class TypedObjectListView<T> where T : class
 	{
 		/// <summary>Create a typed wrapper around the given list.</summary>
-		/// <param name="olv">The listview to be wrapped</param>
+		/// <param name="olv">The ListView to be wrapped</param>
 		public TypedObjectListView(ObjectListView olv)
-			=> this._olv = olv;
+			=> this.ListView = olv;
 
 		//--------------------------------------------------------------------------------------
 		// Properties
@@ -84,51 +84,46 @@ namespace BrightIdeasSoftware
 		/// Return the model Object that is checked, if only one row is checked.
 		/// If zero rows are checked, or more than one row, null is returned.
 		/// </summary>
-		public virtual T CheckedObject => (T)this._olv.CheckedObject;
+		public virtual T CheckedObject => (T)this.ListView.CheckedObject;
 
 		/// <summary>Return the list of all the checked model objects</summary>
 		public virtual IList<T> CheckedObjects
 		{
 			get
 			{
-				IList checkedObjects = this._olv.CheckedObjects;
+				IList checkedObjects = this.ListView.CheckedObjects;
 				List<T> objects = new List<T>(checkedObjects.Count);
 				foreach(Object x in checkedObjects)
 					objects.Add((T)x);
 
 				return objects;
 			}
-			set => this._olv.CheckedObjects = (IList)value;
+			set => this.ListView.CheckedObjects = (IList)value;
 		}
 
 		/// <summary>The ObjectListView that is being wrapped</summary>
-		public virtual ObjectListView ListView
-		{
-			get { return _olv; }
-			set { _olv = value; }
-		}
-		private ObjectListView _olv;
+		public virtual ObjectListView ListView { get; set; }
 
 		/// <summary>Get or set the list of all model objects</summary>
 		public virtual IList<T> Objects
 		{
 			get
 			{
-				List<T> objects = new List<T>(this._olv.GetItemCount());
-				for(Int32 i = 0; i < this._olv.GetItemCount(); i++)
+				List<T> objects = new List<T>(this.ListView.GetItemCount());
+				for(Int32 i = 0; i < this.ListView.GetItemCount(); i++)
 					objects.Add(this.GetModelObject(i));
 
 				return objects;
 			}
-			set => this._olv.SetObjects(value);
+			set => this.ListView.SetObjects(value);
 		}
 
 		/// <summary>Return the model Object that is selected, if only one row is selected.</summary>
 		/// <remarks>If zero rows are selected, or more than one row, null is returned.</remarks>
 		public virtual T SelectedObject
 		{
-			get => (T)this._olv.SelectedObject;
-			set => this._olv.SelectedObject = value;
+			get => (T)this.ListView.SelectedObject;
+			set => this.ListView.SelectedObject = value;
 		}
 
 		/// <summary>The list of model objects that are selected.</summary>
@@ -136,13 +131,13 @@ namespace BrightIdeasSoftware
 		{
 			get
 			{
-				List<T> objects = new List<T>(this._olv.SelectedIndices.Count);
-				foreach(Int32 index in this._olv.SelectedIndices)
-					objects.Add((T)this._olv.GetModelObject(index));
+				List<T> objects = new List<T>(this.ListView.SelectedIndices.Count);
+				foreach(Int32 index in this.ListView.SelectedIndices)
+					objects.Add((T)this.ListView.GetModelObject(index));
 
 				return objects;
 			}
-			set => this._olv.SelectedObjects = (IList)value;
+			set => this.ListView.SelectedObjects = (IList)value;
 		}
 
 		//--------------------------------------------------------------------------------------
@@ -152,19 +147,19 @@ namespace BrightIdeasSoftware
 		/// <param name="i">The index of the column</param>
 		/// <returns>A typed column or null</returns>
 		public virtual TypedColumn<T> GetColumn(Int32 i)
-			=> new TypedColumn<T>(this._olv.GetColumn(i));
+			=> new TypedColumn<T>(this.ListView.GetColumn(i));
 
 		/// <summary>Return a typed wrapper around the column with the given name</summary>
 		/// <param name="name">The name of the column</param>
 		/// <returns>A typed column or null</returns>
 		public virtual TypedColumn<T> GetColumn(String name)
-			=> new TypedColumn<T>(this._olv.GetColumn(name));
+			=> new TypedColumn<T>(this.ListView.GetColumn(name));
 
 		/// <summary>Return the model Object at the given index</summary>
 		/// <param name="index">The index of the model Object</param>
 		/// <returns>The model Object or null</returns>
 		public virtual T GetModelObject(Int32 index)
-			=> (T)this._olv.GetModelObject(index);
+			=> (T)this.ListView.GetModelObject(index);
 
 		//--------------------------------------------------------------------------------------
 		// Delegates
@@ -177,11 +172,11 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or sets the check state getter</summary>
 		public virtual TypedCheckStateGetterDelegate CheckStateGetter
 		{
-			get => _checkStateGetter;
+			get => this._checkStateGetter;
 			set
 			{
 				this._checkStateGetter = value;
-				this._olv.CheckStateGetter = value == null
+				this.ListView.CheckStateGetter = value == null
 					? (CheckStateGetterDelegate)null
 					: (x => this._checkStateGetter((T)x));
 			}
@@ -198,7 +193,7 @@ namespace BrightIdeasSoftware
 		{
 			set
 			{
-				this._olv.BooleanCheckStateGetter = value == null
+				this.ListView.BooleanCheckStateGetter = value == null
 					? (BooleanCheckStateGetterDelegate)null
 					: (x => value((T)x));
 			}
@@ -217,7 +212,7 @@ namespace BrightIdeasSoftware
 			set
 			{
 				this._checkStatePutter = value;
-				this._olv.CheckStatePutter = value == null
+				this.ListView.CheckStatePutter = value == null
 					? (CheckStatePutterDelegate)null
 					: (x, newValue) => this._checkStatePutter((T)x, newValue);
 			}
@@ -235,7 +230,7 @@ namespace BrightIdeasSoftware
 		{
 			set
 			{
-				this._olv.BooleanCheckStatePutter = value == null
+				this.ListView.BooleanCheckStatePutter = value == null
 					? (BooleanCheckStatePutterDelegate)null
 					: (x, newValue) => value((T)x, newValue);
 			}
@@ -252,7 +247,7 @@ namespace BrightIdeasSoftware
 		{
 			set
 			{
-				this._olv.CellToolTipGetter = value == null
+				this.ListView.CellToolTipGetter = value == null
 					? (CellToolTipGetterDelegate)null
 					: (col, x) => value(col, (T)x);
 			}
@@ -261,8 +256,8 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or sets the header tool tip getter</summary>
 		public virtual HeaderToolTipGetterDelegate HeaderToolTipGetter
 		{
-			get => this._olv.HeaderToolTipGetter;
-			set => this._olv.HeaderToolTipGetter = value;
+			get => this.ListView.HeaderToolTipGetter;
+			set => this.ListView.HeaderToolTipGetter = value;
 		}
 
 		//--------------------------------------------------------------------------------------
@@ -280,7 +275,7 @@ namespace BrightIdeasSoftware
 	/// <typeparam name="T"></typeparam>
 	public class TypedColumn<T> where T : class
 	{
-		private OLVColumn _column;
+		private readonly OLVColumn _column;
 
 		/// <summary>Creates a TypedColumn</summary>
 		/// <param name="column"></param>

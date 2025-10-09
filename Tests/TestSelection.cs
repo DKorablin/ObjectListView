@@ -17,99 +17,104 @@ namespace BrightIdeasSoftware.Tests
 	[TestClass]
 	public class TestOlvSelection
 	{
-		[SetUp]
+		protected ObjectListView _olv;
+
+		public TestOlvSelection()
+			=> this._olv = MyGlobals.mainForm.objectListView1;
+
+		[TestInitialize]
 		public void InitEachTest()
 		{
-			this.olv.SetObjects(PersonDb.All);
-			this.olv.SelectedObjects = null;
+			this._olv.SetObjects(PersonDb.All);
+			this._olv.SelectedObjects = null;
 		}
 
 		[TestMethod]
 		public void TestSelectedObject()
 		{
-			Assert.IsNull(this.olv.SelectedObject);
-			this.olv.SelectedObject = PersonDb.All[1];
-			Assert.AreEqual(PersonDb.All[1], this.olv.SelectedObject);
+			Assert.IsNull(this._olv.SelectedObject);
+			this._olv.SelectedObject = PersonDb.All[1];
+			Assert.AreEqual(PersonDb.All[1], this._olv.SelectedObject);
 		}
 
 		[TestMethod]
 		public void TestSelectedObjects()
 		{
-			Assert.IsEmpty(this.olv.SelectedObjects);
-			this.olv.SelectedObjects = PersonDb.All;
-			Assert.AreEqual(PersonDb.All, this.olv.SelectedObjects);
-			this.olv.SelectedObjects = null;
-			Assert.IsEmpty(this.olv.SelectedObjects);
+			Assert.IsEmpty(this._olv.SelectedObjects);
+			this._olv.SelectedObjects = PersonDb.All;
+			Assert.HasCount(PersonDb.All.Count, this._olv.SelectedObjects);
+			this._olv.SelectedObjects = null;
+			Assert.IsEmpty(this._olv.SelectedObjects);
 		}
 
 		[TestMethod]
 		public void TestSelectAll()
 		{
-			this.olv.SelectAll();
-			Assert.AreEqual(PersonDb.All, this.olv.SelectedObjects);
+			this._olv.SelectAll();
+			Assert.HasCount(PersonDb.All.Count, this._olv.SelectedObjects);
 		}
 
 		[TestMethod]
 		public void TestDeselectAll()
 		{
-			this.olv.SelectedObject = PersonDb.All[1];
-			Assert.IsNotEmpty(this.olv.SelectedObjects);
-			this.olv.DeselectAll();
-			Assert.IsEmpty(this.olv.SelectedObjects);
+			this._olv.SelectedObject = PersonDb.All[1];
+			Assert.IsNotEmpty(this._olv.SelectedObjects);
+			this._olv.DeselectAll();
+			Assert.IsEmpty(this._olv.SelectedObjects);
 
-			this.olv.SelectAll();
-			Assert.IsNotEmpty(this.olv.SelectedObjects);
-			this.olv.DeselectAll();
-			Assert.IsEmpty(this.olv.SelectedObjects);
+			this._olv.SelectAll();
+			Assert.IsNotEmpty(this._olv.SelectedObjects);
+			this._olv.DeselectAll();
+			Assert.IsEmpty(this._olv.SelectedObjects);
 		}
 
 		[TestMethod]
 		public void TestSortingShouldNotRaiseSelectionChangedEvents()
 		{
-			this.olv.SelectionChanged += new EventHandler(olv_SelectionChanged);
-			this.olv.SelectedObjects = PersonDb.All;
+			this._olv.SelectionChanged += new EventHandler(this.olv_SelectionChanged);
+			this._olv.SelectedObjects = PersonDb.All;
 			Application.RaiseIdle(new EventArgs());
-			countSelectionChanged = 0;
+			this._countSelectionChanged = 0;
 
-			this.olv.Sort(this.olv.GetColumn(1));
+			this._olv.Sort(this._olv.GetColumn(1));
 
 			// Force an idle cycle so the selection changed event is processed
 			Application.RaiseIdle(new EventArgs());
 
-			Assert.AreEqual(0, countSelectionChanged);
+			Assert.AreEqual(0, this._countSelectionChanged);
 
 			// Cleanup
-			this.olv.SelectionChanged -= new EventHandler(olv_SelectionChanged);
+			this._olv.SelectionChanged -= new EventHandler(this.olv_SelectionChanged);
 		}
 
 		[TestMethod]
 		public void TestAddingAColumnShouldNotRaiseSelectionChangedEvents()
 		{
-			this.olv.SelectionChanged += new EventHandler(olv_SelectionChanged);
-			this.olv.SelectedObjects = PersonDb.All;
+			this._olv.SelectionChanged += new EventHandler(this.olv_SelectionChanged);
+			this._olv.SelectedObjects = PersonDb.All;
 			Application.RaiseIdle(new EventArgs());
-			countSelectionChanged = 0;
+			this._countSelectionChanged = 0;
 
-			this.olv.RebuildColumns();
+			this._olv.RebuildColumns();
 
 			// Force an idle cycle so the selection changed event is processed
 			Application.RaiseIdle(new EventArgs());
 
-			Assert.AreEqual(0, countSelectionChanged);
+			Assert.AreEqual(0, this._countSelectionChanged);
 
 			// Cleanup
-			this.olv.SelectionChanged -= new EventHandler(olv_SelectionChanged);
+			this._olv.SelectionChanged -= new EventHandler(this.olv_SelectionChanged);
 		}
 
 		[TestMethod]
 		public void TestSelectionEvents()
 		{
-			countSelectedIndexChanged = 0;
-			countSelectionChanged = 0;
-			this.olv.SelectedIndexChanged += new EventHandler(olv_SelectedIndexChanged);
-			this.olv.SelectionChanged += new EventHandler(olv_SelectionChanged);
-			this.olv.SelectedObjects = PersonDb.All;
-			this.olv.SelectedObjects = null;
+			_countSelectedIndexChanged = 0;
+			this._countSelectionChanged = 0;
+			this._olv.SelectedIndexChanged += new EventHandler(this.olv_SelectedIndexChanged);
+			this._olv.SelectionChanged += new EventHandler(this.olv_SelectionChanged);
+			this._olv.SelectedObjects = PersonDb.All;
+			this._olv.SelectedObjects = null;
 
 			// Force an idle cycle so the selection changed event is processed
 			Application.RaiseIdle(new EventArgs());
@@ -117,87 +122,68 @@ namespace BrightIdeasSoftware.Tests
 			// On a virtual list, deselecting everything only triggers one event, but on
 			// normal lists, there should two selectedIndex events for each Object.
 			// Regardless of anything, there should be only one selection changed event.
-			if(this.olv.VirtualMode)
-				Assert.AreEqual(PersonDb.All.Count + 1, countSelectedIndexChanged);
+			if(this._olv.VirtualMode)
+				Assert.AreEqual(PersonDb.All.Count + 1, this._countSelectedIndexChanged);
 			else
-				Assert.AreEqual(PersonDb.All.Count * 2, countSelectedIndexChanged);
-			Assert.AreEqual(1, countSelectionChanged);
+				Assert.AreEqual(PersonDb.All.Count * 2, this._countSelectedIndexChanged);
+			Assert.AreEqual(1, _countSelectionChanged);
 
 			// Cleanup
-			this.olv.SelectedIndexChanged -= new EventHandler(olv_SelectedIndexChanged);
-			this.olv.SelectionChanged -= new EventHandler(olv_SelectionChanged);
+			this._olv.SelectedIndexChanged -= new EventHandler(this.olv_SelectedIndexChanged);
+			this._olv.SelectionChanged -= new EventHandler(this.olv_SelectionChanged);
 		}
 
-		void olv_SelectedIndexChanged(Object sender, EventArgs e)
-		{
-			countSelectedIndexChanged++;
-		}
-		int countSelectedIndexChanged;
+		private void olv_SelectedIndexChanged(Object sender, EventArgs e)
+			=> this._countSelectedIndexChanged++;
+
+		private Int32 _countSelectedIndexChanged;
 
 		protected void olv_SelectionChanged(Object sender, EventArgs e)
-		{
-			countSelectionChanged++;
-		}
-		protected int countSelectionChanged;
+			=> this._countSelectionChanged++;
 
-		[TestFixtureSetUp]
-		public void Init()
-		{
-			this.olv = MyGlobals.mainForm.objectListView1;
-		}
-		protected ObjectListView olv;
+		protected Int32 _countSelectionChanged;
 	}
 
 	[TestClass]
 	public class TestFastOlvSelection : TestOlvSelection
 	{
-		[TestFixtureSetUp]
-		new public void Init()
-		{
-			this.olv = MyGlobals.mainForm.fastObjectListView1;
-		}
+		public TestFastOlvSelection()
+			=> this._olv = MyGlobals.mainForm.fastObjectListView1;
 	}
 
 	[TestClass]
 	public class TestTreeListViewSelection : TestOlvSelection
 	{
-		[TestFixtureSetUp]
-		new public void Init()
+		public TestTreeListViewSelection()
 		{
-			this.olv = this.treeListView = MyGlobals.mainForm.treeListView1;
-			this.treeListView.CanExpandGetter = delegate (Object x)
-			{
-				return ((Person)x).Children.Count > 0;
-			};
-			this.treeListView.ChildrenGetter = delegate (Object x)
-			{
-				return ((Person)x).Children;
-			};
+			this._olv = this._treeListView = MyGlobals.mainForm.treeListView1;
+			this._treeListView.CanExpandGetter = (x) => ((Person)x).Children.Count > 0;
+			this._treeListView.ChildrenGetter = (x) => ((Person)x).Children;
 		}
-		private TreeListView treeListView;
+		private readonly TreeListView _treeListView;
 
 		[TestMethod]
 		public void TestCollapseExpandShouldNotRaiseSelectionChangedEvents()
 		{
-			this.olv.SelectedObjects = PersonDb.All;
+			this._olv.SelectedObjects = PersonDb.All;
 			Application.RaiseIdle(new EventArgs());
-			this.olv.SelectionChanged += new EventHandler(olv_SelectionChanged);
-			countSelectionChanged = 0;
+			this._olv.SelectionChanged += new EventHandler(this.olv_SelectionChanged);
+			this._countSelectionChanged = 0;
 
-			this.treeListView.Expand(PersonDb.All[0]);
-			this.treeListView.ExpandAll();
+			this._treeListView.Expand(PersonDb.All[0]);
+			this._treeListView.ExpandAll();
 
 			// Force an idle cycle so the selection changed event is processed
 			Application.RaiseIdle(new EventArgs());
 
-			Assert.AreEqual(0, countSelectionChanged);
+			Assert.AreEqual(0, this._countSelectionChanged);
 
 			// Cleanup
-			this.treeListView.CollapseAll();
+			this._treeListView.CollapseAll();
 
-			this.olv.SelectionChanged -= new EventHandler(olv_SelectionChanged);
-			this.treeListView.CanExpandGetter = null;
-			this.treeListView.ChildrenGetter = null;
+			this._olv.SelectionChanged -= new EventHandler(this.olv_SelectionChanged);
+			this._treeListView.CanExpandGetter = null;
+			this._treeListView.ChildrenGetter = null;
 		}
 	}
 }

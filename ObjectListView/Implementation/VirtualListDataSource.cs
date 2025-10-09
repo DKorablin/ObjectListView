@@ -145,7 +145,7 @@ namespace BrightIdeasSoftware
 		/// <summary></summary>
 		/// <param name="from"></param>
 		/// <param name="to"></param>
-		public virtual void PrepareCache(Int32 from, Int32 to)
+		public virtual void PrepareCache(Int32 first, Int32 last)
 		{
 		}
 

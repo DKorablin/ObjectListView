@@ -759,11 +759,9 @@ namespace BrightIdeasSoftware
 
 			// If there is an owner drawn delegate installed, give it a chance to draw the header
 			Rectangle fullCellBounds = this.GetItemRect(columnIndex);
-			if(column.HeaderDrawing != null)
-			{
-				if(!column.HeaderDrawing(g, fullCellBounds, columnIndex, column, isPressed, stateStyle))
-					return;
-			}
+			if(column.HeaderDrawing != null
+				&& !column.HeaderDrawing(g, fullCellBounds, columnIndex, column, isPressed, stateStyle))
+				return;
 
 			// Draw the background
 			if(this.ListView.HeaderUsesThemes &&

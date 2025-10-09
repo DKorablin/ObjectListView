@@ -1,5 +1,5 @@
 /*
- * ObjectListView - A listview to show various aspects of a collection of objects
+ * ObjectListView - A ListView to show various aspects of a collection of objects
  *
  * Author: Phillip Piper
  * Date: 9/10/2006 11:15 AM
@@ -17,7 +17,7 @@
  *                  - Correctly report right clicks on group headers via CellRightClick events.
  * v2.9.2
  * 2016-06-02  JPP  - Cell editors now respond to mouse wheel events. Set AllowCellEditorsToProcessMouseWheel
- *                    to false revert to previous behaviour.
+ *                    to false revert to previous behavior.
  *                  - Fixed issue in PauseAnimations() that prevented it from working until
  *                    after the control had been rendered at least once.
  *                  - CellEditUseWholeCell now has correct default value (true).
@@ -28,8 +28,8 @@
  *                  - Obsolete properties are no longer code-gen'ed.
  *
  * v2.9.0
- * 2015-08-22  JPP  - Allow selected row back/fore colours to be specified for each row
- *                  - Renamed properties related to selection colours:
+ * 2015-08-22  JPP  - Allow selected row back/fore colors to be specified for each row
+ *                  - Renamed properties related to selection colors:
  *                       - HighlightBackgroundColor -> SelectedBackColor
  *                       - HighlightForegroundColor -> SelectedForeColor
  *                       - UnfocusedHighlightBackgroundColor -> UnfocusedSelectedBackColor
@@ -39,14 +39,14 @@
  *                  - Added EditorRegistry.Unregister()
  * 2015-07-08  JPP  - All ObjectListViews are now OwnerDrawn by default. This allows all the great features
  *                    of ObjectListView to work correctly at the slight cost of more processing at render time.
- *                    It also avoids the annoying "hot item background ignored in column 0" behaviour that native
+ *                    It also avoids the annoying "hot item background ignored in column 0" behavior that native
  *                    ListView has. Programmers can still turn it back off if they wish.
- * 2015-06-27  JPP  - Yet another attempt to disable ListView's "shift click toggles checkboxes" behaviour.
+ * 2015-06-27  JPP  - Yet another attempt to disable ListView's "shift click toggles checkboxes" behavior.
  *                    The last strategy (fake right click) worked, but had nasty side effects. This one works
  *                    by intercepting a HITTEST message so that it fails. It no longer creates fake right mouse events.
  *                  - Trigger SelectionChanged when filter is changed
  * 2015-06-23  JPP  - [BIG] Added support for Buttons
- * 2015-06-22  JPP  - Added OLVColumn.SearchValueGetter to allow the text used when text filtering to be customised
+ * 2015-06-22  JPP  - Added OLVColumn.SearchValueGetter to allow the text used when text filtering to be customized
  *                  - The default DefaultRenderer is now a HighlightTextRenderer, since that seems more generally useful
  * 2015-06-17  JPP  - Added FocusedObject property
  *                  - Hot item is now always applied to the row even if FullRowSelect is false
@@ -68,7 +68,7 @@
  *                    users could not click on checkboxes.
  * 2014-09-07  JPP  - (Major) Added ability to have checkboxes in headers
  *                  - CellOver events are raised when the mouse moves over the header. Set TriggerCellOverEventsWhenOverHeader
- *                    to false to disable this behaviour.
+ *                    to false to disable this behavior.
  *                  - Freeze/Unfreeze now use BeginUpdate/EndUpdate to disable Window level drawing
  *                  - Changed default value of ObjectListView.HeaderUsesThemes from true to false. Too many people were
  *                    being confused, trying to make something interesting appear in the header and nothing showing up
@@ -79,14 +79,14 @@
  *                  - Added sanity check before BuildGroups()
  * 2014-03-22  JPP  - Fixed some subtle bugs resulting from misuse of TryGetValue()
  * 2014-03-09  JPP  - Added CollapsedGroups property
- *                  - Several minor Resharper complaints quiesced.
+ *                  - Several minor ReSharper complaints quiesced.
  * v2.7
  * 2014-02-14  JPP  - Fixed issue with ShowHeaderInAllViews (another one!) where setting it to false caused the list to lose
  *                    its other extended styles, leading to nasty flickering and worse.
  * 2014-02-06  JPP  - Fix issue on virtual lists where the filter was not correctly reapplied after columns were added or removed.
  *                  - Made disposing of cell editors optional (defaults to true). This allows controls to be cached and reused.
  *                  - Bracketed column resizing with BeginUpdate/EndUpdate to smooth redraws (thanks to Davide)
- * 2014-02-01  JPP  - Added static property ObjectListView.GroupTitleDefault to allow the default group title to be localised.
+ * 2014-02-01  JPP  - Added static property ObjectListView.GroupTitleDefault to allow the default group title to be localized.
  * 2013-09-24  JPP  - Fixed issue in RefreshObjects() when model objects overrode the Equals()/GetHashCode() methods.
  *                  - Made sure get state checker were used when they should have been
  * 2013-04-21  JPP  - Clicking on a non-groupable column header when showing groups will now sort
@@ -132,7 +132,7 @@
  *                    Application.Idle is never triggered. Set CanUseApplicationIdle to false to handle 
  *                    these cases.
  *                  - Handle cases where a second tool tip is installed onto the ObjectListView.
- *                  - Correctly recolour rows after an Insert or Move
+ *                  - Correctly recolor rows after an Insert or Move
  *                  - Removed m.LParam cast which could cause overflow issues on Win7/64 bit.
  * v2.5.0
  * 2011-05-31  JPP  - SelectObject() and SelectObjects() no longer deselect all other rows.
@@ -149,9 +149,9 @@
  *                    DateTime(1980, 12, 31), whereas the cell's text might be 'Dec 31, 1980'.
  * 2011-04-04  JPP  - Tweaked UseTranslucentSelection and UseTranslucentHotItem to look (a little) more
  *                    like Vista/Win7.
- *                  - Alternate colours are now only applied in Details view (as they always should have been)
- *                  - Alternate colours are now correctly recalculated after removing objects
- * 2011-03-29  JPP  - Added SelectColumnsOnRightClickBehaviour to allow the selecting of columns mechanism 
+ *                  - Alternate colors are now only applied in Details view (as they always should have been)
+ *                  - Alternate colors are now correctly recalculated after removing objects
+ * 2011-03-29  JPP  - Added SelectColumnsOnRightClickBehavior to allow the selecting of columns mechanism 
  *                    to be changed. Can now be InlineMenu (the default), SubMenu, or ModelDialog.
  *                  - ColumnSelectionForm was moved from the demo into the ObjectListView project itself.
  *                  - Ctrl-C copying is now able to use the DragSource to create the data transfer Object.
@@ -159,7 +159,7 @@
  *                  - [Small Break] GetNextItem() and GetPreviousItem() now accept and return OLVListView
  *                    rather than ListViewItems.
  * 2011-03-07  JPP  - [Big] Added Excel-style filtering. Right click on a header to show a Filtering menu.
- *                  - Added CellEditKeyEngine to allow key handling when cell editing to be completely customised.
+ *                  - Added CellEditKeyEngine to allow key handling when cell editing to be completely customized.
  *                    Add CellEditTabChangesRows and CellEditEnterChangesRows to show some of these abilities.
  * 2011-03-06  JPP  - Added OLVColumn.AutoCompleteEditorMode in preference to AutoCompleteEditor 
  *                    (which is now just a wrapper). Thanks to Clive Haskins 
@@ -186,7 +186,7 @@
  * 2010-08-18  JPP  - Fixed long standing bug where having 0 columns caused a InvalidCast exception.
  *                  - Added IncludeAllColumnsInDataObject property
  *                  - Improved BuildList(bool) so that it preserves scroll position even when
- *                    the listview is grouped.
+ *                    the ListView is grouped.
  * 2010-08-08  JPP  - Added OLVColumn.HeaderImageKey to allow column headers to have an image.
  *                  - CellEdit validation and finish events now have NewValue property.
  * 2010-08-03  JPP  - Subitem checkboxes improvements: obey IsEditable, can be hot, can be disabled.
@@ -195,8 +195,8 @@
  * 2010-08-01  JPP  - Added ObjectListView.SmoothingMode to control the smoothing of all graphics
  *                    operations
  *                  - Columns now cache their group item format strings so that they still work as 
- *                    grouping columns after they have been removed from the listview. This cached
- *                    value is only used when the column is not part of the listview.
+ *                    grouping columns after they have been removed from the ListView. This cached
+ *                    value is only used when the column is not part of the ListView.
  * 2010-07-25  JPP  - Correctly trigger a Click event when the mouse is clicked.
  * 2010-07-16  JPP  - Invalidate the control before and after cell editing to make sure it looks right
  * 2010-06-23  JPP  - Right mouse clicks on checkboxes no longer confuse them
@@ -272,10 +272,10 @@
  *                    Now they only allow for an image when there actually is one.
  *                  - Added Bounds property to OLVListItem which handles items being part of collapsed groups.
  * 2009-07-29  JPP  - Added GetSubItem() methods to ObjectListView and OLVListItem
- * 2009-07-26  JPP  - Avoided bug in .NET framework involving column 0 of owner drawn listviews not being
- *                    redrawn when the listview was scrolled horizontally (this was a LOT of work to track
+ * 2009-07-26  JPP  - Avoided bug in .NET framework involving column 0 of owner drawn ListViews not being
+ *                    redrawn when the ListView was scrolled horizontally (this was a LOT of work to track
  *                    down and fix!)
- *                  - The cell edit rectangle is now correctly calculated when the listview is scrolled
+ *                  - The cell edit rectangle is now correctly calculated when the ListView is scrolled
  *                    horizontally.
  * 2009-07-14  JPP  - If the user clicks/double clicks on a tree list cell, an edit operation will no longer begin
  *                    if the click was to the left of the expander. This is implemented in such a way that
@@ -312,7 +312,7 @@
  * 2009-04-11  JPP  - Implemented overlay architecture, based on CustomDraw scheme.
  *                    This unified drag drop feedback, empty list msgs and overlay images.
  *                  - Added OverlayImage and friends, which allows an image to be drawn
- *                    transparently over the listview
+ *                    transparently over the ListView
  * 2009-04-10  JPP  - Fixed long-standing annoying flicker on owner drawn virtual lists!
  *                    This means, amongst other things, that grid lines no longer get confused,
  *                    and drag-select no longer flickers.
@@ -432,7 +432,7 @@
  *                    when not in details view!
  * 2008-05-02  JPP  - MappedImageRenderer can now handle a Aspects that return a collection
  *                    of values. Each value will be drawn as its own image.
- *                  - Made AddObjects() and RemoveObjects() work for all flavours (or at least not crash)
+ *                  - Made AddObjects() and RemoveObjects() work for all flavors (or at least not crash)
  *                  - Fixed bug with clearing virtual lists that has been scrolled vertically
  *                  - Made TopItemIndex work with virtual lists.
  * 2008-05-01  JPP  - Added AddObjects() and RemoveObjects() to allow faster mods to the list
@@ -463,7 +463,7 @@
  *                    - grid lines on virtual lists crashes
  *                    - when grouped, items sometimes are not drawn when any item is scrolled out of view
  *                    - i can't seem to get owner drawing to work
- *                    - when editing cell values, the editing controls always appear behind the listview,
+ *                    - when editing cell values, the editing controls always appear behind the ListView,
  *                      where they function fine -- the user just can't see them :-)
  * 2008-03-16  JPP  - Added some methods suggested by Chris Marlowe (thanks for the suggestions Chris)
  *                    - ClearObjects()
@@ -473,14 +473,14 @@
  * v1.9.1
  * 2008-01-29  JPP  - Fixed bug that caused owner-drawn virtual lists to use 100% CPU
  *                  - Added FlagRenderer to help draw bitwise-OR'ed flag values
- * 2008-01-23  JPP  - Fixed bug (introduced in v1.9) that made alternate row colour with groups not quite right
+ * 2008-01-23  JPP  - Fixed bug (introduced in v1.9) that made alternate row color with groups not quite right
  *                  - Ensure that DesignerSerializationVisibility.Hidden is set on all non-browsable properties
  *                  - Make sure that sort indicators are shown after changing which columns are visible
  * 2008-01-21  JPP  - Added FastObjectListView
  * v1.9
  * 2008-01-18  JPP  - Added IncrementalUpdate()
  * 2008-01-16  JPP  - Right clicking on column header will allow the user to choose which columns are visible.
- *                    Set SelectColumnsOnRightClick to false to prevent this behaviour.
+ *                    Set SelectColumnsOnRightClick to false to prevent this behavior.
  *                  - Added ImagesRenderer to draw more than one images in a column
  *                  - Changed the positioning of the empty list m to use all the client area. Thanks to Matze.
  * 2007-12-13  JPP  - Added CopySelectionToClipboard(). Ctrl-C invokes this method. Supports text
@@ -513,14 +513,14 @@
  *                    does not work when printing.
  * v1.6
  * 2007-11-03  JPP  - Fixed some bugs in the rebuilding of DataListView.
- * 2007-10-31  JPP  - Changed to use builtin sort indicators on XP and later. This also avoids alignment
+ * 2007-10-31  JPP  - Changed to use built in sort indicators on XP and later. This also avoids alignment
  *                    problems on Vista. (thanks to gravybod for the suggestion and example implementation)
  * 2007-10-21  JPP  - Added MinimumWidth and MaximumWidth properties to OLVColumn.
  *                  - Added ability for BuildList() to preserve selection. Calling BuildList() directly
  *                    tries to preserve selection; calling SetObjects() does not.
  *                  - Added SelectAll() and DeselectAll() methods. Useful for working with large lists.
  * 2007-10-08  JPP  - Added GetNextItem() and GetPreviousItem(), which walk sequentially through the
- *                    listview items, even when the view is grouped.
+ *                    ListView items, even when the view is grouped.
  *                  - Added SelectedItem property
  * 2007-09-28  JPP  - Optimized aspect-to-string conversion. BuildList() 15% faster.
  *                  - Added empty implementation of RefreshObjects() to VirtualObjectListView since
@@ -534,17 +534,17 @@
  * v1.5
  * 2007-08-03  JPP  - Support animated GIFs in ImageRenderer
  *                  - Allow height of rows to be specified - EXPERIMENTAL!
- * 2007-07-26  JPP  - Optimised redrawing of owner-drawn lists by remembering the update rect
+ * 2007-07-26  JPP  - Optimized redrawing of owner-drawn lists by remembering the update rect
  *                  - Allow sort indicators to be turned off
  * 2007-06-30  JPP  - Added RowFormatter delegate
  *                  - Allow a different label when there is only one item in a group (thanks to cmarlow)
  * v1.4
  * 2007-04-12  JPP  - Allow owner drawn on steriods!
  *                  - Column headers now display sort indicators
- *                  - ImageGetter delegates can now return ints, strings or Images
+ *                  - ImageGetter delegates can now return int's, strings or Images
  *                    (Images are only visible if the list is owner drawn)
  *                  - Added OLVColumn.MakeGroupies to help with group partitioning
- *                  - All normal listview views are now supported
+ *                  - All normal ListView views are now supported
  *                  - Allow dotted aspect names, e.g. Owner.Workgroup.Name (thanks to OlafD)
  *                  - Added SelectedObject and SelectedObjects properties
  * v1.3
@@ -559,7 +559,7 @@
  * 2007-01-04  JPP  - Clear sorter before rebuilding list. 10x faster! (thanks to aaberg)
  *                  - Include GetField in GetAspectByName() so field values can be Invoked too.
  * 					- Fixed subtle bug in RefreshItem() that erased background colors.
- * 2006-11-01  JPP  - Added alternate line colouring
+ * 2006-11-01  JPP  - Added alternate line coloring
  * 2006-10-20  JPP  - Refactored all sorting comparisons and made it extendable. See ComparerManager.
  *                  - Improved IDE integration
  *                  - Made control DoubleBuffered
@@ -905,7 +905,7 @@ namespace BrightIdeasSoftware
 		/// If this is true, cell editors that respond to mouse wheel events (e.g. numeric edit, DateTimeEditor, combo boxes) will operate
 		/// as expected.
 		/// If this is false, a mouse wheel event is interpreted as a request to scroll the control vertically. This will automatically
-		/// finish any cell edit operation that was in flight. This was the default behaviour prior to v2.9.
+		/// finish any cell edit operation that was in flight. This was the default behavior prior to v2.9.
 		/// </summary>
 		[Category(Constants.ObjectListView)]
 		[Description("Should ObjectListView allow cell editors to response to mouse wheel events (default: true)")]
@@ -3360,6 +3360,7 @@ namespace BrightIdeasSoftware
 			ColumnHeaderAutoResizeStyle resizeToContentStyle = this.GetItemCount() == 0 ?
 				ColumnHeaderAutoResizeStyle.HeaderSize :
 				ColumnHeaderAutoResizeStyle.ColumnContent;
+
 			foreach(ColumnHeader column in this.Columns)
 			{
 				switch(column.Width)
@@ -3374,15 +3375,15 @@ namespace BrightIdeasSoftware
 			}
 		}
 
-		/// <summary>Organise the view items into groups, based on the last sort column or the first column if there is no last sort column</summary>
+		/// <summary>Organize the view items into groups, based on the last sort column or the first column if there is no last sort column</summary>
 		public virtual void BuildGroups()
 			=> this.BuildGroups(this.PrimarySortColumn, this.PrimarySortOrder == SortOrder.None ? SortOrder.Ascending : this.PrimarySortOrder);
 
-		/// <summary>Organise the view items into groups, based on the given column</summary>
+		/// <summary>Organize the view items into groups, based on the given column</summary>
 		/// <remarks>
 		/// <para>
 		/// If the AlwaysGroupByColumn property is not null,
-		/// the list view items will be organised by that column,
+		/// the list view items will be organized by that column,
 		/// and the 'column' parameter will be ignored.
 		/// </para>
 		/// <para>This method triggers sorting events: BeforeSorting and AfterSorting.</para>
@@ -3429,7 +3430,7 @@ namespace BrightIdeasSoftware
 			return args;
 		}
 
-		/// <summary>Organise the view items into groups, based on the given columns</summary>
+		/// <summary>Organize the view items into groups, based on the given columns</summary>
 		/// <param name="groupByColumn">What column will be used for grouping</param>
 		/// <param name="groupByOrder">What ordering will be used for groups</param>
 		/// <param name="column">The column whose values should be used for sorting. Cannot be null</param>
@@ -3566,9 +3567,7 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>Build/rebuild all the list view items in the list</summary>
-		/// <param name="shouldPreserveState">If this is true, the control will try to preserve the selection,
-		/// focused item, and the scroll position (see Remarks)
-		/// </param>
+		/// <param name="shouldPreserveState">If this is true, the control will try to preserve the selection, focused item, and the scroll position (see Remarks)</param>
 		/// <remarks>
 		/// <para>Use this method in situations were the contents of the list is basically the same as previously.</para>
 		/// </remarks>
@@ -3680,7 +3679,7 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>
-		/// Give the listview a reasonable size of its tiles, based on the number of lines of
+		/// Give the ListView a reasonable size of its tiles, based on the number of lines of
 		/// information that each tile is going to display.
 		/// </summary>
 		public virtual void CalculateReasonableTileSize()
@@ -3708,6 +3707,7 @@ namespace BrightIdeasSoftware
 
 			this.Freeze();
 			this.Clear();
+
 			List<OLVColumn> columns = this.GetFilteredColumns(view);
 			if(view == View.Details || this.ShowHeaderInAllViews)
 			{
@@ -3798,7 +3798,7 @@ namespace BrightIdeasSoftware
 			return exporter.ExportTo(OLVExporter.ExportFormat.HTML);
 		}
 
-		/// <summary>Deselect all rows in the listview</summary>
+		/// <summary>Deselect all rows in the ListView</summary>
 		public virtual void DeselectAll()
 			=> NativeMethods.DeselectAllItems(this);
 
@@ -3836,8 +3836,8 @@ namespace BrightIdeasSoftware
 
 		/// <summary>
 		/// Return the last item in the order they are shown to the user.
-		/// If the control is not grouped, the display order is the same as the
-		/// sorted list order. But if the list is grouped, the display order is different.
+		/// If the control is not grouped, the display order is the same as the sorted list order.
+		/// But if the list is grouped, the display order is different.
 		/// </summary>
 		/// <returns></returns>
 		public virtual OLVListItem GetLastItemInDisplayOrder()
@@ -3857,8 +3857,8 @@ namespace BrightIdeasSoftware
 
 		/// <summary>
 		/// Return the n'th item (0-based) in the order they are shown to the user.
-		/// If the control is not grouped, the display order is the same as the
-		/// sorted list order. But if the list is grouped, the display order is different.
+		/// If the control is not grouped, the display order is the same as the sorted list order.
+		/// But if the list is grouped, the display order is different.
 		/// </summary>
 		/// <param name="n"></param>
 		/// <returns></returns>
@@ -3879,7 +3879,7 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>
-		/// Return the display index of the given listviewitem index.
+		/// Return the display index of the given ListViewItem index.
 		/// If the control is not grouped, the display order is the same as the
 		/// sorted list order. But if the list is grouped, the display order is different.
 		/// </summary>
@@ -3943,8 +3943,7 @@ namespace BrightIdeasSoftware
 		/// <param name="modelObjects">The objects to be inserted</param>
 		/// <remarks>
 		/// <para>
-		/// This operation only makes sense of non-sorted, non-grouped
-		/// lists, since any subsequent sort/group operation will rearrange the list.
+		/// This operation only makes sense of non-sorted, non-grouped lists, since any subsequent sort/group operation will rearrange the list.
 		/// </para>
 		/// <para>This method only works on ObjectListViews and FastObjectListViews.</para>
 		///</remarks>
@@ -3973,7 +3972,7 @@ namespace BrightIdeasSoftware
 
 				// If we are filtering the list, there is no way to efficiently
 				// insert the objects, so just put them into our collection and rebuild.
-				// Sigh -- yet another ListView anomoly. In every view except Details, an item
+				// Sigh -- yet another ListView anomaly. In every view except Details, an item
 				// inserted into the Items collection always appear at the end regardless of
 				// their actual insertion index.
 				if(this.IsFiltering || this.View != View.Details)
@@ -4214,7 +4213,7 @@ namespace BrightIdeasSoftware
 			// control.
 			//
 			// This will still fail under pathological conditions. If column 0 fills
-			// the whole listview and no part of the text column 0 is visible
+			// the whole ListView and no part of the text column 0 is visible
 			// (because it is horizontally scrolled offscreen), then the hit test will fail.
 
 			// Are we in the buggy context? Details view, not full row select, and
@@ -4317,7 +4316,7 @@ namespace BrightIdeasSoftware
 				hti.HitTestLocation = HitTestLocation.Text;
 		}
 
-		/// <summary>Perform a hit test when the control is owner drawn. This hands off responsibilityto the renderer.</summary>
+		/// <summary>Perform a hit test when the control is owner drawn. This hands off responsibility to the renderer.</summary>
 		/// <param name="hti"></param>
 		/// <param name="x"></param>
 		/// <param name="y"></param>
@@ -4344,8 +4343,8 @@ namespace BrightIdeasSoftware
 			renderer.HitTest(hti, x, y);
 		}
 
-		/// <summary>Pause (or unpause) all animations in the list</summary>
-		/// <param name="isPause">true to pause, false to unpause</param>
+		/// <summary>Pause (or un-pause) all animations in the list</summary>
+		/// <param name="isPause">true to pause, false to un-pause</param>
 		public virtual void PauseAnimations(Boolean isPause)
 		{
 			for(Int32 i = 0; i < this.Columns.Count; i++)
@@ -4679,9 +4678,8 @@ namespace BrightIdeasSoftware
 			if(models == null)
 			{
 				foreach(INotifyPropertyChanged notifier in this.subscribedModels.Keys)
-				{
 					notifier.PropertyChanged -= this.HandleModelOnPropertyChanged;
-				}
+
 				subscribedModels = new Hashtable();
 			} else
 				foreach(Object x in models)
@@ -4744,7 +4742,7 @@ namespace BrightIdeasSoftware
 			olvState.IsShowingGroups = this.ShowGroups;
 
 			if(this.AllColumns.Count > 0 && this.AllColumns[0].LastDisplayIndex == -1)
-				this.RememberDisplayIndicies();
+				this.RememberDisplayIndices();
 
 			foreach(OLVColumn column in this.AllColumns)
 			{
@@ -4781,10 +4779,12 @@ namespace BrightIdeasSoftware
 				{
 					return false;
 				}
+
 				// The number of columns has changed. We have no way to match old
 				// columns to the new ones, so we just give up.
 				if(olvState == null || olvState.NumberOfColumns != this.AllColumns.Count)
 					return false;
+
 				if(olvState.SortColumn == -1)
 				{
 					this.PrimarySortColumn = null;
@@ -4794,6 +4794,7 @@ namespace BrightIdeasSoftware
 					this.PrimarySortColumn = this.AllColumns[olvState.SortColumn];
 					this.PrimarySortOrder = olvState.LastSortOrder;
 				}
+
 				for(Int32 i = 0; i < olvState.NumberOfColumns; i++)
 				{
 					OLVColumn column = this.AllColumns[i];
@@ -4801,10 +4802,10 @@ namespace BrightIdeasSoftware
 					column.IsVisible = (Boolean)olvState.ColumnIsVisible[i];
 					column.LastDisplayIndex = (Int32)olvState.ColumnDisplayIndicies[i];
 				}
-				// ReSharper disable RedundantCheckBeforeAssignment
+
 				if(olvState.IsShowingGroups != this.ShowGroups)
-					// ReSharper restore RedundantCheckBeforeAssignment
 					this.ShowGroups = olvState.IsShowingGroups;
+
 				if(this.View == olvState.CurrentView)
 					this.RebuildColumns();
 				else
@@ -4818,9 +4819,7 @@ namespace BrightIdeasSoftware
 		[Serializable]
 		internal class ObjectListViewState
 		{
-			// ReSharper disable NotAccessedField.Global
 			public Int32 VersionNumber = 1;
-			// ReSharper restore NotAccessedField.Global
 			public Int32 NumberOfColumns = 1;
 			public View CurrentView;
 			public Int32 SortColumn = -1;
@@ -4861,7 +4860,7 @@ namespace BrightIdeasSoftware
 			this.ResizeFreeSpaceFillingColumns();
 		}
 
-		/// <summary>Handle the BeginScroll listview notification</summary>
+		/// <summary>Handle the BeginScroll ListView notification</summary>
 		/// <param name="m"></param>
 		/// <returns>True if the event was completely handled</returns>
 		protected virtual Boolean HandleBeginScroll(ref Message m)
@@ -4889,7 +4888,7 @@ namespace BrightIdeasSoftware
 			return false;
 		}
 
-		/// <summary>Handle the EndScroll listview notification</summary>
+		/// <summary>Handle the EndScroll ListView notification</summary>
 		/// <param name="m"></param>
 		/// <returns>True if the event was completely handled</returns>
 		protected virtual Boolean HandleEndScroll(ref Message m)
@@ -4910,7 +4909,7 @@ namespace BrightIdeasSoftware
 			return false;
 		}
 
-		/// <summary>Handle the LinkClick listview notification</summary>
+		/// <summary>Handle the LinkClick ListView notification</summary>
 		/// <param name="m"></param>
 		/// <returns>True if the event was completely handled</returns>
 		protected virtual Boolean HandleLinkClick(ref Message m)
@@ -5103,7 +5102,6 @@ namespace BrightIdeasSoftware
 		/// <returns>bool to indicate if the msg has been handled</returns>
 		protected virtual Boolean HandleChar(ref Message m)
 		{
-
 			// Trigger a normal KeyPress event, which listeners can handle if they want.
 			// Handling the event stops ObjectListView's fancy search-by-typing.
 			if(this.ProcessKeyEventArgs(ref m))
@@ -5186,11 +5184,8 @@ namespace BrightIdeasSoftware
 			// Tell the world that a search has occurred
 			AfterSearchingEventArgs args2 = new AfterSearchingEventArgs(searchString, found);
 			this.OnAfterSearching(args2);
-			if(!args2.Handled)
-			{
-				if(found < 0)
-					System.Media.SystemSounds.Beep.Play();
-			}
+			if(!args2.Handled && found < 0)
+				System.Media.SystemSounds.Beep.Play();
 
 			// When did this event occur?
 			this._timeLastCharEvent = Environment.TickCount;
@@ -5299,7 +5294,7 @@ namespace BrightIdeasSoftware
 				this._prePaintLevel++;
 				base.WndProc(ref m);
 
-				// Make sure that we get postpaint notifications
+				// Make sure that we get postPaint notifications
 				m.Result = (IntPtr)((Int32)m.Result | CDRF_NOTIFYPOSTPAINT | CDRF_NOTIFYPOSTERASE);
 				return true;
 
@@ -5319,9 +5314,7 @@ namespace BrightIdeasSoftware
 
 					// Draw our overlays after everything has been drawn
 					using(Graphics g = Graphics.FromHdc(nmcustomdraw.nmcd.hdc))
-					{
 						this.DrawAllDecorations(g, this._drawnItems);
-					}
 				}
 				break;
 
@@ -5344,9 +5337,7 @@ namespace BrightIdeasSoftware
 					if(this.OwnerDraw && this.ItemRenderer != null)
 						base.WndProc(ref m);
 				} else
-				{
 					base.WndProc(ref m);
-				}
 
 				m.Result = (IntPtr)((Int32)m.Result | CDRF_NOTIFYPOSTPAINT | CDRF_NOTIFYPOSTERASE);
 				return true;
@@ -5452,7 +5443,7 @@ namespace BrightIdeasSoftware
 		{
 			//System.Diagnostics.Debug.WriteLine(String.Format("WM_DESTROY: Disposing={0}, IsDisposed={1}, VirtualMode={2}", Disposing, IsDisposed, VirtualMode));
 
-			// Recreate the header control when the listview control is destroyed
+			// Recreate the header control when the ListView control is destroyed
 			this._headerControl = null;
 
 			// When the underlying control is destroyed, we need to recreate and reconfigure its tooltip
@@ -5609,7 +5600,6 @@ namespace BrightIdeasSoftware
 		/// <returns>True if the msg has been handled</returns>
 		protected virtual Boolean HandleKeyDown(ref Message m)
 		{
-
 			// If this is a checkbox list, toggle the selected rows when the user presses Space
 			if(this.CheckBoxes && m.WParam.ToInt32() == (Int32)Keys.Space && this.SelectedIndices.Count > 0)
 			{
@@ -5617,8 +5607,7 @@ namespace BrightIdeasSoftware
 				return true;
 			}
 
-			// Remember the scroll position so we can decide if the listview has scrolled in the
-			// handling of the event.
+			// Remember the scroll position so we can decide if the ListView has scrolled in the handling of the event.
 			Int32 scrollPositionH = NativeMethods.GetScrollPosition(this, true);
 			Int32 scrollPositionV = NativeMethods.GetScrollPosition(this, false);
 
@@ -5628,7 +5617,7 @@ namespace BrightIdeasSoftware
 			if(this.IsDisposed)
 				return true;
 
-			// If the keydown processing changed the scroll position, trigger a Scroll event
+			// If the keyDown processing changed the scroll position, trigger a Scroll event
 			Int32 newScrollPositionH = NativeMethods.GetScrollPosition(this, true);
 			Int32 newScrollPositionV = NativeMethods.GetScrollPosition(this, false);
 
@@ -5654,9 +5643,9 @@ namespace BrightIdeasSoftware
 		/// <summary>Toggle the checkedness of the selected rows</summary>
 		/// <remarks>
 		/// <para>
-		/// Actually, this doesn't actually toggle all rows. It toggles the first row, and
-		/// all other rows get the check state of that first row. This is actually a much
-		/// more useful behaviour.
+		/// Actually, this doesn't actually toggle all rows.
+		/// It toggles the first row, and all other rows get the check state of that first row.
+		/// This is actually a much more useful behavior.
 		/// </para>
 		/// <para>If no rows are selected, this method does nothing.</para>
 		/// </remarks>
@@ -5664,6 +5653,7 @@ namespace BrightIdeasSoftware
 		{
 			if(this.SelectedIndices.Count == 0)
 				return;
+
 			Object primaryModel = this.GetItem(this.SelectedIndices[0]).RowObject;
 			this.ToggleCheckObject(primaryModel);
 			CheckState? state = this.GetCheckState(primaryModel);
@@ -5684,7 +5674,7 @@ namespace BrightIdeasSoftware
 				return true;
 
 			// We have to intercept this low level message rather than the more natural
-			// overridding of OnMouseDown, since ListCtrl's internal mouse down behavior
+			// overriding of OnMouseDown, since ListCtrl's internal mouse down behavior
 			// is to select (or deselect) rows when the mouse is released. We don't
 			// want the selection to change when the user checks or unchecks a checkbox, so if the
 			// mouse down event was to check/uncheck, we have to hide this mouse
@@ -5702,7 +5692,6 @@ namespace BrightIdeasSoftware
 		/// <returns>True if the message has been handled</returns>
 		protected virtual Boolean ProcessLButtonDown(OlvListViewHitTestInfo hti)
 		{
-
 			if(hti.Item == null)
 				return false;
 
@@ -5782,11 +5771,9 @@ namespace BrightIdeasSoftware
 			}
 
 			// Are they trying to expand/collapse a group?
-			if(this.MouseMoveHitTest.HitTestLocation == HitTestLocation.GroupExpander)
-			{
-				if(this.TriggerGroupExpandCollapse(this.MouseMoveHitTest.Group))
-					return true;
-			}
+			if(this.MouseMoveHitTest.HitTestLocation == HitTestLocation.GroupExpander
+				&& this.TriggerGroupExpandCollapse(this.MouseMoveHitTest.Group))
+				return true;
 
 			if(ObjectListView.IsVistaOrLater && this.HasCollapsibleGroups)
 				base.DefWndProc(ref m);
@@ -6237,7 +6224,7 @@ namespace BrightIdeasSoftware
 			return isMsgHandled;
 		}
 
-		/// <summary>Create a ToolTipControl to manage the tooltip control used by the listview control</summary>
+		/// <summary>Create a ToolTipControl to manage the tooltip control used by the ListView control</summary>
 		protected virtual void CreateCellToolTip()
 		{
 			this._cellToolTip = new ToolTipControl();
@@ -6247,7 +6234,7 @@ namespace BrightIdeasSoftware
 			NativeMethods.MakeTopMost(this._cellToolTip);
 		}
 
-		/// <summary>Update the handle used by our cell tooltip to be the tooltip used by the underlying Windows listview control.</summary>
+		/// <summary>Update the handle used by our cell tooltip to be the tooltip used by the underlying Windows ListView control.</summary>
 		protected virtual void UpdateCellToolTipHandle()
 		{
 			if(this._cellToolTip != null && this._cellToolTip.Handle == IntPtr.Zero)
@@ -6310,11 +6297,11 @@ namespace BrightIdeasSoftware
 			const Int32 SWP_NOSIZE = 1;
 
 			NativeMethods.WINDOWPOS pos = (NativeMethods.WINDOWPOS)m.GetLParam(typeof(NativeMethods.WINDOWPOS));
-			if((pos.flags & SWP_NOSIZE) == 0)
+			if((pos.flags & SWP_NOSIZE) == 0
+				&& pos.cx < this.Bounds.Width) // only when shrinking
 			{
-				if(pos.cx < this.Bounds.Width) // only when shrinking
-											   // pos.cx is the window width, not the client area width, so we have to subtract the border widths
-					this.ResizeFreeSpaceFillingColumns(pos.cx - (this.Bounds.Width - this.ClientSize.Width));
+				// pos.cx is the window width, not the client area width, so we have to subtract the border widths
+				this.ResizeFreeSpaceFillingColumns(pos.cx - (this.Bounds.Width - this.ClientSize.Width));
 			}
 
 			return false;
@@ -6373,31 +6360,6 @@ namespace BrightIdeasSoftware
 				m = this.MakeColumnSelectMenu(m);
 
 			return m;
-		}
-
-		/// <summary>Show a popup menu at the given point which will allow the user to choose which columns are visible on this listview</summary>
-		/// <param name="pt">Where should the menu be placed</param>
-		[Obsolete("Use ShowHeaderRightClickMenu instead")]
-		protected virtual void ShowColumnSelectMenu(Point pt)
-		{
-			ToolStripDropDown m = this.MakeColumnSelectMenu(new ContextMenuStrip());
-			m.Show(pt);
-		}
-
-		/// <summary>Show a popup menu at the given point which will allow the user to choose which columns are visible on this listview</summary>
-		/// <param name="columnIndex"></param>
-		/// <param name="pt">Where should the menu be placed</param>
-		[Obsolete("Use ShowHeaderRightClickMenu instead")]
-		protected virtual void ShowColumnCommandMenu(Int32 columnIndex, Point pt)
-		{
-			ToolStripDropDown m = this.MakeColumnCommandMenu(new ContextMenuStrip(), columnIndex);
-			if(this.SelectColumnsOnRightClick)
-			{
-				if(m.Items.Count > 0)
-					m.Items.Add(new ToolStripSeparator());
-				this.MakeColumnSelectMenu(m);
-			}
-			m.Show(pt);
 		}
 
 		/// <summary>Gets or set the text to be used for the sorting ascending command</summary>
@@ -6537,7 +6499,6 @@ namespace BrightIdeasSoftware
 		/// <returns>Return the menu to which the items were added</returns>
 		public virtual ToolStripDropDown MakeColumnSelectMenu(ToolStripDropDown strip)
 		{
-
 			System.Diagnostics.Debug.Assert(this.SelectColumnsOnRightClickBehaviour != ColumnSelectBehaviour.None);
 
 			// Append a separator if the menu isn't empty and the last item isn't already a separator
@@ -6545,7 +6506,7 @@ namespace BrightIdeasSoftware
 				strip.Items.Add(new ToolStripSeparator());
 
 			if(this.AllColumns.Count > 0 && this.AllColumns[0].LastDisplayIndex == -1)
-				this.RememberDisplayIndicies();
+				this.RememberDisplayIndices();
 
 			if(this.SelectColumnsOnRightClickBehaviour == ColumnSelectBehaviour.ModelDialog)
 				strip.Items.Add(this.MenuLabelSelectColumns, null, (sender, args) => (new ColumnSelectionForm()).OpenOn(this));
@@ -6568,7 +6529,7 @@ namespace BrightIdeasSoftware
 			return strip;
 		}
 
-		/// <summary>Create the menu items that will allow columns to be choosen and add them to the given collection</summary>
+		/// <summary>Create the menu items that will allow columns to be chosen and add them to the given collection</summary>
 		/// <param name="items"></param>
 		protected void AddItemsToColumnSelectMenu(ToolStripItemCollection items)
 		{
@@ -6641,10 +6602,10 @@ namespace BrightIdeasSoftware
 			// at this point, the DisplayIndex's of the columns are not yet as they are
 			// going to be. So we have to invoke a method to run later that will remember
 			// what the real DisplayIndex's are.
-			this.BeginInvoke(new MethodInvoker(this.RememberDisplayIndicies));
+			this.BeginInvoke(new MethodInvoker(this.RememberDisplayIndices));
 		}
 
-		private void RememberDisplayIndicies()
+		private void RememberDisplayIndices()
 		{
 			// Remember the display indexes so we can put them back at a later date
 			foreach(OLVColumn x in this.AllColumns)
@@ -6891,7 +6852,6 @@ namespace BrightIdeasSoftware
 		/// <returns>True if the checkedness of the model changed</returns>
 		protected virtual Boolean SetObjectCheckedness(Object modelObject, CheckState state)
 		{
-
 			if(this.GetCheckState(modelObject) == state)
 				return false;
 
@@ -7162,7 +7122,7 @@ namespace BrightIdeasSoftware
 
 		#region Object manipulation
 
-		/// <summary>Scroll the listview so that the given group is at the top.</summary>
+		/// <summary>Scroll the ListView so that the given group is at the top.</summary>
 		/// <param name="lvg">The group to be revealed</param>
 		/// <remarks><para>
 		/// If the group is already visible, the list will still be scrolled to move
@@ -7206,7 +7166,7 @@ namespace BrightIdeasSoftware
 				this.EnsureVisible(index);
 		}
 
-		/// <summary>Find the given model Object within the listview and return its index</summary>
+		/// <summary>Find the given model Object within the ListView and return its index</summary>
 		/// <param name="modelObject">The model Object to be found</param>
 		/// <returns>The index of the Object. -1 means the Object was not present</returns>
 		public virtual Int32 IndexOf(Object modelObject)
@@ -7332,7 +7292,7 @@ namespace BrightIdeasSoftware
 
 		#region Freezing/Suspending
 
-		/// <summary>Get or set whether or not the listview is frozen. When the listview is frozen, it will not update itself.</summary>
+		/// <summary>Get or set whether or not the ListView is frozen. When the ListView is frozen, it will not update itself.</summary>
 		/// <remarks><para>The Frozen property is similar to the methods Freeze()/Unfreeze()
 		/// except that setting Frozen property to false immediately unfreezes the control
 		/// regardless of the number of Freeze() calls outstanding.</para></remarks>
@@ -7356,7 +7316,7 @@ namespace BrightIdeasSoftware
 		}
 		private Int32 _freezeCount;
 
-		/// <summary>Freeze the listview so that it no longer updates itself.</summary>
+		/// <summary>Freeze the ListView so that it no longer updates itself.</summary>
 		/// <remarks>Freeze()/Unfreeze() calls nest correctly</remarks>
 		public virtual void Freeze()
 		{
@@ -7368,8 +7328,8 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>
-		/// Unfreeze the listview.
-		/// If this call is the outermost Unfreeze(), the contents of the listview will be rebuilt.
+		/// Unfreeze the ListView.
+		/// If this call is the outermost Unfreeze(), the contents of the ListView will be rebuilt.
 		/// </summary>
 		/// <remarks>Freeze()/Unfreeze() calls nest correctly</remarks>
 		public virtual void Unfreeze()
@@ -7384,11 +7344,11 @@ namespace BrightIdeasSoftware
 			this.OnFreezing(new FreezeEventArgs(_freezeCount));
 		}
 
-		/// <summary>Do the actual work required when the listview is frozen</summary>
+		/// <summary>Do the actual work required when the ListView is frozen</summary>
 		protected virtual void DoFreeze()
 			=> this.BeginUpdate();
 
-		/// <summary>Do the actual work required when the listview is unfrozen</summary>
+		/// <summary>Do the actual work required when the ListView is unfrozen</summary>
 		protected virtual void DoUnfreeze()
 		{
 			this.EndUpdate();
@@ -7427,7 +7387,7 @@ namespace BrightIdeasSoftware
 			=> new SuspendSelectionDisposable(this);
 
 		/// <summary>Implementation only class that suspends and resumes selection events on instance creation and disposal.</summary>
-		private class SuspendSelectionDisposable : IDisposable
+		private sealed class SuspendSelectionDisposable : IDisposable
 		{
 			public SuspendSelectionDisposable(ObjectListView objectListView)
 			{
@@ -7727,9 +7687,7 @@ namespace BrightIdeasSoftware
 			{
 			case View.Details:
 				for(Int32 i = 1; i < this.Columns.Count; i++)
-				{
 					lvi.SubItems.Add(this.MakeSubItem(rowObject, this.GetColumn(i)));
-				}
 				break;
 			case View.Tile:
 				for(Int32 i = 1; i < this.Columns.Count; i++)
@@ -7809,12 +7767,9 @@ namespace BrightIdeasSoftware
 				NativeMethods.ForceSubItemImagesExStyle(this);
 		}
 
-		/// <summary>
-		/// Convert the given image selector to an index into our image list.
-		/// Return -1 if that's not possible
-		/// </summary>
+		/// <summary>Convert the given image selector to an index into our image list.</summary>
 		/// <param name="imageSelector"></param>
-		/// <returns>Index of the image in the imageList, or -1</returns>
+		/// <returns>Index of the image in the imageList, or -1 if that's not possible</returns>
 		protected virtual Int32 GetActualImageIndex(Object imageSelector)
 		{
 			if(imageSelector == null)
@@ -7880,7 +7835,7 @@ namespace BrightIdeasSoftware
 			return null;
 		}
 
-		/// <summary>Do the work required after the items in a listview have been created</summary>
+		/// <summary>Do the work required after the items in a ListView have been created</summary>
 		protected virtual void PostProcessRows()
 		{
 			// If this method is called during a BeginUpdate/EndUpdate pair, changes to the
@@ -8616,7 +8571,7 @@ namespace BrightIdeasSoftware
 
 			//Debug.WriteLine("OnControlCreated");
 
-			// Force the header control to be created when the listview handle is
+			// Force the header control to be created when the ListView handle is
 			HeaderControl hc = this.HeaderControl;
 			hc.WordWrap = this.HeaderWordWrap;
 
@@ -8628,7 +8583,7 @@ namespace BrightIdeasSoftware
 
 			this.UseExplorerTheme = this.UseExplorerTheme;
 
-			this.RememberDisplayIndicies();
+			this.RememberDisplayIndices();
 			this.SetGroupSpacing();
 
 			if(this.VirtualMode)
@@ -9526,13 +9481,13 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary></summary>
-		/// <param name="args"></param>
-		protected override void OnDragEnter(DragEventArgs args)
+		/// <param name="drgevent"></param>
+		protected override void OnDragEnter(DragEventArgs drgevent)
 		{
-			base.OnDragEnter(args);
+			base.OnDragEnter(drgevent);
 
 			if(this.DropSink != null)
-				this.DropSink.Enter(args);
+				this.DropSink.Enter(drgevent);
 		}
 
 		/// <summary></summary>
@@ -9565,21 +9520,21 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary></summary>
-		/// <param name="args"></param>
-		protected override void OnGiveFeedback(GiveFeedbackEventArgs args)
+		/// <param name="gfbevent"></param>
+		protected override void OnGiveFeedback(GiveFeedbackEventArgs gfbevent)
 		{
-			base.OnGiveFeedback(args);
+			base.OnGiveFeedback(gfbevent);
 
-			this.DropSink?.GiveFeedback(args);
+			this.DropSink?.GiveFeedback(gfbevent);
 		}
 
 		/// <summary></summary>
-		/// <param name="args"></param>
-		protected override void OnQueryContinueDrag(QueryContinueDragEventArgs args)
+		/// <param name="qdevent"></param>
+		protected override void OnQueryContinueDrag(QueryContinueDragEventArgs qdevent)
 		{
-			base.OnQueryContinueDrag(args);
+			base.OnQueryContinueDrag(qdevent);
 
-			this.DropSink?.QueryContinue(args);
+			this.DropSink?.QueryContinue(qdevent);
 		}
 
 		#endregion
@@ -9588,7 +9543,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Add the given decoration to those on this list and make it appear</summary>
 		/// <param name="decoration">The decoration</param>
-		/// <remarks>A decoration scrolls with the listview. An overlay stays fixed in place.</remarks>
+		/// <remarks>A decoration scrolls with the ListView. An overlay stays fixed in place.</remarks>
 		public virtual void AddDecoration(IDecoration decoration)
 		{
 			if(decoration == null)

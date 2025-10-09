@@ -117,23 +117,23 @@ namespace BrightIdeasSoftware
 		#region Events
 
 		/// <summary>Listen for events on the underlying control</summary>
-		/// <param name="c"></param>
-		protected override void OnSubscribeControlEvents(Control c)
+		/// <param name="control"></param>
+		protected override void OnSubscribeControlEvents(Control control)
 		{
-			base.OnSubscribeControlEvents(c);
+			base.OnSubscribeControlEvents(control);
 
-			CheckedListBox control = (CheckedListBox)c;
-			control.ItemCheck += new ItemCheckEventHandler(OnItemCheck);
+			CheckedListBox ctrl = (CheckedListBox)control;
+			ctrl.ItemCheck += new ItemCheckEventHandler(OnItemCheck);
 		}
 
 		/// <summary>Stop listening for events on the underlying control</summary>
-		/// <param name="c"></param>
-		protected override void OnUnsubscribeControlEvents(Control c)
+		/// <param name="control"></param>
+		protected override void OnUnsubscribeControlEvents(Control control)
 		{
-			base.OnUnsubscribeControlEvents(c);
+			base.OnUnsubscribeControlEvents(control);
 
-			CheckedListBox control = (CheckedListBox)c;
-			control.ItemCheck -= new ItemCheckEventHandler(OnItemCheck);
+			CheckedListBox ctrl = (CheckedListBox)control;
+			ctrl.ItemCheck -= new ItemCheckEventHandler(OnItemCheck);
 		}
 
 		/// <summary>Tell the world that an item was checked</summary>

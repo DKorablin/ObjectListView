@@ -234,7 +234,7 @@ namespace BrightIdeasSoftware
 					? 0
 					: (xIsNull ? -1 : 1);
 			else
-				result = this.CompareValues(x1, y1);
+				result = ModelObjectComparer.CompareValues(x1, y1);
 
 			if(this._sortOrder == SortOrder.Descending)
 				result = 0 - result;
@@ -250,7 +250,7 @@ namespace BrightIdeasSoftware
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <returns></returns>
-		public Int32 CompareValues(Object x, Object y)
+		private static Int32 CompareValues(Object x, Object y)
 			=> x is String xStr
 				? CompareStrings(xStr, y as String)// Force case insensitive compares on strings
 				: x is IComparable comparable

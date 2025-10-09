@@ -10,32 +10,32 @@ env:
   DotNetVersion: 8.0.x
 
 jobs:
-#  test_net_windows:
-#    name: Testing
-#    runs-on: windows-latest
-#    steps:
-#    - uses: actions/checkout@v4
-#      with:
-#        submodules: true
-#    - name: Setup .NET
-#      uses: actions/setup-dotnet@v4
-#      with:
-#        dotnet-version: ${{ env.DotNetVersion }}
-#    - name: Cache NuGet packages
-#      uses: actions/cache@v4
-#      with:
-#        path: ~/.nuget/packages
-#        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-#        restore-keys: |
-#          ${{ runner.os }}-nuget-
-#    - name: Restore
-#      run: dotnet restore ${{ env.SolutionName }}.sln
-#    - name: Test
-#      run: dotnet test ${{ env.SolutionName }}.sln --no-build --verbosity normal
+  test_net_windows:
+    name: Testing
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DotNetVersion }}
+    - name: Cache NuGet packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+    - name: Restore
+      run: dotnet restore ${{ env.SolutionName }}.sln
+    - name: Test
+      run: dotnet test ${{ env.SolutionName }}.sln --no-build --verbosity normal
 
   version:
     name: Tag / Version
-#    needs: [test_net_windows]
+    needs: [test_net_windows]
     runs-on: ubuntu-latest
     outputs:
       new_version: ${{ steps.tag_version.outputs.new_version }}
@@ -135,10 +135,10 @@ jobs:
     - name: Publish GitHub Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: ${{github.workspace}}/bin/${{ env.SolutionName }}_Binaries/*.zip
+        artifacts: ${{github.workspace}}/bin/${{env.SolutionName}}_Binaries/*.zip
         tag: ${{ needs.version.outputs.new_tag }}
-        name: Auto ${{ needs.version.outputs.new_tag }}
-        body: ${{ needs.version.outputs.changelog }}
+        name: Auto ${{needs.version.outputs.new_tag}}
+        body: ${{needs.version.outputs.changelog}}
         artifactErrorsFailBuild: true
         generateReleaseNotes: true
 
@@ -160,12 +160,17 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         path: bin
+    - name: NuGet login (OIDC)
+      uses: NuGet/login@v1
+      id: login
+      with:
+        user: ${{secrets.NUGET_USER}}
     - name: Packing artifacts
       run: nuget pack ${{env.SolutionName}}.nuspec -Version ${{needs.version.outputs.new_version}} -OutputDirectory nupkg
     - name: Deploying to GitHub
-      run: dotnet nuget push nupkg\*.nupkg --skip-duplicate --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/DKorablin/index.json
+      run: dotnet nuget push nupkg\*.nupkg --skip-duplicate --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/DKorablin/index.json
     - name: Deploying to NuGet
-      run: dotnet nuget push nupkg\*.nupkg --skip-duplicate --api-key ${{secrets.NUGET_TOKEN}} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push nupkg\*.nupkg --skip-duplicate --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
 
   failure_cleanup:
     name: Cleanup Tag On Failure

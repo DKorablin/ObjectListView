@@ -839,9 +839,9 @@ namespace BrightIdeasSoftware
 		/// <param name="itemBounds"></param>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		public override Boolean RenderItem(DrawListViewItemEventArgs e, Graphics g, Rectangle itemBounds, Object model)
+		public override Boolean RenderItem(DrawListViewItemEventArgs e, Graphics g, Rectangle itemBounds, Object rowObject)
 		{
-			this.ConfigureItem(e, itemBounds, model);
+			this.ConfigureItem(e, itemBounds, rowObject);
 			return this.OptionalRender(g, itemBounds);
 		}
 
@@ -870,9 +870,9 @@ namespace BrightIdeasSoftware
 		/// <param name="cellBounds"></param>
 		/// <param name="model"></param>
 		/// <returns></returns>
-		public override Boolean RenderSubItem(DrawListViewSubItemEventArgs e, Graphics g, Rectangle cellBounds, Object model)
+		public override Boolean RenderSubItem(DrawListViewSubItemEventArgs e, Graphics g, Rectangle cellBounds, Object rowObject)
 		{
-			this.ConfigureSubItem(e, cellBounds, model);
+			this.ConfigureSubItem(e, cellBounds, rowObject);
 			return this.OptionalRender(g, cellBounds);
 		}
 
@@ -1937,7 +1937,7 @@ namespace BrightIdeasSoftware
 
 		#region Private variables
 
-		private Hashtable _map = new Hashtable(); // Track the association between values and images
+		private readonly Hashtable _map = new Hashtable(); // Track the association between values and images
 		private Object _nullImage; // image to be drawn for null values (since null can't be a key)
 
 		#endregion
@@ -2335,7 +2335,7 @@ namespace BrightIdeasSoftware
 		}
 
 		private Timer _tickler; // timer used to tickle the animations
-		private Stopwatch _stopwatch; // clock used to time the animation frame changes
+		private readonly Stopwatch _stopwatch; // clock used to time the animation frame changes
 	}
 
 	/// <summary>Render our Aspect as a progress bar</summary>
@@ -2781,8 +2781,8 @@ namespace BrightIdeasSoftware
 			}
 		}
 
-		private List<Int32> _keysInOrder = new List<Int32>();
-		private Dictionary<Int32, Object> _imageMap = new Dictionary<Int32, Object>();
+		private readonly List<Int32> _keysInOrder = new List<Int32>();
+		private readonly Dictionary<Int32, Object> _imageMap = new Dictionary<Int32, Object>();
 	}
 
 	/// <summary>This renderer draws an image, a single line title, and then multi-line description under the title.</summary>

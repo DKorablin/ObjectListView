@@ -50,35 +50,35 @@ namespace BrightIdeasSoftware
 	/// </summary>
 	/// <remarks>
 	/// Almost all of the methods in this class are declared as "virtual protected"
-	/// so that subclasses can provide alternative behaviours.
+	/// so that subclasses can provide alternative behaviors.
 	/// </remarks>
 	public class FilterMenuBuilder
 	{
 		#region Static properties
 		/// <summary>Gets or sets the String that labels the Apply button.</summary>
 		/// <remarks>Exposed so it can be localized.</remarks>
-		public static String APPLY_LABEL = "Apply";
+		public const String APPLY_LABEL = "Apply";
 
 		/// <summary>Gets or sets the String that labels the Clear All menu item.</summary>
 		/// <remarks>Exposed so it can be localized.</remarks>
-		public static String CLEAR_ALL_FILTERS_LABEL = "Clear All Filters";
+		public const String CLEAR_ALL_FILTERS_LABEL = "Clear All Filters";
 
 		/// <summary>Gets or sets the String that labels the Filtering menu as a whole.</summary>
 		/// <remarks>Exposed so it can be localized.</remarks>
-		public static String FILTERING_LABEL = "Filtering";
+		public const String FILTERING_LABEL = "Filtering";
 
 		/// <summary>
 		/// Gets or sets the String that represents Select All values.
 		/// If this is set to null or empty, no Select All option will be included.
 		/// </summary>
 		/// <remarks>Exposed so it can be localized.</remarks>
-		public static String SELECT_ALL_LABEL = "Select All";
+		public const String SELECT_ALL_LABEL = "Select All";
 
 		/// <summary>Gets or sets the image that will be placed next to the Clear Filtering menu item</summary>
-		public static Bitmap ClearFilteringImage = Properties.Resources.ClearFiltering;
+		public static readonly Bitmap ClearFilteringImage = Properties.Resources.ClearFiltering;
 
 		/// <summary>Gets or sets the image that will be placed next to all "Apply" menu items on the filtering menu</summary>
-		public static Bitmap FilteringImage = Properties.Resources.Filtering;
+		public static readonly Bitmap FilteringImage = Properties.Resources.Filtering;
 		#endregion
 
 		#region Public properties

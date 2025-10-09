@@ -1,5 +1,5 @@
 /*
- * FastObjectListView - A listview that behaves like an ObjectListView but has the speed of a virtual list
+ * FastObjectListView - A ListView that behaves like an ObjectListView but has the speed of a virtual list
  *
  * Author: Phillip Piper
  * Date: 27/09/2008 9:15 AM

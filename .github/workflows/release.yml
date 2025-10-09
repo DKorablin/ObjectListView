@@ -122,6 +122,7 @@ jobs:
       with:
         sparse-checkout: |
           README.md
+          LICENSE.md
           index-icon.png
           ${{env.SolutionName}}.nuspec
         sparse-checkout-cone-mode: false

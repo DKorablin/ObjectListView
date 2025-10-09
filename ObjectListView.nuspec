@@ -18,8 +18,6 @@
 		<dependencies>
 			<group targetFramework="net35">
 			</group>
-			<group targetFramework="net8.0-windows">
-			</group>
 		</dependencies>
 	</metadata>
 	<files>
@@ -30,6 +28,8 @@
 		<file src="bin\ObjectListView_Binaries\net35\ObjectListView.xml" target="xml" />
 		<!--Binaries-->
 		<file src="bin\ObjectListView_Binaries\net35\ObjectListView.dll" target="lib\net35" />
-		<file src="bin\ObjectListView_Binaries\net8.0-windows\ObjectListView.dll" target="lib\net8.0-windows" />
+		<file src="bin\ObjectListView_Binaries\net6.0-windows\ObjectListView.dll" target="lib\net6.0" />
+		<file src="bin\ObjectListView_Binaries\net7.0-windows\ObjectListView.dll" target="lib\net7.0" />
+		<file src="bin\ObjectListView_Binaries\net8.0-windows\ObjectListView.dll" target="lib\net8.0" />
 	</files>
 </package>

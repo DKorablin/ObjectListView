@@ -27,9 +27,9 @@
 		<file src="LICENSE.md" target="docs" />
 		<file src="index-icon.png" target="images\icon.png" />
 		<!--Documentation-->
-		<file src="bin\PushSharp_Binaries\net35\ObjectListView.xml" target="xml" />
+		<file src="bin\ObjectListView_Binaries\net35\ObjectListView.xml" target="xml" />
 		<!--Binaries-->
-		<file src="bin\PushSharp_Binaries\net35\ObjectListView.dll" target="lib\net35" />
-		<file src="bin\PushSharp_Binaries\net8.0-windows\ObjectListView.dll" target="lib\net8.0-windows" />
+		<file src="bin\ObjectListView_Binaries\net35\ObjectListView.dll" target="lib\net35" />
+		<file src="bin\ObjectListView_Binaries\net8.0-windows\ObjectListView.dll" target="lib\net8.0-windows" />
 	</files>
 </package>

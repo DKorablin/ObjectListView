@@ -41,27 +41,27 @@ using System.Text.RegularExpressions;
 
 namespace BrightIdeasSoftware
 {
-
+	/// <summary>An interface that exposes the text matching capabilities of a filter.</summary>
 	public interface ITextMatchFilter : IModelFilter
 	{
 		/// <summary>Find all the ways in which this filter matches the given string.</summary>
 		/// <remarks>This is used by the renderer to decide which bits of
 		/// the String should be highlighted</remarks>
-		/// <param name="cellText"></param>
+		/// <param name="cellText">The text to search.</param>
 		/// <returns>A list of character ranges indicating the matched substrings</returns>
 		IEnumerable<CharacterRange> FindAllMatchedRanges(String cellText);
 	}
 
-	/// <summary>Instances of this class include only those rows of the listview that match one or more given strings.</summary>
+	/// <summary>Instances of this class include only those rows of the ListView that match one or more given strings.</summary>
 	/// <remarks>This class can match strings by prefix, regex, or simple containment.
 	/// There are factory methods for each of these matching strategies.</remarks>
 	public class TextMatchFilter : AbstractModelFilter, ITextMatchFilter
 	{
 
-		/// <summary>Create a text filter that will include rows where any cell matches any of the given regex expressions.</summary>
-		/// <param name="olv"></param>
-		/// <param name="texts"></param>
-		/// <returns></returns>
+		/// <summary>Creates a text filter that performs a regular expression match.</summary>
+		/// <param name="olv">The ListView to filter.</param>
+		/// <param name="texts">The regex patterns to match.</param>
+		/// <returns>A configured TextMatchFilter.</returns>
 		/// <remarks>Any String that is not a valid regex expression will be ignored.</remarks>
 		public static TextMatchFilter Regex(ObjectListView olv, params String[] texts)
 			=> new TextMatchFilter(olv)
@@ -69,44 +69,44 @@ namespace BrightIdeasSoftware
 				RegexStrings = texts
 			};
 
-		/// <summary>Create a text filter that includes rows where any cell begins with one of the given strings</summary>
-		/// <param name="olv"></param>
-		/// <param name="texts"></param>
-		/// <returns></returns>
+		/// <summary>Creates a text filter that performs a prefix match.</summary>
+		/// <param name="olv">The ListView to filter.</param>
+		/// <param name="texts">The prefixes to match.</param>
+		/// <returns>A configured TextMatchFilter.</returns>
 		public static TextMatchFilter Prefix(ObjectListView olv, params String[] texts)
 			=> new TextMatchFilter(olv)
 			{
 				PrefixStrings = texts
 			};
 
-		/// <summary>Create a text filter that includes rows where any cell contains any of the given strings.</summary>
-		/// <param name="olv"></param>
-		/// <param name="texts"></param>
-		/// <returns></returns>
+		/// <summary>Creates a text filter that performs a contains match.</summary>
+		/// <param name="olv">The ListView to filter.</param>
+		/// <param name="texts">The strings to search for.</param>
+		/// <returns>A configured TextMatchFilter.</returns>
 		public static TextMatchFilter Contains(ObjectListView olv, params String[] texts)
 			=> new TextMatchFilter(olv)
 			{
 				ContainsStrings = texts
 			};
 
-		/// <summary>Create a TextFilter</summary>
-		/// <param name="olv"></param>
+		/// <summary>Creates a TextMatchFilter for the given ObjectListView.</summary>
+		/// <param name="olv">The ListView to filter.</param>
 		public TextMatchFilter(ObjectListView olv)
 			=> this.ListView = olv;
 
-		/// <summary>Create a TextFilter that finds the given String</summary>
-		/// <param name="olv"></param>
-		/// <param name="text"></param>
+		/// <summary>Creates a TextMatchFilter that filters for the given text.</summary>
+		/// <param name="olv">The ListView to filter.</param>
+		/// <param name="text">The text to search for.</param>
 		public TextMatchFilter(ObjectListView olv, String text)
 		{
 			this.ListView = olv;
 			this.ContainsStrings = new String[] { text };
 		}
 
-		/// <summary>Create a TextFilter that finds the given String using the given comparison</summary>
-		/// <param name="olv"></param>
-		/// <param name="text"></param>
-		/// <param name="comparison"></param>
+		/// <summary>Creates a TextMatchFilter that filters for the given text using the given comparison.</summary>
+		/// <param name="olv">The ListView to filter.</param>
+		/// <param name="text">The text to search for.</param>
+		/// <param name="comparison">The string comparison to use.</param>
 		public TextMatchFilter(ObjectListView olv, String text, StringComparison comparison)
 		{
 			this.ListView = olv;
@@ -155,7 +155,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or set the ObjectListView upon which this filter will work</summary>
 		/// <remarks>
 		/// You cannot really rebase a filter after it is created, so do not change this value.
-		/// It is included so that it can be set in an Object initialiser.
+		/// It is included so that it can be set in an object initializer.
 		/// </remarks>
 		public ObjectListView ListView { get; set; }
 
@@ -249,8 +249,8 @@ namespace BrightIdeasSoftware
 
 		#region Implementation
 
-		/// <summary>Loop over the columns that are being considering by the filter</summary>
-		/// <returns></returns>
+		/// <summary>Enumerates the columns that this filter will search.</summary>
+		/// <returns>An IEnumerable of columns.</returns>
 		protected virtual IEnumerable<OLVColumn> IterateColumns()
 		{
 			if(this.Columns == null)
@@ -269,9 +269,9 @@ namespace BrightIdeasSoftware
 
 		#region Public interface
 
-		/// <summary>Do the actual work of filtering</summary>
-		/// <param name="modelObject"></param>
-		/// <returns></returns>
+		/// <summary>Returns true if the given model object matches the filter.</summary>
+		/// <param name="modelObject">The model object to check.</param>
+		/// <returns>True if the object is accepted by the filter.</returns>
 		public override Boolean Filter(Object modelObject)
 		{
 			if(this.ListView == null || !this.HasComponents)
@@ -297,7 +297,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Find all the ways in which this filter matches the given string.</summary>
 		/// <remarks>This is used by the renderer to decide which bits of the string should be highlighted</remarks>
-		/// <param name="cellText"></param>
+		/// <param name="cellText">The text to search.</param>
 		/// <returns>A list of character ranges indicating the matched substrings</returns>
 		public IEnumerable<CharacterRange> FindAllMatchedRanges(String cellText)
 		{
@@ -310,9 +310,9 @@ namespace BrightIdeasSoftware
 			return ranges;
 		}
 
-		/// <summary>Is the given column one of the columns being used by this filter?</summary>
-		/// <param name="column"></param>
-		/// <returns></returns>
+		/// <summary>Returns true if the given column is one of the columns that will be searched by this filter.</summary>
+		/// <param name="column">The column to check.</param>
+		/// <returns>True if the column is included.</returns>
 		public Boolean IsIncluded(OLVColumn column)
 			=> this.Columns == null
 				? column.ListView == this.ListView
@@ -320,6 +320,7 @@ namespace BrightIdeasSoftware
 
 		#endregion
 
+		/// <summary>Stores the strategies that will be used to match text.</summary>
 		protected List<TextMatchingStrategy> MatchingStrategies = new List<TextMatchingStrategy>();
 
 		#region Components
@@ -327,16 +328,16 @@ namespace BrightIdeasSoftware
 		/// <summary>Base class for the various types of String matching that TextMatchFilter provides</summary>
 		public abstract class TextMatchingStrategy
 		{
-			/// <summary>Gets how the filter will match text</summary>
+			/// <summary>Gets the string comparison strategy used by the filter.</summary>
 			public StringComparison StringComparison
 			{
 				get => this.TextFilter.StringComparison;
 			}
 
-			/// <summary>Gets the text filter to which this component belongs</summary>
+			/// <summary>Gets or sets the text filter to which this strategy belongs.</summary>
 			public TextMatchFilter TextFilter { get; set; }
 
-			/// <summary>Gets or sets the text that will be matched</summary>
+			/// <summary>Gets or sets the text that this strategy will match.</summary>
 			public String Text { get; set; }
 
 			/// <summary>Find all the ways in which this filter matches the given string.</summary>
@@ -362,9 +363,9 @@ namespace BrightIdeasSoftware
 		/// <summary>This component provides text contains matching strategy.</summary>
 		public class TextContainsMatchingStrategy : TextMatchingStrategy
 		{
-			/// <summary>Create a text contains strategy</summary>
-			/// <param name="filter"></param>
-			/// <param name="text"></param>
+			/// <summary>Creates a new TextContainsMatchingStrategy.</summary>
+			/// <param name="filter">The parent filter.</param>
+			/// <param name="text">The text to search for.</param>
 			public TextContainsMatchingStrategy(TextMatchFilter filter, String text)
 			{
 				this.TextFilter = filter;
@@ -405,9 +406,9 @@ namespace BrightIdeasSoftware
 		/// <summary>This component provides text begins with matching strategy.</summary>
 		public class TextBeginsMatchingStrategy : TextMatchingStrategy
 		{
-			/// <summary>Create a text begins strategy</summary>
-			/// <param name="filter"></param>
-			/// <param name="text"></param>
+			/// <summary>Creates a new TextBeginsMatchingStrategy.</summary>
+			/// <param name="filter">The parent filter.</param>
+			/// <param name="text">The prefix to search for.</param>
 			public TextBeginsMatchingStrategy(TextMatchFilter filter, String text)
 			{
 				this.TextFilter = filter;
@@ -444,22 +445,22 @@ namespace BrightIdeasSoftware
 		/// <summary>This component provides regex matching strategy.</summary>
 		public class TextRegexMatchingStrategy : TextMatchingStrategy
 		{
-			/// <summary>Creates a regex strategy</summary>
-			/// <param name="filter"></param>
-			/// <param name="text"></param>
+			/// <summary>Creates a new TextRegexMatchingStrategy.</summary>
+			/// <param name="filter">The parent filter.</param>
+			/// <param name="text">The regex pattern to match.</param>
 			public TextRegexMatchingStrategy(TextMatchFilter filter, String text)
 			{
 				this.TextFilter = filter;
 				this.Text = text;
 			}
 
-			/// <summary>Gets or sets the options that will be used when compiling the regular expression.</summary>
+			/// <summary>Gets the options used for the regular expression.</summary>
 			public RegexOptions RegexOptions
 			{
 				get => this.TextFilter.RegexOptions;
 			}
 
-			/// <summary>Gets or sets a compiled regular expression, based on our current Text and RegexOptions.</summary>
+			/// <summary>Gets or sets the compiled regular expression for this strategy.</summary>
 			/// <remarks>If Text fails to compile as a regular expression, this will return a Regex object that will match all strings.</remarks>
 			protected Regex Regex
 			{
@@ -481,7 +482,7 @@ namespace BrightIdeasSoftware
 			}
 			private Regex _regex;
 
-			/// <summary>Gets whether or not our current regular expression is a valid regex</summary>
+			/// <summary>Gets a value indicating whether the current regex is invalid.</summary>
 			protected Boolean IsRegexInvalid
 			{
 				get => this.Regex == TextRegexMatchingStrategy.InvalidRegexMarker;

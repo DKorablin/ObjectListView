@@ -1,5 +1,5 @@
 ﻿/*
- * CellEditKeyEngine - A engine that allows the behaviour of arbitrary keys to be configured
+ * CellEditKeyEngine - A engine that allows the behavior of arbitrary keys to be configured
  *
  * Author: Phillip Piper
  * Date: 3-March-2011 10:53 pm
@@ -71,7 +71,7 @@ namespace BrightIdeasSoftware
 		EndEdit
 	};
 
-	/// <summary>Indicates the normal behaviour of a key when used during a cell edit operation.</summary>
+	/// <summary>Indicates the normal behavior of a key when used during a cell edit operation.</summary>
 	public enum CellEditCharacterBehaviour
 	{
 		/// <summary>The key press will be ignored</summary>
@@ -132,14 +132,14 @@ namespace BrightIdeasSoftware
 
 		#region Public interface
 
-		/// <summary>Sets the behaviour of a given key</summary>
+		/// <summary>Sets the behavior of a given key</summary>
 		/// <param name="key"></param>
-		/// <param name="normalBehaviour"></param>
-		/// <param name="atEdgeBehaviour"></param>
-		public virtual void SetKeyBehaviour(Keys key, CellEditCharacterBehaviour normalBehaviour, CellEditAtEdgeBehaviour atEdgeBehaviour)
+		/// <param name="normalBehavior"></param>
+		/// <param name="atEdgeBehavior"></param>
+		public virtual void SetKeyBehaviour(Keys key, CellEditCharacterBehaviour normalBehavior, CellEditAtEdgeBehaviour atEdgeBehavior)
 		{
-			this.CellEditKeyMap[key] = normalBehaviour;
-			this.CellEditKeyAtEdgeBehaviourMap[key] = atEdgeBehaviour;
+			this.CellEditKeyMap[key] = normalBehavior;
+			this.CellEditKeyAtEdgeBehaviorMap[key] = atEdgeBehavior;
 		}
 
 		/// <summary>Handle a key press</summary>
@@ -148,12 +148,12 @@ namespace BrightIdeasSoftware
 		/// <returns>True if the key was completely handled.</returns>
 		public virtual Boolean HandleKey(ObjectListView olv, Keys keyData)
 		{
-			if(!this.CellEditKeyMap.TryGetValue(keyData, out CellEditCharacterBehaviour behaviour))
+			if(!this.CellEditKeyMap.TryGetValue(keyData, out CellEditCharacterBehaviour behavior))
 				return false;
 
 			this.ListView = olv ?? throw new ArgumentNullException(nameof(olv));
 
-			switch(behaviour)
+			switch(behavior)
 			{
 			case CellEditCharacterBehaviour.Ignore:
 				break;
@@ -165,14 +165,14 @@ namespace BrightIdeasSoftware
 				break;
 			case CellEditCharacterBehaviour.ChangeColumnLeft:
 			case CellEditCharacterBehaviour.ChangeColumnRight:
-				this.HandleColumnChange(keyData, behaviour);
+				this.HandleColumnChange(keyData, behavior);
 				break;
 			case CellEditCharacterBehaviour.ChangeRowDown:
 			case CellEditCharacterBehaviour.ChangeRowUp:
-				this.HandleRowChange(keyData, behaviour);
+				this.HandleRowChange(keyData, behavior);
 				break;
 			default:
-				return this.HandleCustomVerb(keyData, behaviour);
+				return this.HandleCustomVerb(keyData, behavior);
 			}
 
 			return true;
@@ -198,7 +198,7 @@ namespace BrightIdeasSoftware
 			get => (this.ListView == null || this.ListView.CellEditEventArgs == null) ? -1 : this.ListView.CellEditEventArgs.SubItemIndex;
 		}
 
-		/// <summary>Gets or sets the map that remembers the normal behaviour of keys</summary>
+		/// <summary>Gets or sets the map that remembers the normal behavior of keys</summary>
 		protected IDictionary<Keys, CellEditCharacterBehaviour> CellEditKeyMap
 		{
 			get
@@ -211,18 +211,18 @@ namespace BrightIdeasSoftware
 		}
 		private IDictionary<Keys, CellEditCharacterBehaviour> _cellEditKeyMap;
 
-		/// <summary>Gets or sets the map that remembers the desired behaviour of keys on edge cases.</summary>
-		protected IDictionary<Keys, CellEditAtEdgeBehaviour> CellEditKeyAtEdgeBehaviourMap
+		/// <summary>Gets or sets the map that remembers the desired behavior of keys on edge cases.</summary>
+		protected IDictionary<Keys, CellEditAtEdgeBehaviour> CellEditKeyAtEdgeBehaviorMap
 		{
 			get
 			{
-				if(_cellEditKeyAtEdgeBehaviourMap == null)
+				if(this._cellEditKeyAtEdgeBehaviorMap == null)
 					this.InitializeCellEditKeyMaps();
-				return _cellEditKeyAtEdgeBehaviourMap;
+				return this._cellEditKeyAtEdgeBehaviorMap;
 			}
-			set => _cellEditKeyAtEdgeBehaviourMap = value;
+			set => this._cellEditKeyAtEdgeBehaviorMap = value;
 		}
-		private IDictionary<Keys, CellEditAtEdgeBehaviour> _cellEditKeyAtEdgeBehaviourMap;
+		private IDictionary<Keys, CellEditAtEdgeBehaviour> _cellEditKeyAtEdgeBehaviorMap;
 
 		#endregion
 
@@ -242,13 +242,13 @@ namespace BrightIdeasSoftware
 			this._cellEditKeyMap[Keys.Up | Keys.Alt] = CellEditCharacterBehaviour.ChangeRowUp;
 			this._cellEditKeyMap[Keys.Down | Keys.Alt] = CellEditCharacterBehaviour.ChangeRowDown;
 
-			this._cellEditKeyAtEdgeBehaviourMap = new Dictionary<Keys, CellEditAtEdgeBehaviour>();
-			this._cellEditKeyAtEdgeBehaviourMap[Keys.Tab] = CellEditAtEdgeBehaviour.Wrap;
-			this._cellEditKeyAtEdgeBehaviourMap[Keys.Tab | Keys.Shift] = CellEditAtEdgeBehaviour.Wrap;
-			this._cellEditKeyAtEdgeBehaviourMap[Keys.Left | Keys.Alt] = CellEditAtEdgeBehaviour.Wrap;
-			this._cellEditKeyAtEdgeBehaviourMap[Keys.Right | Keys.Alt] = CellEditAtEdgeBehaviour.Wrap;
-			this._cellEditKeyAtEdgeBehaviourMap[Keys.Up | Keys.Alt] = CellEditAtEdgeBehaviour.ChangeColumn;
-			this._cellEditKeyAtEdgeBehaviourMap[Keys.Down | Keys.Alt] = CellEditAtEdgeBehaviour.ChangeColumn;
+			this._cellEditKeyAtEdgeBehaviorMap = new Dictionary<Keys, CellEditAtEdgeBehaviour>();
+			this._cellEditKeyAtEdgeBehaviorMap[Keys.Tab] = CellEditAtEdgeBehaviour.Wrap;
+			this._cellEditKeyAtEdgeBehaviorMap[Keys.Tab | Keys.Shift] = CellEditAtEdgeBehaviour.Wrap;
+			this._cellEditKeyAtEdgeBehaviorMap[Keys.Left | Keys.Alt] = CellEditAtEdgeBehaviour.Wrap;
+			this._cellEditKeyAtEdgeBehaviorMap[Keys.Right | Keys.Alt] = CellEditAtEdgeBehaviour.Wrap;
+			this._cellEditKeyAtEdgeBehaviorMap[Keys.Up | Keys.Alt] = CellEditAtEdgeBehaviour.ChangeColumn;
+			this._cellEditKeyAtEdgeBehaviorMap[Keys.Down | Keys.Alt] = CellEditAtEdgeBehaviour.ChangeColumn;
 		}
 
 		#endregion
@@ -265,15 +265,15 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Placeholder that subclasses can override to handle any custom verbs</summary>
 		/// <param name="keyData"></param>
-		/// <param name="behaviour"></param>
+		/// <param name="behavior"></param>
 		/// <returns></returns>
-		protected virtual Boolean HandleCustomVerb(Keys keyData, CellEditCharacterBehaviour behaviour)
+		protected virtual Boolean HandleCustomVerb(Keys keyData, CellEditCharacterBehaviour behavior)
 			=> false;
 
 		/// <summary>Handle a change row command</summary>
 		/// <param name="keyData"></param>
-		/// <param name="behaviour"></param>
-		protected virtual void HandleRowChange(Keys keyData, CellEditCharacterBehaviour behaviour)
+		/// <param name="behavior"></param>
+		protected virtual void HandleRowChange(Keys keyData, CellEditCharacterBehaviour behavior)
 		{
 			// If we couldn't finish editing the current cell, don't try to move it
 			if(!this.ListView.PossibleFinishCellEditing())
@@ -281,7 +281,7 @@ namespace BrightIdeasSoftware
 
 			OLVListItem olvi = this.ItemBeingEdited;
 			Int32 subItemIndex = this.SubItemIndexBeingEdited;
-			Boolean isGoingUp = behaviour == CellEditCharacterBehaviour.ChangeRowUp;
+			Boolean isGoingUp = behavior == CellEditCharacterBehaviour.ChangeRowUp;
 
 			// Try to find a row above (or below) the currently edited cell
 			// If we find one, start editing it and we're done.
@@ -293,9 +293,9 @@ namespace BrightIdeasSoftware
 			}
 
 			// There is no adjacent row in the direction we want, so we must be on an edge.
-			if(!this.CellEditKeyAtEdgeBehaviourMap.TryGetValue(keyData, out CellEditAtEdgeBehaviour atEdgeBehaviour))
-				atEdgeBehaviour = CellEditAtEdgeBehaviour.Wrap;
-			switch(atEdgeBehaviour)
+			if(!this.CellEditKeyAtEdgeBehaviorMap.TryGetValue(keyData, out CellEditAtEdgeBehaviour atEdgeBehavior))
+				atEdgeBehavior = CellEditAtEdgeBehaviour.Wrap;
+			switch(atEdgeBehavior)
 			{
 			case CellEditAtEdgeBehaviour.Ignore:
 				break;
@@ -325,8 +325,8 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Handle a change column command</summary>
 		/// <param name="keyData"></param>
-		/// <param name="behaviour"></param>
-		protected virtual void HandleColumnChange(Keys keyData, CellEditCharacterBehaviour behaviour)
+		/// <param name="behavior"></param>
+		protected virtual void HandleColumnChange(Keys keyData, CellEditCharacterBehaviour behavior)
 		{
 			// If we couldn't finish editing the current cell, don't try to move it
 			if(!this.ListView.PossibleFinishCellEditing())
@@ -340,17 +340,17 @@ namespace BrightIdeasSoftware
 			OLVListItem olvi = this.ItemBeingEdited;
 			Int32 displayIndex = Math.Max(0,
 				editableColumns.IndexOf(this.ListView.GetColumn(this.SubItemIndexBeingEdited)));
-			Boolean isGoingLeft = behaviour == CellEditCharacterBehaviour.ChangeColumnLeft;
+			Boolean isGoingLeft = behavior == CellEditCharacterBehaviour.ChangeColumnLeft;
 
 			// Are we trying to continue past one of the edges?
 			if((isGoingLeft && displayIndex == 0) ||
 				(!isGoingLeft && displayIndex == editableColumns.Count - 1))
 			{
-				// Yes, so figure out our at edge behaviour
-				CellEditAtEdgeBehaviour atEdgeBehaviour;
-				if(!this.CellEditKeyAtEdgeBehaviourMap.TryGetValue(keyData, out atEdgeBehaviour))
-					atEdgeBehaviour = CellEditAtEdgeBehaviour.Wrap;
-				switch(atEdgeBehaviour)
+				// Yes, so figure out our at edge behavior
+				CellEditAtEdgeBehaviour atEdgeBehavior;
+				if(!this.CellEditKeyAtEdgeBehaviorMap.TryGetValue(keyData, out atEdgeBehavior))
+					atEdgeBehavior = CellEditAtEdgeBehaviour.Wrap;
+				switch(atEdgeBehavior)
 				{
 				case CellEditAtEdgeBehaviour.Ignore:
 					return;
@@ -359,7 +359,7 @@ namespace BrightIdeasSoftware
 					return;
 				case CellEditAtEdgeBehaviour.ChangeRow:
 				case CellEditAtEdgeBehaviour.Wrap:
-					if(atEdgeBehaviour == CellEditAtEdgeBehaviour.ChangeRow)
+					if(atEdgeBehavior == CellEditAtEdgeBehaviour.ChangeRow)
 						olvi = GetAdjacentItem(olvi, isGoingLeft && displayIndex == 0);
 					if(isGoingLeft)
 						displayIndex = editableColumns.Count - 1;

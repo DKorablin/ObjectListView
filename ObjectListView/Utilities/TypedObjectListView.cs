@@ -58,9 +58,9 @@ namespace BrightIdeasSoftware
 	/// <example>
 	/// To use a TypedObjectListView, you write code like this:
 	/// <code>
-	/// TypedObjectListView&lt;Person> tlist = new TypedObjectListView&lt;Person>(this.listView1);
-	/// tlist.CheckStateGetter = delegate(Person x) { return x.IsActive; };
-	/// tlist.GetColumn(0).AspectGetter = delegate(Person x) { return x.Name; };
+	/// TypedObjectListView&lt;Person> tList = new TypedObjectListView&lt;Person>(this.listView1);
+	/// tList.CheckStateGetter = delegate(Person x) { return x.IsActive; };
+	/// tList.GetColumn(0).AspectGetter = delegate(Person x) { return x.Name; };
 	/// ...
 	/// </code>
 	/// To iterate over the selected objects, you can write something elegant like this:
@@ -76,9 +76,6 @@ namespace BrightIdeasSoftware
 		/// <param name="olv">The ListView to be wrapped</param>
 		public TypedObjectListView(ObjectListView olv)
 			=> this.ListView = olv;
-
-		//--------------------------------------------------------------------------------------
-		// Properties
 
 		/// <summary>
 		/// Return the model Object that is checked, if only one row is checked.
@@ -140,9 +137,6 @@ namespace BrightIdeasSoftware
 			set => this.ListView.SelectedObjects = (IList)value;
 		}
 
-		//--------------------------------------------------------------------------------------
-		// Accessors
-
 		/// <summary>Return a typed wrapper around the column at the given index</summary>
 		/// <param name="i">The index of the column</param>
 		/// <returns>A typed column or null</returns>
@@ -160,9 +154,6 @@ namespace BrightIdeasSoftware
 		/// <returns>The model Object or null</returns>
 		public virtual T GetModelObject(Int32 index)
 			=> (T)this.ListView.GetModelObject(index);
-
-		//--------------------------------------------------------------------------------------
-		// Delegates
 
 		/// <summary>CheckStateGetter</summary>
 		/// <param name="rowObject"></param>
@@ -259,9 +250,6 @@ namespace BrightIdeasSoftware
 			get => this.ListView.HeaderToolTipGetter;
 			set => this.ListView.HeaderToolTipGetter = value;
 		}
-
-		//--------------------------------------------------------------------------------------
-		// Commands
 
 		/// <summary>This method will generate AspectGetters for any column that has an AspectName.</summary>
 		public virtual void GenerateAspectGetters()
@@ -369,29 +357,27 @@ namespace BrightIdeasSoftware
 		/// }
 		/// </code>
 		/// </para>
-		/// <para>
-		/// If AspectName is empty, this method will do nothing, otherwise this will replace any existing AspectGetter.
-		/// </para>
+		/// <para>If AspectName is empty, this method will do nothing, otherwise this will replace any existing AspectGetter.</para>
 		/// </remarks>
 		public void GenerateAspectGetter()
 		{
 			if(!String.IsNullOrEmpty(this._column.AspectName))
-				this.AspectGetter = this.GenerateAspectGetter(typeof(T), this._column.AspectName);
+				this.AspectGetter = GenerateAspectGetter(typeof(T), this._column.AspectName);
 		}
 
 		/// <summary>
-		/// Generates an aspect getter method dynamically. The method will execute
-		/// the given dotted chain of selectors against a model Object given at runtime.
+		/// Generates an aspect getter method dynamically.
+		/// The method will execute the given dotted chain of selectors against a model Object given at runtime.
 		/// </summary>
 		/// <param name="type">The type of model Object to be passed to the generated method</param>
 		/// <param name="path">A dotted chain of selectors. Each selector can be the name of a 
 		/// field, property or parameter-less method.</param>
 		/// <returns>A typed delegate</returns>
-		private TypedAspectGetterDelegate GenerateAspectGetter(Type type, String path)
+		private static TypedAspectGetterDelegate GenerateAspectGetter(Type type, String path)
 		{
 			DynamicMethod getter = new DynamicMethod(String.Empty,
 				typeof(Object), new Type[] { type }, type, true);
-			this.GenerateIL(type, path, getter.GetILGenerator());
+			GenerateIL(type, path, getter.GetILGenerator());
 			return (TypedAspectGetterDelegate)getter.CreateDelegate(typeof(TypedAspectGetterDelegate));
 		}
 
@@ -399,7 +385,7 @@ namespace BrightIdeasSoftware
 		/// <param name="type"></param>
 		/// <param name="path"></param>
 		/// <param name="il"></param>
-		private void GenerateIL(Type type, String path, ILGenerator il)
+		private static void GenerateIL(Type type, String path, ILGenerator il)
 		{
 			// Push our model Object onto the stack
 			il.Emit(OpCodes.Ldarg_0);
@@ -408,7 +394,7 @@ namespace BrightIdeasSoftware
 			String[] parts = path.Split('.');
 			for(Int32 i = 0; i < parts.Length; i++)
 			{
-				type = this.GeneratePart(il, type, parts[i], (i == parts.Length - 1));
+				type = GeneratePart(il, type, parts[i], (i == parts.Length - 1));
 				if(type == null)
 					break;
 			}
@@ -421,7 +407,7 @@ namespace BrightIdeasSoftware
 			il.Emit(OpCodes.Ret);
 		}
 
-		private Type GeneratePart(ILGenerator il, Type type, String pathPart, Boolean isLastPart)
+		private static Type GeneratePart(ILGenerator il, Type type, String pathPart, Boolean isLastPart)
 		{
 			// TODO: Generate check for null
 

@@ -50,12 +50,12 @@ namespace BrightIdeasSoftware
 	/// A DataListView is a ListView that can be bound to a datasource (which would normally be a DataTable or DataView).
 	/// </summary>
 	/// <remarks>
-	/// <para>This listview keeps itself in sync with its source datatable by listening for change events.</para>
+	/// <para>This ListView keeps itself in sync with its source datatable by listening for change events.</para>
 	/// <para>The DataListView will automatically create columns to show all of the data source's columns/properties, if there is not already
 	/// a column showing that property. This allows you to define one or two columns in the designer and then have the others generated automatically.
 	/// If you don't want any column to be auto generated, set <see cref="AutoGenerateColumns"/> to false.
 	/// These generated columns will be only the simplest view of the world, and would look more interesting with a few delegates installed.</para>
-	/// <para>This listview will also automatically generate missing aspect getters to fetch the values from the data view.</para>
+	/// <para>This ListView will also automatically generate missing aspect getters to fetch the values from the data view.</para>
 	/// <para>Changing data sources is possible, but error prone. Before changing data sources, the programmer is responsible for modifying/resetting
 	/// the column collection to be valid for the new data source.</para>
 	/// <para>Internally, a CurrencyManager controls keeping the data source in-sync with other users of the data source (as per normal .NET
@@ -148,7 +148,7 @@ namespace BrightIdeasSoftware
 				Debug.Assert(_adapter != null, "Data adapter should not be null");
 				return _adapter;
 			}
-			set { _adapter = value; }
+			set => _adapter = value;
 		}
 		private DataSourceAdapter _adapter;
 
@@ -193,7 +193,7 @@ namespace BrightIdeasSoftware
 		#endregion
 
 		#region Event Handlers
-		/// <summary>Change the Unfreeze behaviour</summary>
+		/// <summary>Change the Unfreeze behavior</summary>
 		protected override void DoUnfreeze()
 		{
 			// Copied from base method, but we don't need to BuildList() since we know that our

@@ -68,7 +68,7 @@ namespace BrightIdeasSoftware
 		/// If allProperties to true, all public properties will have a matching column generated.
 		/// If allProperties is false, only properties that have a OLVColumn attribute will have a column generated.
 		/// </summary>
-		/// <param name="type"></param>
+		/// <param name="type">The model type whose attributes will be considered.</param>
 		/// <param name="allProperties">Will columns be generated for properties that are not marked with [OLVColumn].</param>
 		/// <returns>A collection of OLVColumns matching the attributes of Type that have OLVColumnAttributes.</returns>
 		IList<OLVColumn> GenerateColumns(Type type, Boolean allProperties);
@@ -76,8 +76,7 @@ namespace BrightIdeasSoftware
 
 	/// <summary>
 	/// The Generator class provides methods to dynamically create columns
-	/// for an ObjectListView based on the characteristics of a given collection
-	/// of model objects.
+	/// for an ObjectListView based on the characteristics of a given collection of model objects.
 	/// </summary>
 	/// <remarks>
 	/// <para>For a given type, a Generator can create columns to match the public properties
@@ -142,7 +141,7 @@ namespace BrightIdeasSoftware
 			=> Generator.Instance.GenerateAndReplaceColumns(olv, type, allProperties);
 
 		/// <summary>Generate a list of OLVColumns based on the public properties of the given type that have a OLVColumn attribute.</summary>
-		/// <param name="type"></param>
+		/// <param name="type">The model type whose attributes will be considered.</param>
 		/// <returns>A collection of OLVColumns matching the attributes of Type that have OLVColumnAttributes.</returns>
 		static public IList<OLVColumn> GenerateColumns(Type type)
 			=> Generator.Instance.GenerateColumns(type, false);
@@ -168,7 +167,7 @@ namespace BrightIdeasSoftware
 		/// If allProperties to true, all public properties will have a matching column generated.
 		/// If allProperties is false, only properties that have a OLVColumn attribute will have a column generated.
 		/// </summary>
-		/// <param name="type"></param>
+		/// <param name="type">The model type whose attributes will be considered.</param>
 		/// <param name="allProperties">Will columns be generated for properties that are not marked with [OLVColumn].</param>
 		/// <returns>A collection of OLVColumns matching the attributes of Type that have OLVColumnAttributes.</returns>
 		public virtual IList<OLVColumn> GenerateColumns(Type type, Boolean allProperties)
@@ -214,8 +213,8 @@ namespace BrightIdeasSoftware
 		#region Implementation
 
 		/// <summary>Replace all the columns in the given ListView with the given list of columns.</summary>
-		/// <param name="olv"></param>
-		/// <param name="columns"></param>
+		/// <param name="olv">The ListView whose columns are to be replaced.</param>
+		/// <param name="columns">The columns that will be used.</param>
 		protected virtual void ReplaceColumns(ObjectListView olv, IList<OLVColumn> columns)
 		{
 			olv.Reset();
@@ -229,8 +228,11 @@ namespace BrightIdeasSoftware
 			this.PostCreateColumns(olv);
 		}
 
-		/// <summary>Post process columns after creating them and adding them to the AllColumns collection.</summary>
-		/// <param name="olv"></param>
+		/// <summary>
+		/// Finalize the state of the ObjectListView after new columns have been generated and added. 
+		/// This will, for example, enable sub-item checkboxes or images if any column requires them.
+		/// </summary>
+		/// <param name="olv">The ListView whose columns have just been created.</param>
 		public virtual void PostCreateColumns(ObjectListView olv)
 		{
 			if(olv.AllColumns.Exists((x) => x.CheckBoxes))
@@ -241,35 +243,35 @@ namespace BrightIdeasSoftware
 			olv.AutoSizeColumns();
 		}
 
-		/// <summary>Create a column from the given PropertyInfo and OLVColumn attribute</summary>
-		/// <param name="pInfo">The property information.</param>
-		/// <param name="attr"></param>
-		/// <returns></returns>
+		/// <summary>Create a column from the given PropertyInfo and OLVColumn attribute.</summary>
+		/// <param name="pInfo">The property that the column will represent.</param>
+		/// <param name="attr">The attribute describing the column to be made.</param>
+		/// <returns>A new OLVColumn</returns>
 		protected virtual OLVColumn MakeColumnFromAttribute(PropertyInfo pInfo, OLVColumnAttribute attr)
 			=> this.MakeColumn(pInfo.Name, this.DisplayNameToColumnTitle(pInfo), pInfo.CanWrite, pInfo.PropertyType, attr);
 
-		/// <summary>Make a column from the given PropertyInfo</summary>
-		/// <param name="pInfo">The property information.</param>
-		/// <returns></returns>
+		/// <summary>Make a column from the given PropertyInfo.</summary>
+		/// <param name="pInfo">The property for which a column will be generated.</param>
+		/// <returns>A new OLVColumn</returns>
 		protected virtual OLVColumn MakeColumnFromPropertyInfo(PropertyInfo pInfo)
 			=> this.MakeColumn(pInfo.Name, this.DisplayNameToColumnTitle(pInfo), pInfo.CanWrite, pInfo.PropertyType, null);
 
-		/// <summary>Make a column from the given PropertyDescriptor</summary>
-		/// <param name="pd">The property descriptor.</param>
-		/// <returns></returns>
+		/// <summary>Make a column from the given PropertyDescriptor.</summary>
+		/// <param name="pd">The property descriptor for which a column will be generated.</param>
+		/// <returns>A new OLVColumn</returns>
 		public virtual OLVColumn MakeColumnFromPropertyDescriptor(PropertyDescriptor pd)
 		{
 			OLVColumnAttribute attr = pd.Attributes[typeof(OLVColumnAttribute)] as OLVColumnAttribute;
 			return this.MakeColumn(pd.Name, this.PropertyNameToColumnTitle(pd.DisplayName), !pd.IsReadOnly, pd.PropertyType, attr);
 		}
 
-		/// <summary>Create a column with all the given information</summary>
-		/// <param name="aspectName"></param>
-		/// <param name="title"></param>
-		/// <param name="editable"></param>
-		/// <param name="propertyType"></param>
-		/// <param name="attr"></param>
-		/// <returns></returns>
+		/// <summary>Create a column with all the given information.</summary>
+		/// <param name="aspectName">The aspect name for the column.</param>
+		/// <param name="title">The title of the column.</param>
+		/// <param name="editable">Is this column editable?</param>
+		/// <param name="propertyType">The type of the aspect.</param>
+		/// <param name="attr">The attribute that controls the column's behavior.</param>
+		/// <returns>A new OLVColumn</returns>
 		protected virtual OLVColumn MakeColumn(String aspectName, String title, Boolean editable, Type propertyType, OLVColumnAttribute attr)
 		{
 			OLVColumn column = this.MakeColumn(aspectName, title, attr);
@@ -325,14 +327,17 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>Create a column.</summary>
-		/// <param name="aspectName"></param>
-		/// <param name="title">The title of the column</param>
-		/// <param name="attr"></param>
-		/// <returns></returns>
+		/// <param name="aspectName">The aspect name for the new column.</param>
+		/// <param name="title">The title of the column.</param>
+		/// <param name="attr">The attribute that controls the column's behavior.</param>
+		/// <returns>A new OLVColumn</returns>
 		protected virtual OLVColumn MakeColumn(String aspectName, String title, OLVColumnAttribute attr)
 			=> new OLVColumn(attr?.Title ?? title, aspectName);
 
-		/// <summary>Extracts <see cref="DisplayNameAttribute"/> from property attributes and uses it's values.</summary>
+		/// <summary>
+		/// Extracts <see cref="DisplayNameAttribute"/> from property attributes and uses its value.
+		/// If the attribute is not present, a title is generated from the property name.
+		/// </summary>
 		/// <param name="pInfo">The property descriptor.</param>
 		/// <returns>Column title.</returns>
 		protected virtual String DisplayNameToColumnTitle(PropertyInfo pInfo)
@@ -340,9 +345,12 @@ namespace BrightIdeasSoftware
 				? attr.DisplayName
 				: this.PropertyNameToColumnTitle(pInfo.Name);
 
-		/// <summary>Convert a property name to a displayable title.</summary>
+		/// <summary>
+		/// Convert a property name to a displayable title.
+		/// This involves replacing underscores with spaces and inserting spaces before camel-cased words.
+		/// </summary>
 		/// <param name="propertyName">The name of the property.</param>
-		/// <returns>Column title.</returns>
+		/// <returns>The property name converted to a title.</returns>
 		protected virtual String PropertyNameToColumnTitle(String propertyName)
 		{
 			String title = propertyName.Replace("_", " ");
@@ -351,9 +359,9 @@ namespace BrightIdeasSoftware
 			return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(title);
 		}
 
-		/// <summary>Configure the given column to show a checkbox if appropriate</summary>
-		/// <param name="column"></param>
-		/// <param name="propertyType"></param>
+		/// <summary>Configure the given column to show a checkbox if its underlying property is a boolean or CheckState.</summary>
+		/// <param name="column">The column to be configured.</param>
+		/// <param name="propertyType">The data type of the property.</param>
 		protected virtual void ConfigurePossibleBooleanColumn(OLVColumn column, Type propertyType)
 		{
 			if(propertyType != typeof(Boolean) && propertyType != typeof(Boolean?) && propertyType != typeof(CheckState))
@@ -365,9 +373,9 @@ namespace BrightIdeasSoftware
 			column.TriStateCheckBoxes = (propertyType == typeof(Boolean?) || propertyType == typeof(CheckState));
 		}
 
-		/// <summary>If this given type has an property marked with [OLVChildren], make delegates that will traverse that property as the children of an instance of the model</summary>
-		/// <param name="tlv"></param>
-		/// <param name="type"></param>
+		/// <summary>If the given type has a property marked with [OLVChildren], this method will generate and install the delegates that will traverse that property.</summary>
+		/// <param name="tlv">The TreeListView to be configured.</param>
+		/// <param name="type">The model type to be scanned.</param>
 		protected virtual void TryGenerateChildrenDelegates(TreeListView tlv, Type type)
 		{
 			foreach(PropertyInfo pinfo in type.GetProperties())
@@ -379,8 +387,8 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>Generate CanExpand and ChildrenGetter delegates from the given property.</summary>
-		/// <param name="tlv"></param>
-		/// <param name="pInfo"></param>
+		/// <param name="tlv">The TreeListView to be configured.</param>
+		/// <param name="pInfo">The property that will provide the children.</param>
 		protected virtual void GenerateChildrenDelegates(TreeListView tlv, PropertyInfo pInfo)
 		{
 			Munger childrenGetter = new Munger(pInfo.Name);

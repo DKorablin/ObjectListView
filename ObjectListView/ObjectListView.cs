@@ -1011,7 +1011,7 @@ namespace BrightIdeasSoftware
 		public Control CellEditor => this._cellEditor;
 
 		/// <summary>
-		/// Gets or sets the behaviour of the Tab key when editing a cell on the left or right
+		/// Gets or sets the behavior of the Tab key when editing a cell on the left or right
 		/// edge of the control. If this is false (the default), pressing Tab will wrap to the other side
 		/// of the same row. If this is true, pressing Tab when editing the right most cell will advance 
 		/// to the next row 
@@ -1166,24 +1166,22 @@ namespace BrightIdeasSoftware
 
 		/// <summary>
 		/// Get or set the collection of model objects that are checked.
-		/// When setting this property, any row whose model Object isn't
-		/// in the given collection will be unchecked. Setting to null is
-		/// equivalent to unchecking all.
+		/// When setting this property, any row whose model Object isn't in the given collection will be unchecked.
+		/// Setting to null is equivalent to unchecking all.
 		/// </summary>
 		/// <remarks>
 		/// <para>
-		/// This property returns a simple collection. Changes made to the returned
-		/// collection do NOT affect the list. This is different to the behaviour of
-		/// CheckedIndicies collection.
+		/// This property returns a simple collection.
+		/// Changes made to the returned collection do NOT affect the list.
+		/// This is different to the behavior of CheckedIndicies collection.
 		/// </para>
 		/// <para>
-		/// .NET's CheckedItems property is not helpful. It is just a short-hand for
-		/// iterating through the list looking for items that are checked.
+		/// .NET's CheckedItems property is not helpful.
+		/// It is just a short-hand for iterating through the list looking for items that are checked.
 		/// </para>
 		/// <para>
-		/// The performance of the get method is O(n), where n is the number of items
-		/// in the control. The performance of the set method is
-		/// O(n + m) where m is the number of objects being checked. Be careful on long lists.
+		/// The performance of the get method is O(n), where n is the number of items in the control.
+		/// The performance of the set method is O(n + m) where m is the number of objects being checked. Be careful on long lists.
 		/// </para>
 		/// </remarks>
 		[Browsable(false)]
@@ -1291,7 +1289,7 @@ namespace BrightIdeasSoftware
 		/// the installed DragSource to create the data Object that is placed onto the clipboard.
 		/// </summary>
 		/// <remarks>This is normally what is desired, unless a custom DragSource is installed 
-		/// that does some very specialized drag-drop behaviour.</remarks>
+		/// that does some very specialized drag-drop behavior.</remarks>
 		[Category(Constants.ObjectListView)]
 		[Description("Should the Ctrl-C copy process use the DragSource to create the Clipboard data Object?")]
 		[DefaultValue(true)]
@@ -2349,7 +2347,7 @@ namespace BrightIdeasSoftware
 		/// Staying open allows the user to turn more than one column on or off at a time.
 		/// </summary>
 		/// <remarks>This only works when SelectColumnsOnRightClickBehaviour is set to InlineMenu.
-		/// It has no effect when the behaviour is set to SubMenu.</remarks>
+		/// It has no effect when the behavior is set to SubMenu.</remarks>
 		[Category(Constants.ObjectListView)]
 		[Description("When the column select inline menu is open, should it stay open after an item is selected?")]
 		[DefaultValue(true)]
@@ -2358,7 +2356,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or sets the column that is drawn with a slight tint.</summary>
 		/// <remarks>
 		/// <para>If TintSortColumn is true, the sort column will automatically be made the selected column.</para>
-		/// <para>The colour of the tint is controlled by SelectedColumnTint.</para>
+		/// <para>The color of the tint is controlled by SelectedColumnTint.</para>
 		/// </remarks>
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -2636,19 +2634,19 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>
-		/// When the listview is grouped, should the items be sorted by the primary column?
+		/// When the ListView is grouped, should the items be sorted by the primary column?
 		/// If this is false, the items will be sorted by the same column as they are grouped.
 		/// </summary>
 		/// <remarks>
 		/// <para>The primary column is always column 0 and is unrelated to the PrimarySort column.</para>
 		/// </remarks>
 		[Category(Constants.ObjectListView)]
-		[Description("When the listview is grouped, should the items be sorted by the primary column? If this is false, the items will be sorted by the same column as they are grouped.")]
+		[Description("When the ListView is grouped, should the items be sorted by the primary column? If this is false, the items will be sorted by the same column as they are grouped.")]
 		[DefaultValue(true)]
 		public virtual Boolean SortGroupItemsByPrimaryColumn { get; set; } = true;
 
 		/// <summary>
-		/// When the listview is grouped, how many pixels should exist between the end of one group and the beginning of the next?
+		/// When the ListView is grouped, how many pixels should exist between the end of one group and the beginning of the next?
 		/// </summary>
 		[Category(Constants.ObjectListView)]
 		[Description("How many pixels of space will be between groups")]
@@ -2720,9 +2718,9 @@ namespace BrightIdeasSoftware
 		}
 		private Boolean _triStateCheckBoxes;
 
-		/// <summary>Get or set the index of the top item of this listview</summary>
+		/// <summary>Get or set the index of the top item of this ListView</summary>
 		/// <remarks>
-		/// <para>This property only works when the listview is in Details view and not showing groups.</para>
+		/// <para>This property only works when the ListView is in Details view and not showing groups.</para>
 		/// <para>
 		/// The reason that it does not work when showing groups is that, when groups are enabled,
 		/// the Windows msg LVM_GETTOPINDEX always returns 0, regardless of the
@@ -2769,7 +2767,7 @@ namespace BrightIdeasSoftware
 		/// <remarks>
 		/// Moving the mouse over the header did not previously trigger CellOver events, since the
 		/// header is considered a separate control. 
-		/// If this change in behaviour causes your application problems, set this to false.
+		/// If this change in behavior causes your application problems, set this to false.
 		/// If you are interested in knowing when the mouse moves over the header, set this property to true (the default).
 		/// </remarks>
 		[Category(Constants.ObjectListView)]
@@ -2788,7 +2786,7 @@ namespace BrightIdeasSoftware
 		/// the right edge of the column will be dragged, but
 		/// its <b>left</b> edge will move since the space filling column is shrinking.
 		/// </para>
-		/// <para>This is logical behaviour -- it just looks wrong.
+		/// <para>This is logical behavior -- it just looks wrong.
 		/// </para>
 		/// <para>
 		/// Given the above behavior is probably best to turn this property off if your space filling
@@ -2827,10 +2825,10 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets or sets whether the list give a different background color to every second row? Defaults to false.</summary>
 		/// <remarks><para>The color of the alternate rows is given by AlternateRowBackColor.</para>
-		/// <para>There is a "feature" in .NET for listviews in non-full-row-select mode, where
+		/// <para>There is a "feature" in .NET for ListViews in non-full-row-select mode, where
 		/// selected rows are not drawn with their correct background color.</para></remarks>
 		[Category(Constants.ObjectListView)]
-		[Description("Should the list view use a different backcolor to alternate rows?")]
+		[Description("Should the list view use a different back color to alternate rows?")]
 		[DefaultValue(false)]
 		public virtual Boolean UseAlternatingBackColors { get; set; }
 
@@ -2961,7 +2959,7 @@ namespace BrightIdeasSoftware
 		}
 		private Boolean _useHotItem;
 
-		/// <summary>Gets or sets whether this listview should show hyperlinks in the cells.</summary>
+		/// <summary>Gets or sets whether this ListView should show hyperlinks in the cells.</summary>
 		[Category(Constants.ObjectListView)]
 		[Description("Should hyperlinks be shown on this control?")]
 		[DefaultValue(false)]
@@ -3011,7 +3009,7 @@ namespace BrightIdeasSoftware
 		/// </para>
 		/// <para>This will replace any SelectedRowDecoration that has been installed.</para>
 		/// <para>
-		/// If you don't like the colours used for the selection, ignore this property and 
+		/// If you don't like the colors used for the selection, ignore this property and 
 		/// just create your own RowBorderDecoration and assigned it to SelectedRowDecoration,
 		/// just like this property setter does.
 		/// </para>
@@ -3045,7 +3043,7 @@ namespace BrightIdeasSoftware
 		/// <remarks>
 		/// <para>Setting this will replace any HotItemStyle that has been installed.</para>
 		/// <para>
-		/// If you don't like the colours used for the hot item, ignore this property and 
+		/// If you don't like the colors used for the hot item, ignore this property and 
 		/// just create your own HotItemStyle, fill in the values you want, and assigned it to HotItemStyle property,
 		/// just like this property setter does.
 		/// </para>
@@ -3079,7 +3077,7 @@ namespace BrightIdeasSoftware
 		}
 		private Boolean _useTranslucentHotItem;
 
-		/// <summary>Get/set the style of view that this listview is using</summary>
+		/// <summary>Get/set the style of view that this ListView is using</summary>
 		/// <remarks>Switching to tile or details view installs the columns appropriate to that view.
 		/// Confusingly, in tile view, every column is shown as a row of information.</remarks>
 		[Category("Appearance")]
@@ -3154,7 +3152,7 @@ namespace BrightIdeasSoftware
 			}
 		}
 
-		/// <summary>Gets whether or not this listview is capable of showing groups</summary>
+		/// <summary>Gets whether or not this ListView is capable of showing groups</summary>
 		[Browsable(false)]
 		public virtual Boolean CanShowGroups
 		{
@@ -3289,7 +3287,7 @@ namespace BrightIdeasSoftware
 		/// To allow subitems to have different attributes, do this:
 		/// <code>myListViewItem.UseItemStyleForSubItems = false;</code>.
 		/// </para>
-		/// <para>If UseAlternatingBackColors is true, the backcolor of the listitem will be calculated
+		/// <para>If UseAlternatingBackColors is true, the back color of the ListItem will be calculated
 		/// by the control and cannot be controlled by the RowFormatter delegate.
 		/// In general, trying to use a RowFormatter
 		/// when UseAlternatingBackColors is true does not work well.</para>

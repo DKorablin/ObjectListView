@@ -173,14 +173,14 @@ namespace BrightIdeasSoftware
 
 		private static ListViewHitTestLocations ConvertNativeFlagsToDotNetLocation(OLVListItem hitItem, Int32 flags)
 		{
-			// Untangle base .NET behaviour.
+			// Untangle base .NET behavior.
 
 			// In Windows SDK, the value 8 can have two meanings here: LVHT_ONITEMSTATEICON or LVHT_ABOVE.
 			// .NET changes these to be:
 			// - LVHT_ABOVE becomes ListViewHitTestLocations.AboveClientArea (which is 0x100).
 			// - LVHT_ONITEMSTATEICON becomes ListViewHitTestLocations.StateImage (which is 0x200).
 			// So, if we see the 8 bit set in flags, we change that to either a state image hit
-			// (if we hit an item) or to AboveClientAream if nothing was hit.
+			// (if we hit an item) or to AboveClientArea if nothing was hit.
 
 			if((8 & flags) == 8)
 				return (ListViewHitTestLocations)(0xf7 & flags | (hitItem == null ? 0x100 : 0x200));
@@ -234,9 +234,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets the index of the column under the hit point</summary>
 		public Int32 ColumnIndex { get; internal set; }
 
-		/// <summary>
-		/// Gets the index of the header divider
-		/// </summary>
+		/// <summary>Gets the index of the header divider</summary>
 		public Int32 HeaderDividerIndex { get; internal set; } = -1;
 
 		/// <summary>Gets the column that was hit</summary>

@@ -112,26 +112,26 @@ namespace BrightIdeasSoftware
 		#region Control Properties
 
 		/// <summary>This is the ListView that will be printed</summary>
-		[Category("Behaviour")]
-		[Description("Which listview will be printed by this printer?")]
+		[Category("Behavior")]
+		[Description("Which ListView will be printed by this printer?")]
 		[DefaultValue(null)]
 		public ListView ListView { get; set; }
 
 		/// <summary>Should this report use text only?</summary>
-		[Category("Behaviour")]
+		[Category("Behavior")]
 		[Description("Should this report use text only? If this is false, images on the primary column will be included.")]
 		[DefaultValue(false)]
 		public Boolean IsTextOnly { get; set; } = false;
 
 		/// <summary>Should this report be shrunk to fit into the width of a page?</summary>
-		[Category("Behaviour")]
+		[Category("Behavior")]
 		[Description("Should this report be shrunk to fit into the width of a page?")]
 		[DefaultValue(true)]
 		public Boolean IsShrinkToFit { get; set; } = true;
 
-		/// <summary>Should this report only include the selected rows in the listview?</summary>
-		[Category("Behaviour")]
-		[Description("Should this report only include the selected rows in the listview?")]
+		/// <summary>Should this report only include the selected rows in the ListView?</summary>
+		[Category("Behavior")]
+		[Description("Should this report only include the selected rows in the ListView?")]
 		[DefaultValue(false)]
 		public Boolean IsPrintSelectionOnly { get; set; } = false;
 
@@ -139,31 +139,31 @@ namespace BrightIdeasSoftware
 		/// Should this report use the column order as the user sees them? With this enabled,
 		/// the report will match the order of column as the user has arranged them.
 		/// </summary>
-		[Category("Behaviour")]
+		[Category("Behavior")]
 		[Description("Should this report use the column order as the user sees them? With this enabled, the report will match the order of column as the user has arranged them.")]
 		[DefaultValue(true)]
 		public Boolean UseColumnDisplayOrder { get; set; } = true;
 
 		/// <summary>Should column headings always be centered, even if on the control itself, they are aligned to the left or right?</summary>
-		[Category("Behaviour")]
+		[Category("Behavior")]
 		[Description("Should column headings always be centered or should they follow the alignment on the control itself?")]
 		[DefaultValue(true)]
 		public Boolean AlwaysCenterListHeader { get; set; } = true;
 
-		/// <summary>Should listview headings be printed at the top of each page, or just at the top of the list?</summary>
-		[Category("Behaviour")]
-		[Description("Should listview headings be printed at the top of each page, or just at the top of the list?")]
+		/// <summary>Should ListView headings be printed at the top of each page, or just at the top of the list?</summary>
+		[Category("Behavior")]
+		[Description("Should ListView headings be printed at the top of each page, or just at the top of the list?")]
 		[DefaultValue(true)]
 		public Boolean IsListHeaderOnEachPage { get; set; } = true;
 
 		/// <summary>Return the index of the first page of the report that should be printed</summary>
-		[Category("Behaviour")]
+		[Category("Behavior")]
 		[Description("Return the first page of the report that should be printed")]
 		[DefaultValue(0)]
 		public Int32 FirstPage { get; set; } = 0;
 
 		/// <summary>Return the index of the last page of the report that should be printed</summary>
-		[Category("Behaviour")]
+		[Category("Behavior")]
 		[Description("Return the last page of the report that should be printed")]
 		[DefaultValue(9999)]
 		public Int32 LastPage { get; set; } = 9999;
@@ -332,7 +332,7 @@ namespace BrightIdeasSoftware
 		#region Accessing
 
 		/// <summary>Return the number of rows that this printer is going to print</summary>
-		/// <param name="lv">The listview that is being printed</param>
+		/// <param name="lv">The ListView that is being printed</param>
 		/// <returns>The number of rows that will be displayed</returns>
 		protected Int32 GetRowCount(ListView lv)
 		{
@@ -345,7 +345,7 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>Return the n'th row that will be printed</summary>
-		/// <param name="lv">The listview that is being printed</param>
+		/// <param name="lv">The ListView that is being printed</param>
 		/// <param name="n">The index of the row to be printed</param>
 		/// <returns>A ListViewItem</returns>
 		protected ListViewItem GetRow(ListView lv, Int32 n)
@@ -372,12 +372,12 @@ namespace BrightIdeasSoftware
 			return lv.Groups[i].Items[indexInList];
 		}
 
-		/// <summary>Get the nth item from the given listview, which is in virtual mode.</summary>
+		/// <summary>Get the nth item from the given ListView, which is in virtual mode.</summary>
 		/// <param name="lv">The ListView in virtual mode</param>
 		/// <param name="n">index of item to get</param>
 		/// <returns>the item</returns>
 		protected virtual ListViewItem GetVirtualItem(ListView lv, Int32 n)
-			=> throw new ApplicationException("Virtual list items cannot be retrieved. Use an ObjectListView instead.");
+			=> throw new InvalidOperationException("Virtual list items cannot be retrieved. Use an ObjectListView instead.");
 
 		/// <summary>Return the i'th subitem of the given row, in the order that columns are presented in the report</summary>
 		/// <param name="lvi">The row from which a subitem is to be fetched</param>
@@ -544,7 +544,7 @@ namespace BrightIdeasSoftware
 					this._sortedColumns.Add(column.Index, column);
 			}
 
-			// If the listview is grouped, build an array to holds the start
+			// If the ListView is grouped, build an array to holds the start
 			// position of each group. The way to understand this array is that
 			// the index of the first member of group n is found at groupStartPositions[n].
 			Int32 itemCount = 0;
@@ -583,10 +583,10 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>Figure out the boundaries for various aspects of the report</summary>
-		/// <param name="lv">The listview to be printed</param>
+		/// <param name="lv">The ListView to be printed</param>
 		protected void CalculatePrintParameters(ListView lv)
 		{
-			// If we are in the middle of printing a listview, don't change the parameters
+			// If we are in the middle of printing a ListView, don't change the parameters
 			if(this._rowIndex >= 0 && this._rowIndex < this.GetRowCount(lv))
 				return;
 
@@ -664,7 +664,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Do the work of printing the list into 'listBounds'</summary>
 		/// <param name="g">The graphic used for drawing</param>
-		/// <param name="lv">The listview to be printed</param>
+		/// <param name="lv">The ListView to be printed</param>
 		/// <returns>Return true if there are still more pages in the report</returns>
 		protected Boolean PrintList(Graphics g, ListView lv)
 		{
@@ -679,9 +679,9 @@ namespace BrightIdeasSoftware
 			return (this._rowIndex < this.GetRowCount(lv) || this._indexRightColumn + 1 < this.GetColumnCount());
 		}
 
-		/// <summary>Print the header of the listview</summary>
+		/// <summary>Print the header of the ListView</summary>
 		/// <param name="g">The graphic used for drawing</param>
-		/// <param name="lv">The listview to be printed</param>
+		/// <param name="lv">The ListView to be printed</param>
 		protected void PrintListHeader(Graphics g, ListView lv)
 		{
 			// If there is no format for the header, we don't draw it
@@ -710,9 +710,9 @@ namespace BrightIdeasSoftware
 			this._currentOrigin.Y += cell.Height;
 		}
 
-		/// <summary>Print the rows of the listview</summary>
+		/// <summary>Print the rows of the ListView</summary>
 		/// <param name="g">The graphic used for drawing</param>
-		/// <param name="lv">The listview to be printed</param>
+		/// <param name="lv">The ListView to be printed</param>
 		protected void PrintRows(Graphics g, ListView lv)
 		{
 			while(this._rowIndex < this.GetRowCount(lv))
@@ -746,7 +746,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Calculate how high the given row of the report should be.</summary>
 		/// <param name="g">The graphic used for drawing</param>
-		/// <param name="lv">The listview to be printed</param>
+		/// <param name="lv">The ListView to be printed</param>
 		/// <param name="n">The index of the row whose height is to be calculated</param>
 		/// <returns>The height of one row in pixels</returns>
 		virtual protected Single CalculateRowHeight(Graphics g, ListView lv, Int32 n)
@@ -782,7 +782,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Print a group header</summary>
 		/// <param name="g">The graphic used for drawing</param>
-		/// <param name="lv">The listview to be printed</param>
+		/// <param name="lv">The ListView to be printed</param>
 		/// <param name="groupIndex">The index of the group header to be printed</param>
 		protected void PrintGroupHeader(Graphics g, ListView lv, Int32 groupIndex)
 		{
@@ -794,7 +794,7 @@ namespace BrightIdeasSoftware
 			this._currentOrigin.Y += height;
 		}
 
-		/// <summary>Print one row of the listview</summary>
+		/// <summary>Print one row of the ListView</summary>
 		/// <param name="g"></param>
 		/// <param name="lv"></param>
 		/// <param name="row"></param>
@@ -816,7 +816,7 @@ namespace BrightIdeasSoftware
 			this._currentOrigin.Y += rowHeight;
 		}
 
-		/// <summary>Print one cell of the listview</summary>
+		/// <summary>Print one cell of the ListView</summary>
 		/// <param name="g"></param>
 		/// <param name="lv"></param>
 		/// <param name="lvi"></param>
@@ -904,21 +904,6 @@ namespace BrightIdeasSoftware
 
 		#endregion
 
-		#region Compatibility
-
-		/// <summary>What color will all the borders be drawn in?</summary>
-		/// <remarks>This is just a convenience wrapper around ListGridPen</remarks>
-		[Browsable(false)]
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		[Obsolete("Use ListGridPen instead")]
-		public Color ListGridColor
-		{
-			get => this.ListGridPen?.Color ?? Color.Empty;
-			set => this.ListGridPen = new Pen(new SolidBrush(value), 0.5f);
-		}
-
-		#endregion
-
 		#region Private variables
 
 		// These are our state variables.
@@ -947,7 +932,7 @@ namespace BrightIdeasSoftware
 		{
 		}
 
-		/// <summary>Get the nth item from the given listview, which is in virtual mode.</summary>
+		/// <summary>Get the nth item from the given ListView, which is in virtual mode.</summary>
 		/// <param name="lv">The ListView in virtual mode</param>
 		/// <param name="n">index of item to get</param>
 		/// <returns>the item</returns>
@@ -956,7 +941,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Calculate how high each row of the report should be.</summary>
 		/// <param name="g">The graphic used for drawing</param>
-		/// <param name="lv">The listview to be printed</param>
+		/// <param name="lv">The ListView to be printed</param>
 		/// <param name="n"></param>
 		/// <returns>The height of one row in pixels</returns>
 		override protected Single CalculateRowHeight(Graphics g, ListView lv, Int32 n)
@@ -1073,7 +1058,7 @@ namespace BrightIdeasSoftware
 	{
 		#region Public properties
 
-		/// <summary>In what font should the text of the block be drawn? If this is null, the font from the listview will be used</summary>
+		/// <summary>In what font should the text of the block be drawn? If this is null, the font from the ListView will be used</summary>
 		[Category("Appearance")]
 		[Description("What font should this block be drawn in?")]
 		[DefaultValue(null)]
@@ -1089,11 +1074,11 @@ namespace BrightIdeasSoftware
 		/// <summary>What brush will be used to draw the text?</summary>
 		/// <remarks>
 		/// <para>If this format is used for cells and this is null AND an ObjectListView is being printed, 
-		/// then the text color from the listview will be used.
+		/// then the text color from the ListView will be used.
 		/// This is useful when you have setup specific colors on a RowFormatter delegate, for example.
 		/// </para>
 		/// </remarks>
-		public Brush TextBrush;
+		public Brush TextBrush { get; set; }
 
 		/// <summary>This Object is used by the IDE to set the text brush.</summary>
 		[Category("Appearance")]
@@ -1120,7 +1105,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>What brush will be used to paint the background?</summary>
 		[Browsable(false)]
-		public Brush BackgroundBrush;
+		public Brush BackgroundBrush { get;set; }
 
 		/// <summary>This Object is used by the IDE to set the background brush.</summary>
 		[Category("Appearance")]
@@ -1443,15 +1428,14 @@ namespace BrightIdeasSoftware
 		}
 
 		// I hate the fact that Dictionary doesn't have a method like this!
-		private ValueT GetKeyOrDefault<KeyT, ValueT>(Dictionary<KeyT, ValueT> map, KeyT key, ValueT defaultValue)
+		private static ValueT GetKeyOrDefault<KeyT, ValueT>(Dictionary<KeyT, ValueT> map, KeyT key, ValueT defaultValue)
 			=> map.TryGetValue(key, out ValueT v)
 				? v
 				: defaultValue;
 
-		private Dictionary<Sides, Pen> _BorderPen = new Dictionary<Sides, Pen>();
-		private Dictionary<Sides, PenData> _BorderPenData = new Dictionary<Sides, PenData>();
-		private Dictionary<Sides, Single> _TextInset = new Dictionary<Sides, Single>();
-		private Dictionary<Sides, Single> _Padding = new Dictionary<Sides, Single>();
+		private readonly Dictionary<Sides, Pen> _BorderPen = new Dictionary<Sides, Pen>();
+		private readonly Dictionary<Sides, Single> _TextInset = new Dictionary<Sides, Single>();
+		private readonly Dictionary<Sides, Single> _Padding = new Dictionary<Sides, Single>();
 
 		#endregion
 
@@ -1478,6 +1462,7 @@ namespace BrightIdeasSoftware
 
 			if(!this.CanWrap)
 				fmt.FormatFlags = StringFormatFlags.NoWrap;
+
 			Single height = g.MeasureString(s, this.FontOrDefault, width, fmt).Height;
 			height = Math.Max(height, this.MinimumTextHeight);
 			height += this.GetPadding(Sides.Top);
@@ -1489,19 +1474,17 @@ namespace BrightIdeasSoftware
 			return height;
 		}
 
-		private RectangleF ApplyInsets(RectangleF cell, Single left, Single top, Single right, Single bottom)
-		{
-			return new RectangleF(cell.X + left,
+		private static RectangleF ApplyInsets(RectangleF cell, Single left, Single top, Single right, Single bottom)
+			=> new RectangleF(cell.X + left,
 				cell.Y + top,
 				cell.Width - (left + right),
 				cell.Height - (top + bottom));
-		}
 
 		/// <summary>Given a bounding box return the box after applying the padding factors</summary>
 		/// <param name="cell"></param>
 		/// <returns></returns>
 		public RectangleF CalculatePaddedBox(RectangleF cell)
-			=> this.ApplyInsets(cell,
+			=> ApplyInsets(cell,
 				this.GetPadding(Sides.Left),
 				this.GetPadding(Sides.Top),
 				this.GetPadding(Sides.Right),
@@ -1511,7 +1494,7 @@ namespace BrightIdeasSoftware
 		/// <param name="cell"></param>
 		/// <returns></returns>
 		public RectangleF CalculateBorderedBox(RectangleF cell)
-			=> this.ApplyInsets(cell,
+			=> ApplyInsets(cell,
 				this.GetBorderWidth(Sides.Left),
 				this.GetBorderWidth(Sides.Top),
 				this.GetBorderWidth(Sides.Right),
@@ -1521,7 +1504,7 @@ namespace BrightIdeasSoftware
 		/// <param name="cell"></param>
 		/// <returns></returns>
 		public RectangleF CalculateTextBox(RectangleF cell)
-			=> this.ApplyInsets(cell,
+			=> ApplyInsets(cell,
 				this.GetTextInset(Sides.Left),
 				this.GetTextInset(Sides.Top),
 				this.GetTextInset(Sides.Right),
@@ -1602,7 +1585,7 @@ namespace BrightIdeasSoftware
 			if(this.BackgroundBrush != null)
 			{
 				// Enlarge the background area by half the border widths on each side
-				RectangleF r2 = this.ApplyInsets(r,
+				RectangleF r2 = ApplyInsets(r,
 					  this.GetBorderWidth(Sides.Left) / -2,
 					  this.GetBorderWidth(Sides.Top) / -2,
 					  this.GetBorderWidth(Sides.Right) / -2,
@@ -1626,7 +1609,17 @@ namespace BrightIdeasSoftware
 			}
 		}
 
-		static public Brush PrepareBrushForDrawing(Brush value, RectangleF r)
+		public static Pen PreparePenForDrawing(Pen value, RectangleF r)
+		{
+			if(r.Height == 0)
+				r.Height = value.Width;
+			if(r.Width == 0)
+				r.Width = value.Width;
+			value.Brush = BlockFormat.PrepareBrushForDrawing(value.Brush, r);
+			return value;
+		}
+
+		public static Brush PrepareBrushForDrawing(Brush value, RectangleF r)
 		{
 			LinearGradientBrush lgb = value as LinearGradientBrush;
 			if(lgb == null)
@@ -1650,20 +1643,9 @@ namespace BrightIdeasSoftware
 			return lgb2;
 		}
 
-		static public Pen PreparePenForDrawing(Pen value, RectangleF r)
+		public static Brush PrepareBrushForDrawing(Brush value, Rectangle r)
 		{
-			if(r.Height == 0)
-				r.Height = value.Width;
-			if(r.Width == 0)
-				r.Width = value.Width;
-			value.Brush = BlockFormat.PrepareBrushForDrawing(value.Brush, r);
-			return value;
-		}
-
-		static public Brush PrepareBrushForDrawing(Brush value, Rectangle r)
-		{
-			LinearGradientBrush lgb = value as LinearGradientBrush;
-			if(lgb == null)
+			if(!(value is LinearGradientBrush lgb))
 				return value;
 
 			// We really just want to change the bounds of the gradient, but there is no way to do that

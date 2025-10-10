@@ -262,7 +262,7 @@ namespace BrightIdeasSoftware
 		/// <remarks>
 		/// <para>
 		/// This property returns a simple collection. Changes made to the returned
-		/// collection do NOT affect the list. This is different to the behaviour of
+		/// collection do NOT affect the list. This is different to the behavior of
 		/// CheckedIndicies collection.
 		/// </para>
 		/// <para>

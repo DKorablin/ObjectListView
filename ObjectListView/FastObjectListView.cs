@@ -113,6 +113,7 @@ namespace BrightIdeasSoftware
 				if(i >= 0 && i <= index)
 					displacedObjectCount++;
 			}
+
 			index -= displacedObjectCount;
 
 			this.BeginUpdate();
@@ -140,9 +141,7 @@ namespace BrightIdeasSoftware
 	}
 
 	/// <summary>Provide a data source for a FastObjectListView</summary>
-	/// <remarks>
-	/// This class isn't intended to be used directly, but it is left as a public class just in case someone wants to subclass it.
-	/// </remarks>
+	/// <remarks>This class isn't intended to be used directly, but it is left as a public class just in case someone wants to subclass it.</remarks>
 	public class FastObjectListDataSource : AbstractVirtualListDataSource
 	{
 		private readonly Dictionary<Object, Int32> _objectsToIndexMap = new Dictionary<Object, Int32>();

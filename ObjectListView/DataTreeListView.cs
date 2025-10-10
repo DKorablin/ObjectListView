@@ -33,7 +33,6 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing.Design;
 using System.Windows.Forms;
 
@@ -43,8 +42,7 @@ namespace BrightIdeasSoftware
 	/// <remarks>
 	/// <para>Like a <see cref="DataListView"/>, a DataTreeListView sources all its information
 	/// from a combination of <see cref="DataSource"/> and <see cref="DataMember"/>. 
-	/// <see cref="DataSource"/> can be a DataTable, DataSet,
-	/// or anything that implements <see cref="IList"/>. 
+	/// <see cref="DataSource"/> can be a DataTable, DataSet, or anything that implements <see cref="IList"/>. 
 	/// </para>
 	/// <para>
 	/// To function properly, the DataTreeListView requires:
@@ -53,8 +51,8 @@ namespace BrightIdeasSoftware
 	/// <item>the table to have a column which holds id of the hierarchical parent of the row. The name of this column must be set in <see cref="ParentKeyAspectName"/>.</item>
 	/// <item>a value which identifies which rows are the roots of the tree (<see cref="RootKeyValue"/>).</item>
 	/// </list>
-	/// The hierarchy structure is determined finding all the rows where the parent key is equal to <see cref="RootKeyValue"/>. These  rows
-	/// become the root objects of the hierarchy.
+	/// The hierarchy structure is determined finding all the rows where the parent key is equal to <see cref="RootKeyValue"/>.
+	/// These rows become the root objects of the hierarchy.
 	/// </para>
 	/// <para>Like a TreeListView, the hierarchy must not contain cycles. Bad things will happen if the data is cyclic.</para>
 	/// </remarks>
@@ -113,9 +111,8 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or sets the name of the property/column that uniquely identifies each row.</summary>
 		/// <remarks>
 		/// <para>
-		/// The value contained by this column must be unique across all rows 
-		/// in the data source. Odd and unpredictable things will happen if two
-		/// rows have the same id.
+		/// The value contained by this column must be unique across all rows in the data source.
+		/// Odd and unpredictable things will happen if two rows have the same id.
 		/// </para>
 		/// <para>Null cannot be a valid key value.</para>
 		/// </remarks>
@@ -131,8 +128,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or sets the name of the property/column that contains the key of the parent of a row.</summary>
 		/// <remarks>
 		/// <para>
-		/// The test condition for deciding if one row is the parent of another is functionally
-		/// equivalent to this:
+		/// The test condition for deciding if one row is the parent of another is functionally equivalent to this:
 		/// <code>
 		/// Object.Equals(candidateParentRow[this.KeyAspectName], row[this.ParentKeyAspectName])
 		/// </code>

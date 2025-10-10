@@ -127,7 +127,7 @@ namespace BrightIdeasSoftware
 
 		#region Public Properties
 
-		/// <summary>Gets whether or not this listview is capable of showing groups</summary>
+		/// <summary>Gets whether or not this ListView is capable of showing groups</summary>
 		[Browsable(false)]
 		public override Boolean CanShowGroups
 		{// Virtual lists need Vista and a grouping strategy to show groups
@@ -143,7 +143,7 @@ namespace BrightIdeasSoftware
 		/// <para>
 		/// This property returns a simple collection.
 		/// Changes made to the returned collection do NOT affect the list.
-		/// This is different to the behaviour of CheckedIndicies collection.
+		/// This is different to the behavior of CheckedIndicies collection.
 		/// </para>
 		/// <para>
 		/// When getting CheckedObjects, the performance of this method is O(n) where n is the number of checked objects.
@@ -765,9 +765,9 @@ namespace BrightIdeasSoftware
 		#region Implementation
 
 		/// <summary>Rebuild the list with its current contents.</summary>
-		/// <param name="shouldPreserveSelection"></param>
+		/// <param name="shouldPreserveState"></param>
 		/// <remarks>Invalidate any cached information when we rebuild the list.</remarks>
-		public override void BuildList(Boolean shouldPreserveSelection)
+		public override void BuildList(Boolean shouldPreserveState)
 		{
 			this.UpdateVirtualListSize();
 			this.ClearCachedInfo();
@@ -881,8 +881,8 @@ namespace BrightIdeasSoftware
 
 		/// <summary>
 		/// Return the n'th item (0-based) in the order they are shown to the user.
-		/// If the control is not grouped, the display order is the same as the
-		/// sorted list order. But if the list is grouped, the display order is different.
+		/// If the control is not grouped, the display order is the same as the sorted list order.
+		/// But if the list is grouped, the display order is different.
 		/// </summary>
 		/// <param name="n"></param>
 		/// <returns></returns>
@@ -1009,7 +1009,7 @@ namespace BrightIdeasSoftware
 		{
 		}
 
-		/// <summary>Record the change of checkstate for the given Object in the model.</summary>
+		/// <summary>Record the change of checkState for the given Object in the model.</summary>
 		/// <remarks>This does not update the UI -- only the model</remarks>
 		/// <param name="modelObject"></param>
 		/// <param name="state"></param>
@@ -1091,7 +1091,7 @@ namespace BrightIdeasSoftware
 			this.BeginUpdate();
 			try
 			{
-				Int32 originalSize = this.VirtualListSize;
+				_ = this.VirtualListSize;//Original size
 				filterable.ApplyFilters(this.ModelFilter, this.ListFilter);
 				this.BuildList();
 
@@ -1193,11 +1193,7 @@ namespace BrightIdeasSoftware
 
 		#endregion
 
-		#region Variable declarations
-
 		private OLVListItem _lastRetrieveVirtualItem;
 		private Int32 _lastRetrieveVirtualItemIndex = -1;
-
-		#endregion
 	}
 }

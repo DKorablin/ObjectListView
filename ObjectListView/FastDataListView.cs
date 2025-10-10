@@ -1,5 +1,5 @@
 ﻿/*
- * FastDataListView - A data bindable listview that has the speed of a virtual list
+ * FastDataListView - A data bindable ListView that has the speed of a virtual list
  *
  * Author: Phillip Piper
  * Date: 22/09/2010 8:11 AM
@@ -37,13 +37,13 @@ using System.Windows.Forms;
 namespace BrightIdeasSoftware
 {
 	/// <summary>
-	/// A FastDataListView virtualizes the display of data from a DataSource. It operates on
-	/// DataSets and DataTables in the same way as a DataListView, but does so much more efficiently.
+	/// A FastDataListView virtualizes the display of data from a DataSource.
+	/// It operates on DataSets and DataTables in the same way as a DataListView, but does so much more efficiently.
 	/// </summary>
 	/// <remarks>
 	/// <para>
-	/// A FastDataListView still has to load all its data from the DataSource. If you have SQL statement
-	/// that returns 1 million rows, all 1 million rows will still need to read from the database.
+	/// A FastDataListView still has to load all its data from the DataSource.
+	/// If you have SQL statement that returns 1 million rows, all 1 million rows will still need to read from the database.
 	/// However, once the rows are loaded, the FastDataListView will only build rows as they are displayed.
 	/// </para>
 	/// </remarks>
@@ -135,7 +135,7 @@ namespace BrightIdeasSoftware
 		protected virtual DataSourceAdapter CreateDataSourceAdapter()
 			=> new DataSourceAdapter(this);
 
-		/// <summary>Change the Unfreeze behaviour</summary>
+		/// <summary>Change the Unfreeze behavior</summary>
 		protected override void DoUnfreeze()
 		{
 			// Copied from base method, but we don't need to BuildList() since we know that our

@@ -128,39 +128,39 @@ namespace ObjectListViewDemo
 
 		}
 
-		public void ChangeView(ObjectListView listview, ComboBox comboBox)
+		public void ChangeView(ObjectListView listView, ComboBox comboBox)
 		{
 			// Handle restrictions on Tile view
 			if(comboBox.SelectedIndex == 3)
 			{
-				if(listview.VirtualMode)
+				if(listView.VirtualMode)
 				{
 					this.ShowMessage("Sorry, Microsoft says that virtual lists can't use Tile view.");
 					return;
 				}
-				if(listview.CheckBoxes)
+				if(listView.CheckBoxes)
 				{
 					this.ShowMessage("Microsoft says that Tile view can't have checkboxes, so CheckBoxes have been turned off on this list.");
-					listview.CheckBoxes = false;
+					listView.CheckBoxes = false;
 				}
 			}
 
 			switch(comboBox.SelectedIndex)
 			{
 			case 0:
-				listview.View = View.SmallIcon;
+				listView.View = View.SmallIcon;
 				break;
 			case 1:
-				listview.View = View.LargeIcon;
+				listView.View = View.LargeIcon;
 				break;
 			case 2:
-				listview.View = View.List;
+				listView.View = View.List;
 				break;
 			case 3:
-				listview.View = View.Tile;
+				listView.View = View.Tile;
 				break;
 			case 4:
-				listview.View = View.Details;
+				listView.View = View.Details;
 				break;
 			}
 		}
@@ -187,7 +187,6 @@ namespace ObjectListViewDemo
 			{
 				switch(matchKind)
 				{
-				case 0:
 				default:
 					filter = TextMatchFilter.Contains(olv, txt);
 					break;
@@ -210,13 +209,12 @@ namespace ObjectListViewDemo
 			//olv.Invalidate();
 			stopWatch.Stop();
 
-			IList objects = olv.Objects as IList;
-			if(objects == null)
-				this.ToolStripStatus1 = _prefixForNextSelectionMessage =
-					String.Format("Filtered in {0}ms", stopWatch.ElapsedMilliseconds);
-			else
+			if(olv.Objects is IList objects)
 				this.ToolStripStatus1 = _prefixForNextSelectionMessage =
 					$"Filtered {objects.Count} items down to {olv.Items.Count} items in {stopWatch.ElapsedMilliseconds}ms";
+			else
+				this.ToolStripStatus1 = _prefixForNextSelectionMessage =
+					String.Format("Filtered in {0}ms", stopWatch.ElapsedMilliseconds);
 		}
 
 		public void ChangeHotItemStyle(ObjectListView olv, ComboBox cb)

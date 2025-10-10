@@ -8,7 +8,7 @@
 		<Configuration>Debug</Configuration>
 		<Deterministic>false</Deterministic>
 		<GenerateDocumentationFile>False</GenerateDocumentationFile>
-		<NoWarn>$(NoWarn);SYSLIB0011</NoWarn>
+		<NoWarn>$(NoWarn);SYSLIB0011;CA1416</NoWarn>
 		<DefineConstants>$(DefineConstants)</DefineConstants>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -18,11 +18,6 @@
 	</PropertyGroup>
 	<ItemGroup>
 	  <PackageReference Include="SonarAnalyzer.CSharp" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net35'">
-		<Reference Include="System.Data" />
-		<Reference Include="System.Drawing" />
-		<Reference Include="System.Design" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\ObjectListView\ObjectListView.csproj" />

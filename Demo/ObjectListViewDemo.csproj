@@ -8,7 +8,7 @@
 		<Configuration>Debug</Configuration>
 		<Deterministic>false</Deterministic>
 		<GenerateDocumentationFile>False</GenerateDocumentationFile>
-		<NoWarn>$(NoWarn);SYSLIB0011</NoWarn>
+		<NoWarn>$(NoWarn);SYSLIB0011;CA1416</NoWarn>
 		<DefineConstants>$(DefineConstants)</DefineConstants>
 		<ApplicationIcon>Resources\Espresso Maker.ico</ApplicationIcon>
 	</PropertyGroup>

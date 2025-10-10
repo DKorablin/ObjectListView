@@ -11,7 +11,7 @@ env:
   DotNetVersion: 8.0.x
 
 jobs:
-  test_net:
+  test_net_windows:
     name: Testing
     runs-on: windows-latest
     steps:
@@ -29,5 +29,5 @@ jobs:
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
         restore-keys: |
           ${{ runner.os }}-nuget-
-    - name: Testing .NET
-      run: dotnet test ${{env.SolutionName}}.sln --no-build --verbosity normal
+    - name: Testing
+      run: dotnet test ${{env.SolutionName}}.sln --verbosity normal

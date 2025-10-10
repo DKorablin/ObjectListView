@@ -110,7 +110,7 @@ namespace BrightIdeasSoftware
 		public event EventHandler<CreateGroupsEventArgs> BeforeCreatingGroups;
 
 		/// <summary>Triggered just before a ObjectListView creates groups.</summary>
-		/// <remarks>You can make changes to the groups, which have been created, before those groups are created within the listview.</remarks>
+		/// <remarks>You can make changes to the groups, which have been created, before those groups are created within the ListView.</remarks>
 		[Category(Constants.ObjectListView)]
 		[Description("This event is triggered when the groups are just about to be created.")]
 		public event EventHandler<CreateGroupsEventArgs> AboutToCreateGroups;
@@ -318,172 +318,174 @@ namespace BrightIdeasSoftware
 
 		#region OnEvents
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the AboutToCreateGroups event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnAboutToCreateGroups(CreateGroupsEventArgs e)
 			=> this.AboutToCreateGroups?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the BeforeCreatingGroups event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnBeforeCreatingGroups(CreateGroupsEventArgs e)
 			=> this.BeforeCreatingGroups?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the AfterCreatingGroups event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnAfterCreatingGroups(CreateGroupsEventArgs e)
 			=> this.AfterCreatingGroups?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the AfterSearching event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnAfterSearching(AfterSearchingEventArgs e)
 			=> this.AfterSearching?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the AfterSorting event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnAfterSorting(AfterSortingEventArgs e)
 			=> this.AfterSorting?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the BeforeSearching event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnBeforeSearching(BeforeSearchingEventArgs e)
 			=> this.BeforeSearching?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the BeforeSorting event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnBeforeSorting(BeforeSortingEventArgs e)
 			=> this.BeforeSorting?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the ButtonClick event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnButtonClick(CellClickEventArgs args)
 			=> this.ButtonClick?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the CanDrop event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnCanDrop(OlvDropEventArgs args)
 			=> this.CanDrop?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the CellClick event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnCellClick(CellClickEventArgs args)
 			=> this.CellClick?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the CellOver event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnCellOver(CellOverEventArgs args)
 			=> this.CellOver?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the CellRightClick event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnCellRightClick(CellRightClickEventArgs args)
 			=> this.CellRightClick?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the CellToolTipShowing event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnCellToolTip(ToolTipShowingEventArgs args)
 			=> this.CellToolTipShowing?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the SubItemChecking event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnSubItemChecking(SubItemCheckingEventArgs args)
 			=> this.SubItemChecking?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the ColumnRightClick event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnColumnRightClick(ColumnRightClickEventArgs e)
 			=> this.ColumnRightClick?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the Dropped event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnDropped(OlvDropEventArgs args)
 			=> this.Dropped?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the Filter event.</summary>
+		/// <param name="e">Event arguments</param>
 		internal protected virtual void OnFilter(FilterEventArgs e)
 			=> this.Filter?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the FormatCell event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnFormatCell(FormatCellEventArgs args)
 			=> this.FormatCell?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the FormatRow event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnFormatRow(FormatRowEventArgs args)
 			=> this.FormatRow?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the Freezing event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnFreezing(FreezeEventArgs args)
 			=> this.Freezing?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the GroupExpandingCollapsing event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnGroupExpandingCollapsing(GroupExpandingCollapsingEventArgs args)
 			=> this.GroupExpandingCollapsing?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the GroupStateChanged event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnGroupStateChanged(GroupStateChangedEventArgs args)
 			=> this.GroupStateChanged?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the HeaderCheckBoxChanging event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnHeaderCheckBoxChanging(HeaderCheckBoxChangingEventArgs args)
 			=> this.HeaderCheckBoxChanging?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the HeaderToolTipShowing event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnHeaderToolTip(ToolTipShowingEventArgs args)
 			=> this.HeaderToolTipShowing?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the HotItemChanged event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnHotItemChanged(HotItemChangedEventArgs e)
 			=> this.HotItemChanged?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the HyperlinkClicked event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnHyperlinkClicked(HyperlinkClickedEventArgs e)
 			=> this.HyperlinkClicked?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the GroupTaskClicked event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnGroupTaskClicked(GroupTaskClickedEventArgs e)
 			=> this.GroupTaskClicked?.Invoke(this, e);
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the IsHyperlink event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnIsHyperlink(IsHyperlinkEventArgs e)
 			=> this.IsHyperlink?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the ItemsAdding event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnItemsAdding(ItemsAddingEventArgs e)
 			=> this.ItemsAdding?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the ItemsChanged event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnItemsChanged(ItemsChangedEventArgs e)
 			=> this.ItemsChanged?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the ItemsChanging event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnItemsChanging(ItemsChangingEventArgs e)
 			=> this.ItemsChanging?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the ItemsRemoving event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnItemsRemoving(ItemsRemovingEventArgs e)
 			=> this.ItemsRemoving?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+
+
+		/// <summary>Triggers the ModelCanDrop event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnModelCanDrop(ModelDropEventArgs args)
 			=> this.ModelCanDrop?.Invoke(this, args);
 
-		/// <summary></summary>
-		/// <param name="args"></param>
+		/// <summary>Triggers the ModelDropped event.</summary>
+		/// <param name="args">Event arguments</param>
 		protected virtual void OnModelDropped(ModelDropEventArgs args)
 			=> this.ModelDropped?.Invoke(this, args);
 
@@ -492,16 +494,18 @@ namespace BrightIdeasSoftware
 		protected virtual void OnSelectionChanged(EventArgs e)
 			=> this.SelectionChanged?.Invoke(this, e);
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		/// <summary>Triggers the Scroll event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnScroll(ScrollEventArgs e)
 			=> this.Scroll?.Invoke(this, e);
 
-		/// <summary>Tell the world when a cell is about to be edited.</summary>
+		/// <summary>Triggers the CellEditStarting event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnCellEditStarting(CellEditEventArgs e)
 			=> this.CellEditStarting?.Invoke(this, e);
 
-		/// <summary>Tell the world when a cell is about to finish being edited.</summary>
+		/// <summary>Triggers the CellEditValidating event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnCellEditorValidating(CellEditEventArgs e)
 		{
 			// Hack. ListView is an imperfect control container. It does not manage validation
@@ -537,11 +541,13 @@ namespace BrightIdeasSoftware
 
 		private Int32 _lastValidatingEvent = 0;
 
-		/// <summary>Tell the world when a cell is about to finish being edited.</summary>
+		/// <summary>Triggers the CellEditFinishing event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnCellEditFinishing(CellEditEventArgs e)
 			=> this.CellEditFinishing?.Invoke(this, e);
 
-		/// <summary>Tell the world when a cell has finished being edited.</summary>
+		/// <summary>Triggers the CellEditFinished event.</summary>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnCellEditFinished(CellEditEventArgs e)
 			=> this.CellEditFinished?.Invoke(this, e);
 
@@ -574,22 +580,22 @@ namespace BrightIdeasSoftware
 
 		#region OnEvents
 		/// <summary>Trigger the expanding event</summary>
-		/// <param name="e"></param>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnExpanding(TreeBranchExpandingEventArgs e)
 			=> this.Expanding?.Invoke(this, e);
 
 		/// <summary>Trigger the collapsing event</summary>
-		/// <param name="e"></param>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnCollapsing(TreeBranchCollapsingEventArgs e)
 			=> this.Collapsing?.Invoke(this, e);
 
 		/// <summary>Trigger the expanded event</summary>
-		/// <param name="e"></param>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnExpanded(TreeBranchExpandedEventArgs e)
 			=> this.Expanded?.Invoke(this, e);
 
 		/// <summary>Trigger the collapsed event</summary>
-		/// <param name="e"></param>
+		/// <param name="e">Event arguments</param>
 		protected virtual void OnCollapsed(TreeBranchCollapsedEventArgs e)
 			=> this.Collapsed?.Invoke(this, e);
 		#endregion
@@ -619,7 +625,7 @@ namespace BrightIdeasSoftware
 			this.Value = column.GetValue(item.RowObject);
 		}
 
-		/// <summary>Change this to true to cancel the cell editing operation.</summary>
+		/// <summary>Gets or sets whether to cancel the edit operation.</summary>
 		/// <remarks>
 		/// <para>During the CellEditStarting event, setting this to true will prevent the cell from being edited.</para>
 		/// <para>During the CellEditFinishing event, if this value is already true, this indicates that the user has
@@ -628,14 +634,15 @@ namespace BrightIdeasSoftware
 		/// </remarks>
 		public Boolean Cancel;
 
-		/// <summary>
+		/// <summary>Gets or sets the control used for editing.</summary>
+		/// <remarks>
 		/// During the CellEditStarting event, this can be modified to be the control that you want
 		/// to edit the value. You must fully configure the control before returning from the event,
 		/// including its bounds and the value it is showing.
 		/// During the CellEditFinishing event, you can use this to get the value that the user
 		/// entered and commit that value to the model. Changing the control during the finishing
 		/// event has no effect.
-		/// </summary>
+		/// </remarks>
 		public Control Control;
 
 		/// <summary>The column of the cell that is going to be or has been edited.</summary>
@@ -644,10 +651,10 @@ namespace BrightIdeasSoftware
 		/// <summary>The model Object of the row of the cell that is going to be or has been edited.</summary>
 		public Object RowObject { get; }
 
-		/// <summary>The listview item of the cell that is going to be or has been edited.</summary>
+		/// <summary>The ListView item of the cell that is going to be or has been edited.</summary>
 		public OLVListItem ListViewItem { get; }
 
-		/// <summary>The data value of the cell as it stands in the control.</summary>
+		/// <summary>Gets or sets the value of the cell after editing.</summary>
 		/// <remarks>Only validate during Validating and Finishing events.</remarks>
 		public Object NewValue { get; set; }
 
@@ -660,10 +667,7 @@ namespace BrightIdeasSoftware
 		/// <summary>The bounds of the cell that is going to be or has been edited.</summary>
 		public Rectangle CellBounds { get; }
 
-		/// <summary>
-		/// Gets or sets whether the control used for editing should be auto matically disposed
-		/// when the cell edit operation finishes. Defaults to true
-		/// </summary>
+		/// <summary>Gets or sets whether the editor control should be disposed automatically.</summary>
 		/// <remarks>If the control is expensive to create, you might want to cache it and reuse for
 		/// for various cells. If so, you don't want ObjectListView to dispose of the control automatically</remarks>
 		public Boolean AutoDispose { get; set; } = true;
@@ -672,7 +676,7 @@ namespace BrightIdeasSoftware
 	/// <summary>Event blocks for events that can be cancelled</summary>
 	public class CancellableEventArgs : EventArgs
 	{
-		/// <summary>Has this event been cancelled by the event handler?</summary>
+		/// <summary>Gets or sets whether the event was canceled.</summary>
 		public Boolean Canceled;
 	}
 
@@ -711,25 +715,25 @@ namespace BrightIdeasSoftware
 			this.SecondarySortOrder = order2;
 		}
 
-		/// <summary>Did the event handler already do the sorting for us?</summary>
+		/// <summary>Gets or sets whether the sorting has been handled manually.</summary>
 		public Boolean Handled;
 
-		/// <summary>What column will be used for grouping</summary>
+		/// <summary>Gets or sets the column to be used for grouping.</summary>
 		public OLVColumn ColumnToGroupBy;
 
-		/// <summary>How will groups be ordered</summary>
+		/// <summary>Gets or sets the order for grouping.</summary>
 		public SortOrder GroupByOrder;
 
-		/// <summary>What column will be used for sorting</summary>
+		/// <summary>Gets or sets the primary column to be sorted.</summary>
 		public OLVColumn ColumnToSort;
 
-		/// <summary>What order will be used for sorting. None means no sorting.</summary>
+		/// <summary>Gets or sets the primary sort order.</summary>
 		public SortOrder SortOrder;
 
-		/// <summary>What column will be used for secondary sorting?</summary>
+		/// <summary>Gets or sets the secondary column to be sorted.</summary>
 		public OLVColumn SecondaryColumnToSort;
 
-		/// <summary>What order will be used for secondary sorting?</summary>
+		/// <summary>Gets or sets the secondary sort order.</summary>
 		public SortOrder SecondarySortOrder;
 	}
 
@@ -792,10 +796,10 @@ namespace BrightIdeasSoftware
 		public FilterEventArgs(IEnumerable objects)
 			=> this.Objects = objects;
 
-		/// <summary>Gets or sets what objects are being filtered</summary>
+		/// <summary>Gets or sets the collection of model objects to be filtered.</summary>
 		public IEnumerable Objects;
 
-		/// <summary>Gets or sets what objects survived the filtering</summary>
+		/// <summary>Gets or sets the collection of model objects that survived the filtering.</summary>
 		public IEnumerable FilteredObjects;
 	}
 
@@ -841,10 +845,10 @@ namespace BrightIdeasSoftware
 			this.ObjectsToAdd = objectsToAdd;
 		}
 
-		/// <summary>Gets or sets where the collection is going to be inserted.</summary>
+		/// <summary>Gets or sets the index where the new objects will be inserted.</summary>
 		public Int32 Index;
 
-		/// <summary>Gets or sets the objects to be added to the list</summary>
+		/// <summary>Gets or sets the collection of objects to be added.</summary>
 		public ICollection ObjectsToAdd;
 	}
 
@@ -865,7 +869,7 @@ namespace BrightIdeasSoftware
 		/// <remarks>For virtual lists, this will always be null.</remarks>
 		public IEnumerable OldObjects { get; }
 
-		/// <summary>Gets or sets the objects that will be in the list after it changes.</summary>
+		/// <summary>Gets or sets the new collection of objects for the list.</summary>
 		public IEnumerable NewObjects;
 	}
 
@@ -877,7 +881,7 @@ namespace BrightIdeasSoftware
 		public ItemsRemovingEventArgs(ICollection objectsToRemove)
 			=> this.ObjectsToRemove = objectsToRemove;
 
-		/// <summary>Gets or sets the objects that will be removed</summary>
+		/// <summary>Gets or sets the collection of objects to be removed.</summary>
 		public ICollection ObjectsToRemove;
 	}
 
@@ -896,7 +900,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets the String that was actually searched for</summary>
 		public String StringToFind { get; }
 
-		/// <summary>Gets or sets whether an the event handler already handled this event</summary>
+		/// <summary>Gets or sets whether the search event was handled manually.</summary>
 		public Boolean Handled;
 
 		/// <summary>Gets the index of the row that was selected by the search.</summary>
@@ -916,13 +920,13 @@ namespace BrightIdeasSoftware
 			this.StartSearchFrom = startSearchFrom;
 		}
 
-		/// <summary>Gets or sets the String that will be found by the search routine</summary>
+		/// <summary>Gets or sets the string to be searched for.</summary>
 		/// <remarks>Modifying this value does not modify the memory of what the user has typed. 
 		/// When the user next presses a character, the search String will revert to what 
 		/// the user has actually typed.</remarks>
 		public String StringToFind;
 
-		/// <summary>Gets or sets the index of the first row that will be considered to matching.</summary>
+		/// <summary>Gets or sets the row index from which the search should start.</summary>
 		public Int32 StartSearchFrom;
 	}
 
@@ -964,21 +968,21 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets the HitTest Object that determined which cell was hit</summary>
 		public OlvListViewHitTestInfo HitTest { get; internal set; }
 
-		/// <summary>Gets or set if this event completely handled. If it was, no further processing will be done for it.</summary>
+		/// <summary>Gets or sets whether this event was handled.</summary>
 		public Boolean Handled;
 	}
 
 	/// <summary>Tells the world that a cell was clicked</summary>
 	public class CellClickEventArgs : CellEventArgs
 	{
-		/// <summary>Gets or sets the number of clicks associated with this event</summary>
+		/// <summary>Gets or sets the number of times the mouse was clicked.</summary>
 		public Int32 ClickCount { get; set; }
 	}
 
 	/// <summary>Tells the world that a cell was right clicked</summary>
 	public class CellRightClickEventArgs : CellEventArgs
 	{
-		/// <summary>Gets or sets the menu that should be displayed as a result of this event.</summary>
+		/// <summary>Gets or sets the context menu to be shown.</summary>
 		/// <remarks>The menu will be positioned at Location, so changing that property changes
 		/// where the menu will be displayed.</remarks>
 		public ContextMenuStrip MenuStrip;
@@ -1073,7 +1077,7 @@ namespace BrightIdeasSoftware
 		public Boolean Handled { get; set; }
 	}
 
-	/// <summary></summary>
+	/// <summary>An event args for the IsHyperlink event.</summary>
 	public class IsHyperlinkEventArgs : EventArgs
 	{
 		/// <summary>Gets the ObjectListView that is the source of the event</summary>
@@ -1093,12 +1097,12 @@ namespace BrightIdeasSoftware
 		/// <remarks>Defaults to true for enabled rows and false for disabled rows.</remarks>
 		public Boolean IsHyperlink { get; set; }
 
-		/// <summary>Gets or sets the url that should be invoked when this cell is clicked.</summary>
+		/// <summary>Gets or sets the URL that will be activated when the hyperlink is clicked.</summary>
 		/// <remarks>Setting this to None or String.Empty means that this cell is not a hyperlink</remarks>
 		public String Url;
 	}
 
-	/// <summary></summary>
+	/// <summary>An event args for the FormatRow event.</summary>
 	public class FormatRowEventArgs : EventArgs
 	{
 		//TODO: Unified with CellEventArgs
@@ -1118,7 +1122,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets the display index of the row</summary>
 		public Int32 DisplayIndex { get; internal set; } = -1;
 
-		/// <summary>Should events be triggered for each cell in this row?</summary>
+		/// <summary>Gets or sets whether individual cell format events should be triggered for this row.</summary>
 		public Boolean UseCellFormatEvents { get; set; }
 	}
 
@@ -1228,7 +1232,7 @@ namespace BrightIdeasSoftware
 		/// <summary>The model Object of the row of the cell that is having its checkbox changed.</summary>
 		public Object RowObject => this.ListViewItem.RowObject;
 
-		/// <summary>The listview item of the cell that is having its checkbox changed.</summary>
+		/// <summary>The ListView item of the cell that is having its checkbox changed.</summary>
 		public OLVListItem ListViewItem { get; }
 
 		/// <summary>The current check state of the cell.</summary>
@@ -1255,7 +1259,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or sets the groups that should be used</summary>
 		public IList<OLVGroup> Groups { get; set; }
 
-		/// <summary>Has this event been cancelled by the event handler?</summary>
+		/// <summary>Gets or sets whether the group creation process was canceled.</summary>
 		public Boolean Canceled { get; set; }
 	}
 
@@ -1414,6 +1418,10 @@ namespace BrightIdeasSoftware
 	/// <summary>Tells the world that a column header was right clicked</summary>
 	public class ColumnRightClickEventArgs : ColumnClickEventArgs
 	{
+		/// <summary>Creates a new ColumnRightClickEventArgs.</summary>
+		/// <param name="columnIndex">The index of the column that was clicked.</param>
+		/// <param name="menu">The menu to be shown.</param>
+		/// <param name="location">The location of the click.</param>
 		public ColumnRightClickEventArgs(Int32 columnIndex, ToolStripDropDown menu, Point location)
 			: base(columnIndex)
 		{
@@ -1421,15 +1429,15 @@ namespace BrightIdeasSoftware
 			this.Location = location;
 		}
 
-		/// <summary>Set this to true to cancel the right click operation.</summary>
+		/// <summary>Gets or sets whether to cancel the default handling of the right-click.</summary>
 		public Boolean Cancel;
 
-		/// <summary>Gets or sets the menu that should be displayed as a result of this event.</summary>
+		/// <summary>Gets or sets the context menu to be shown.</summary>
 		/// <remarks>The menu will be positioned at Location, so changing that property changes
 		/// where the menu will be displayed.</remarks>
 		public ToolStripDropDown MenuStrip;
 
-		/// <summary>Gets the location of the mouse at the time of the event</summary>
+		/// <summary>Gets or sets the location of the mouse click.</summary>
 		public Point Location;
 	}
 

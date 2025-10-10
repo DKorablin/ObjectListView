@@ -6325,8 +6325,11 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>Show a menu that is appropriate when the given column header is clicked.</summary>
-		/// <param name="columnIndex">The index of the header that was clicked. This
-		/// can be -1, indicating that the header was clicked outside of a column</param>
+		/// <param name="columnIndex">
+		/// The index of the header that was clicked.
+		/// This can be -1, indicating that the header was clicked outside of a column.
+		/// </param>
+		/// <param name="menu"></param>
 		/// <param name="pt">Where should the menu be shown</param>
 		/// <returns>True if a menu was displayed</returns>
 		protected virtual Boolean ShowHeaderRightClickMenu(Int32 columnIndex, ToolStripDropDown menu, Point pt)

@@ -4,10 +4,10 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<!--Analyzers-->
-		<PackageVersion Include="SonarAnalyzer.CSharp" Version="10.8.0.113526">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageVersion>
+		<GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="10.8.0.113526">
+			<PrivateAssets>All</PrivateAssets>
+			<IncludeAssets>Runtime; Build; Native; contentfiles; Analyzers; buildtransitive</IncludeAssets>
+		</GlobalPackageReference>
 		<!--Tests-->
 		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
 		<PackageVersion Include="MSTest.TestFramework" Version="4.0.0" />

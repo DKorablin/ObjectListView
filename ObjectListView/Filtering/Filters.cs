@@ -34,6 +34,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BrightIdeasSoftware
 {
@@ -85,17 +86,17 @@ namespace BrightIdeasSoftware
 
 	/// <summary>A CompositeFilter joins several other filters together.</summary>
 	/// <remarks>If there are no filters, all model objects are included</remarks>
-	abstract public class CompositeFilter : IModelFilter
+	public abstract class CompositeFilter : IModelFilter
 	{
 
 		/// <summary>Create an empty filter</summary>
-		public CompositeFilter()
+		protected CompositeFilter()
 		{
 		}
 
 		/// <summary>Create a composite filter from the given list of filters</summary>
 		/// <param name="filters">A list of filters</param>
-		public CompositeFilter(IEnumerable<IModelFilter> filters)
+		protected CompositeFilter(IEnumerable<IModelFilter> filters)
 		{
 			foreach(IModelFilter filter in filters)
 				if(filter != null)
@@ -183,19 +184,12 @@ namespace BrightIdeasSoftware
 		/// <param name="modelObject">The model Object under consideration</param>
 		/// <returns>True if the Object is included by the filter</returns>
 		override public Boolean FilterObject(Object modelObject)
-		{
-			foreach(IModelFilter filter in this.Filters)
-				if(filter.Filter(modelObject))
-					return true;
-
-			return false;
-		}
+			=> this.Filters.Any(f => f.Filter(modelObject));
 	}
 
 	/// <summary>
-	/// Instances of this class extract a value from the model Object
-	/// and compare that value to a list of fixed values. The model
-	/// Object is included if the extracted value is in the list
+	/// Instances of this class extract a value from the model object and compare that value to a list of fixed values.
+	/// The model object is included if the extracted value is in the list.
 	/// </summary>
 	/// <remarks>If there is no delegate installed or there are no values to match, no model objects will be matched</remarks>
 	public class OneOfFilter : IModelFilter
@@ -208,10 +202,7 @@ namespace BrightIdeasSoftware
 		{
 		}
 
-		/// <summary>
-		/// Create a filter that will extract values using the given delegate
-		/// and compare them to the values in the given list.
-		/// </summary>
+		/// <summary>Create a filter that will extract values using the given delegate and compare them to the values in the given list.</summary>
 		/// <param name="valueGetter"></param>
 		/// <param name="possibleValues"></param>
 		public OneOfFilter(AspectGetterDelegate valueGetter, ICollection possibleValues)
@@ -223,10 +214,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Gets or sets the delegate that will be used to extract values from model objects</summary>
 		virtual public AspectGetterDelegate ValueGetter { get; set; }
 
-		/// <summary>
-		/// Gets or sets the list of values that the value extracted from
-		/// the model Object must match in order to be included.
-		/// </summary>
+		/// <summary>Gets or sets the list of values that the value extracted from the model object must match in order to be included.</summary>
 		virtual public IList PossibleValues { get; set; }
 
 		/// <summary>Should the given model Object be included?</summary>

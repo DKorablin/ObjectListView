@@ -37,9 +37,6 @@
 		<PublishSingleFile>true</PublishSingleFile>
 		<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
 	</PropertyGroup>
-	<ItemGroup>
-		<PackageReference Include="SonarAnalyzer.CSharp" />
-	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net35'">
 		<Reference Include="System.Design" />
 	</ItemGroup>

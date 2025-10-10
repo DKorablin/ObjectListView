@@ -17,14 +17,6 @@
 		<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="SonarAnalyzer.CSharp" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net35'">
-		<Reference Include="System.Data" />
-		<Reference Include="System.Drawing" />
-		<Reference Include="System.Design" />
-	</ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\ObjectListView\ObjectListView.csproj" />
+		<ProjectReference Include="..\ObjectListView\ObjectListView.csproj" />
 	</ItemGroup>
 </Project>

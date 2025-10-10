@@ -9489,12 +9489,12 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary></summary>
-		/// <param name="args"></param>
-		protected override void OnDragOver(DragEventArgs args)
+		/// <param name="drgevent"></param>
+		protected override void OnDragOver(DragEventArgs drgevent)
 		{
-			base.OnDragOver(args);
+			base.OnDragOver(drgevent);
 
-			this.DropSink?.Over(args);
+			this.DropSink?.Over(drgevent);
 		}
 
 		/// <summary></summary>

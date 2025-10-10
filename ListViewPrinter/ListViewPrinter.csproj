@@ -17,9 +17,6 @@
 		<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="SonarAnalyzer.CSharp" />
-	</ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\ObjectListView\ObjectListView.csproj" />
+		<ProjectReference Include="..\ObjectListView\ObjectListView.csproj" />
 	</ItemGroup>
 </Project>

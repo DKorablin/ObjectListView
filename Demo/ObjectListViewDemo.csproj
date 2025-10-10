@@ -18,12 +18,9 @@
 		<TreatWarningsAsErrors>False</TreatWarningsAsErrors>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="SonarAnalyzer.CSharp" />
-	</ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\ListViewPrinter\ListViewPrinter.csproj" />
-	  <ProjectReference Include="..\ObjectListView\ObjectListView.csproj" />
-	  <ProjectReference Include="..\SparkleLibrary\SparkleLibrary.csproj" />
+		<ProjectReference Include="..\ListViewPrinter\ListViewPrinter.csproj" />
+		<ProjectReference Include="..\ObjectListView\ObjectListView.csproj" />
+		<ProjectReference Include="..\SparkleLibrary\SparkleLibrary.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Update="Properties\Resources.resx">

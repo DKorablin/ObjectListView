@@ -17,7 +17,7 @@
  * 2008-10-20   JPP  - Separated from ObjectListView.cs
  * 
  * Copyright (C) 2006-2014 Phillip Piper
- *
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -46,9 +46,11 @@ namespace BrightIdeasSoftware
 	/// <summary>An interface that allows cell editors to specifically handle getting and setting values from ObjectListView</summary>
 	public interface IOlvEditor
 	{
+		/// <summary>Gets or sets the value of the editor.</summary>
 		Object Value { get; set; }
 	}
 
+	/// <summary>A static class to provide some useful functions for controls.</summary>
 	public static class ControlUtilities
 	{
 		/// <summary>Configure the given ComboBox so that the dropped down menu is auto-sized to be wide enough to show the widest item.</summary>
@@ -74,9 +76,9 @@ namespace BrightIdeasSoftware
 	/// <summary>These items allow combo boxes to remember a value and its description.</summary>
 	public class ComboBoxItem
 	{
-		/// <summary></summary>
-		/// <param name="key"></param>
-		/// <param name="description"></param>
+		/// <summary>Creates a ComboBoxItem.</summary>
+		/// <param name="key">The value of the item.</param>
+		/// <param name="description">The description for the item.</param>
 		public ComboBoxItem(Object key, String description)
 		{
 			this.Key = key;
@@ -84,11 +86,11 @@ namespace BrightIdeasSoftware
 		}
 		private readonly String _description;
 
-		/// <summary></summary>
+		/// <summary>Gets the underlying value for this item.</summary>
 		public Object Key { get; }
 
-		/// <summary>Returns a String that represents the current Object.</summary>
-		/// <returns>A String that represents the current Object.</returns>
+		/// <summary>Returns a String that represents the current object.</summary>
+		/// <returns>A String that represents the current object.</returns>
 		/// <filterpriority>2</filterpriority>
 		public override String ToString()
 			=> this._description;
@@ -103,13 +105,13 @@ namespace BrightIdeasSoftware
 	// the acceptable range for a numeric editor or changing the strings
 	// that represent true and false values for a boolean editor.
 
-	/// <summary>This editor shows and auto completes values from the given listview column.</summary>
+	/// <summary>This editor shows and auto completes values from the given ListView column.</summary>
 	[ToolboxItem(false)]
 	public class AutoCompleteCellEditor : ComboBox
 	{
 		/// <summary>Create an AutoCompleteCellEditor</summary>
-		/// <param name="lv"></param>
-		/// <param name="column"></param>
+		/// <param name="lv">The list view that is being edited</param>
+		/// <param name="column">The column that is being edited</param>
 		public AutoCompleteCellEditor(ObjectListView lv, OLVColumn column)
 		{
 			this.DropDownStyle = ComboBoxStyle.DropDown;
@@ -137,8 +139,8 @@ namespace BrightIdeasSoftware
 	[ToolboxItem(false)]
 	public class EnumCellEditor : ComboBox
 	{
-		/// <summary></summary>
-		/// <param name="type"></param>
+		/// <summary>Creates an EnumCellEditor for the given type.</summary>
+		/// <param name="type">The enum type to be edited.</param>
 		public EnumCellEditor(Type type)
 		{
 			this.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -158,7 +160,7 @@ namespace BrightIdeasSoftware
 	[ToolboxItem(false)]
 	public class IntUpDown : NumericUpDown
 	{
-		/// <summary></summary>
+		/// <summary>Creates an IntUpDown.</summary>
 		public IntUpDown()
 		{
 			this.DecimalPlaces = 0;
@@ -166,7 +168,7 @@ namespace BrightIdeasSoftware
 			this.Maximum = 9999999;
 		}
 
-		/// <summary>Gets or sets the value shown by this editor</summary>
+		/// <summary>Gets or sets the value shown by this editor.</summary>
 		public new Int32 Value
 		{
 			get => Decimal.ToInt32(base.Value);
@@ -175,12 +177,14 @@ namespace BrightIdeasSoftware
 	}
 
 	/// <summary>This editor simply shows and edits unsigned integer values.</summary>
-	/// <remarks>This class can't be made public because unsigned int is not a
-	/// CLS-compliant type. If you want to use, just copy the code to this class
-	/// into your project and use it from there.</remarks>
+	/// <remarks>
+	/// This class can't be made public because unsigned int is not a CLS-compliant type.
+	/// If you want to use, just copy the code to this class into your project and use it from there.
+	/// </remarks>
 	[ToolboxItem(false)]
 	internal class UintUpDown : NumericUpDown
 	{
+		/// <summary>Creates a UintUpDown.</summary>
 		public UintUpDown()
 		{
 			this.DecimalPlaces = 0;
@@ -188,6 +192,7 @@ namespace BrightIdeasSoftware
 			this.Maximum = 9999999;
 		}
 
+		/// <summary>Gets or sets the value shown by this editor.</summary>
 		public new UInt32 Value
 		{
 			get => Decimal.ToUInt32(base.Value);
@@ -199,7 +204,7 @@ namespace BrightIdeasSoftware
 	[ToolboxItem(false)]
 	public class BooleanCellEditor : ComboBox
 	{
-		/// <summary></summary>
+		/// <summary>Creates a BooleanCellEditor.</summary>
 		public BooleanCellEditor()
 		{
 			this.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -215,11 +220,11 @@ namespace BrightIdeasSoftware
 		}
 	}
 
-	/// <summary>This editor simply shows and edits boolean values using a checkbox</summary>
+	/// <summary>This editor simply shows and edits boolean values using a checkbox.</summary>
 	[ToolboxItem(false)]
 	public class BooleanCellEditor2 : CheckBox
 	{
-		/// <summary>Gets or sets the value shown by this editor</summary>
+		/// <summary>Gets or sets the value shown by this editor.</summary>
 		public Boolean? Value
 		{
 			get
@@ -269,13 +274,14 @@ namespace BrightIdeasSoftware
 	}
 
 	/// <summary>This editor simply shows and edits floating point values.</summary>
-	/// <remarks>You can intercept the CellEditStarting event if you want
-	/// to change the characteristics of the editor. For example, by increasing
-	/// the number of decimal places.</remarks>
+	/// <remarks>
+	/// You can intercept the CellEditStarting event if you want to change the characteristics of the editor.
+	/// For example, by increasing the number of decimal places.
+	/// </remarks>
 	[ToolboxItem(false)]
 	public class FloatCellEditor : NumericUpDown
 	{
-		/// <summary></summary>
+		/// <summary>Creates a FloatCellEditor.</summary>
 		public FloatCellEditor()
 		{
 			this.DecimalPlaces = 2;

@@ -76,7 +76,7 @@ jobs:
       run: msbuild ${{ env.SolutionName }}.sln /t:Restore
     - name: Build multi-target project
       run: >
-        msbuild ${{ env.SolutionName }}\${{ env.SolutionName }}.csproj
+        msbuild ${{ env.SolutionName }}.sln
         /p:Configuration=Release
         /p:BaseOutputPath="${{ github.workspace }}\bin\"
         /p:GenerateDocumentationFile=true
@@ -103,74 +103,37 @@ jobs:
         password: ${{ secrets.SIGN_PE_PASSWORD }}
         recursive: false
         files: ${{ steps.find_binaries.outputs.files_to_sign }}
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ env.SolutionName }}_Binaries
-        path: ${{ github.workspace }}\bin\Release\**
-        if-no-files-found: error
-        compression-level: 0
-        retention-days: 1
-
-  deploy_release:
-    name: Deploying release
-    needs: [version, build_net]
-    if: needs.build_net.result == 'success'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      actions: write
-    steps:
-    - name: Download artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: bin
-    - name: Zipping artifacts
+    - name: Creating NuGet package
       run: |
-        cd ${{github.workspace}}/bin/${{ env.SolutionName }}_Binaries
-        for dir in */; do
-          dir_name="${dir%/}"
-          (cd "$dir_name" && zip -qq -r "../${{env.SolutionName}}_v${{needs.version.outputs.new_version}}_${dir_name}.zip" .)
-        done
-    - name: Publish GitHub Release
-      uses: ncipollo/release-action@v1
-      with:
-        artifacts: ${{github.workspace}}/bin/${{env.SolutionName}}_Binaries/*.zip
-        tag: ${{ needs.version.outputs.new_tag }}
-        name: Auto ${{needs.version.outputs.new_tag}}
-        body: ${{needs.version.outputs.changelog}}
-        artifactErrorsFailBuild: true
-        generateReleaseNotes: true
-
-  deploy_nuget:
-    name: Deploying NuGet package
-    needs: [version, build_net]
-    runs-on: windows-latest
-    steps:
-    - name: Checkout nessesary files from repository
-      uses: actions/checkout@v4
-      with:
-        sparse-checkout: |
-          README.md
-          LICENSE.md
-          index-icon.png
-          ${{env.SolutionName}}.nuspec
-        sparse-checkout-cone-mode: false
-    - name: Download artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: bin
+        dotnet pack ${{ env.SolutionName }}.sln --no-build --no-restore -o ${{github.workspace}}\bin\nupkg /p:PackageVersion=${{ needs.version.outputs.new_version }} /p:IncludeSymbols=false /p:DebugType=Portable /p:EmbedUntrackedSources=true /p:PublishRepositoryUrl=true /p:SymbolPackageFormat=snupkg
     - name: NuGet login (OIDC)
       uses: NuGet/login@v1
       id: login
       with:
         user: ${{secrets.NUGET_USER}}
-    - name: Packing artifacts
-      run: nuget pack ${{env.SolutionName}}.nuspec -Version ${{needs.version.outputs.new_version}} -OutputDirectory nupkg
     - name: Deploying to GitHub
       run: dotnet nuget push nupkg\*.nupkg --skip-duplicate --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/DKorablin/index.json
-    - name: Deploying to NuGet
-      run: dotnet nuget push nupkg\*.nupkg --skip-duplicate --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+#    - name: Deploying to NuGet
+#      run: dotnet nuget push nupkg\*.nupkg --skip-duplicate --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+    - name: Zipping artifacts
+      run: |
+        $basePath = "${{ github.workspace }}\bin\Release"
+        Get-ChildItem -Path $basePath -Directory | ForEach-Object {
+          $dirName = $_.Name
+          echo "Creating archive for $dirName"
+          $archiveName = "${{env.SolutionName}}_v${{needs.version.outputs.new_version}}_${dirName}.zip"
+          $destinationPath = Join-Path -Path $basePath -ChildPath $archiveName
+          Compress-Archive -Path "$($_.FullName)\*" -DestinationPath $destinationPath -Force
+        }
+    - name: Publish GitHub Release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: ${{github.workspace}}\bin\Release\*.zip
+        tag: ${{ needs.version.outputs.new_tag }}
+        name: Auto ${{needs.version.outputs.new_tag}}
+        body: ${{needs.version.outputs.changelog}}
+        artifactErrorsFailBuild: true
+        generateReleaseNotes: true
 
   failure_cleanup:
     name: Cleanup Tag On Failure

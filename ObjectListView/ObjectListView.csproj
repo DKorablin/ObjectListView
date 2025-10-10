@@ -20,7 +20,7 @@
 		<Authors>Phillip Piper, Danila Korablin</Authors>
 		<Description>ObjectListView is a .NET ListView wired on caffeine, guarana and steroids. More calmly, it is a C# wrapper around a .NET ListView, which makes the ListView much easier to use and teaches it lots of neat new tricks.</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/DKorablin/ObjectListView</RepositoryUrl>
 		<icon>index-icon.png</icon>
 		<Copyright>Copyright 2006-2016 Bright Ideas Software</Copyright>
@@ -28,7 +28,6 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\README.md" Pack="true" PackagePath="\"/>
-		<None Include="..\LICENSE.md" Pack="true" PackagePath="\"/>
 		<None Include="..\index-icon.png" Pack="true" PackagePath="\"/>
 	</ItemGroup>
 	

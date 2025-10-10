@@ -125,9 +125,9 @@ namespace BrightIdeasSoftware
 				foreach(OLVColumn col in columns)
 					strings.Add(col.Text);
 
-				this.WriteOneRow(sbText, strings, "", "\t", "", null);
-				this.WriteOneRow(sbHtml, strings, "<tr><td>", "</td><td>", "</td></tr>", HtmlEncode);
-				this.WriteOneRow(sbCsv, strings, "", ",", "", CsvEncode);
+				WriteOneRow(sbText, strings, "", "\t", "", null);
+				WriteOneRow(sbHtml, strings, "<tr><td>", "</td><td>", "</td></tr>", HtmlEncode);
+				WriteOneRow(sbCsv, strings, "", ",", "", CsvEncode);
 			}
 
 			foreach(Object modelObject in this.ModelObjects)
@@ -136,9 +136,9 @@ namespace BrightIdeasSoftware
 				foreach(OLVColumn col in columns)
 					strings.Add(col.GetStringValue(modelObject));
 
-				this.WriteOneRow(sbText, strings, "", "\t", "", null);
-				this.WriteOneRow(sbHtml, strings, "<tr><td>", "</td><td>", "</td></tr>", HtmlEncode);
-				this.WriteOneRow(sbCsv, strings, "", ",", "", CsvEncode);
+				WriteOneRow(sbText, strings, "", "\t", "", null);
+				WriteOneRow(sbHtml, strings, "<tr><td>", "</td><td>", "</td></tr>", HtmlEncode);
+				WriteOneRow(sbCsv, strings, "", ",", "", CsvEncode);
 			}
 			sbHtml.AppendLine("</table>");
 
@@ -148,23 +148,23 @@ namespace BrightIdeasSoftware
 				[ExportFormat.CSV] = sbCsv.ToString(),
 				[ExportFormat.HTML] = sbHtml.ToString()
 			};
+
+			void WriteOneRow(StringBuilder sb, IEnumerable<String> strings, String startRow, String betweenCells, String endRow, StringToString encoder)
+			{
+				sb.Append(startRow);
+				Boolean first = true;
+				foreach(String s in strings)
+				{
+					if(!first)
+						sb.Append(betweenCells);
+					sb.Append(encoder == null ? s : encoder(s));
+					first = false;
+				}
+				sb.AppendLine(endRow);
+			}
 		}
 
 		private delegate String StringToString(String str);
-
-		private void WriteOneRow(StringBuilder sb, IEnumerable<String> strings, String startRow, String betweenCells, String endRow, StringToString encoder)
-		{
-			sb.Append(startRow);
-			Boolean first = true;
-			foreach(String s in strings)
-			{
-				if(!first)
-					sb.Append(betweenCells);
-				sb.Append(encoder == null ? s : encoder(s));
-				first = false;
-			}
-			sb.AppendLine(endRow);
-		}
 
 		private Dictionary<ExportFormat, String> _results;
 

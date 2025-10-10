@@ -61,7 +61,7 @@ namespace BrightIdeasSoftware.Design
 
 		#region Initialize & Dispose
 
-		/// <summary>Initialises the designer with the specified component.</summary>
+		/// <summary>Initializes the designer with the specified component.</summary>
 		/// <param name="component">The <see cref="T:System.ComponentModel.IComponent"/> to associate the designer with. This component must always be an instance of, or derive from, <see cref="T:System.Windows.Forms.Control"/>. </param>
 		public override void Initialize(IComponent component)
 		{
@@ -99,7 +99,7 @@ namespace BrightIdeasSoftware.Design
 			this.RemoveDuplicateDockingActionList();
 		}
 
-		/// <summary>Initialises a newly created component.</summary>
+		/// <summary>Initializes a newly created component.</summary>
 		/// <param name="defaultValues">A name/value dictionary of default values to apply to properties. May be null if no default values are specified.</param>
 		public override void InitializeNewComponent(IDictionary defaultValues)
 		{
@@ -109,7 +109,7 @@ namespace BrightIdeasSoftware.Design
 		}
 
 		/// <summary>Releases the unmanaged resources used by the <see cref="T:System.Windows.Forms.Design.ControlDesigner"/> and optionally releases the managed resources.</summary>
-		/// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources. </param>
+		/// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
 		protected override void Dispose(Boolean disposing)
 		{
 			// Debug.WriteLine("ObjectListViewDesigner.Dispose");
@@ -199,7 +199,7 @@ namespace BrightIdeasSoftware.Design
 			}
 		}
 
-		/// <summary>Allows a designer to add to the set of events that it exposes through a <see cref="T:System.ComponentModel.TypeDescriptor"/>.</summary>
+		/// <summary>Allows a designer to add to the set of events that it exposes through a <see cref="System.ComponentModel.TypeDescriptor"/>.</summary>
 		/// <param name="events">The events for the class of the component.</param>
 		protected override void PreFilterEvents(IDictionary events)
 		{
@@ -244,7 +244,7 @@ namespace BrightIdeasSoftware.Design
 			}
 		}
 
-		/// <summary>Allows a designer to change or remove items from the set of attributes that it exposes through a <see cref="T:System.ComponentModel.TypeDescriptor"/>.</summary>
+		/// <summary>Allows a designer to change or remove items from the set of attributes that it exposes through a <see cref="System.ComponentModel.TypeDescriptor"/>.</summary>
 		/// <param name="attributes">The attributes for the class of the component.</param>
 		protected override void PostFilterAttributes(IDictionary attributes)
 		{
@@ -253,7 +253,7 @@ namespace BrightIdeasSoftware.Design
 			base.PostFilterAttributes(attributes);
 		}
 
-		/// <summary>Allows a designer to change or remove items from the set of events that it exposes through a <see cref="T:System.ComponentModel.TypeDescriptor"/>.</summary>
+		/// <summary>Allows a designer to change or remove items from the set of events that it exposes through a <see cref="System.ComponentModel.TypeDescriptor"/>.</summary>
 		/// <param name="events">The events for the class of the component.</param>
 		protected override void PostFilterEvents(IDictionary events)
 		{
@@ -307,7 +307,7 @@ namespace BrightIdeasSoftware.Design
 			{
 			case 0x4e:
 			case 0x204e:
-				// The listview designer is interested in HDN_ENDTRACK notifications
+				// The ListView designer is interested in HDN_ENDTRACK notifications
 				this._listViewDesignWndProc.Invoke(_listViewDesigner, new Object[] { m });
 				break;
 			default:
@@ -331,11 +331,10 @@ namespace BrightIdeasSoftware.Design
 
 		/// <summary>This class modifies a ListViewActionList, by removing the "Edit Items" and "Edit Groups" actions.</summary>
 		/// <remarks>
-		/// <para>That class is internal, so we cannot simply subclass it, which would be simpler.</para>
-		/// <para>
+		/// That class is internal, so we cannot simply subclass it, which would be simpler.
 		/// Action lists use reflection to determine if that action can be executed, so we not
 		/// only have to modify the returned collection of actions, but we have to implement
-		/// the properties and commands that the returned actions use. </para>
+		/// the properties and commands that the returned actions use.
 		/// </remarks>
 		private sealed class ListViewActionListAdapter : DesignerActionList
 		{

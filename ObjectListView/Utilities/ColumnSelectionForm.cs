@@ -30,12 +30,12 @@ namespace BrightIdeasSoftware
 		public ColumnSelectionForm()
 			=> this.InitializeComponent();
 
-		/// <summary>Open this form so it will edit the columns that are available in the listview's current view</summary>
+		/// <summary>Open this form so it will edit the columns that are available in the ListView's current view</summary>
 		/// <param name="olv">The ObjectListView whose columns are to be altered</param>
 		public void OpenOn(ObjectListView olv)
 			=> this.OpenOn(olv, olv.View);
 
-		/// <summary>Open this form so it will edit the columns that are available in the given listview when the listview is showing the given type of view.</summary>
+		/// <summary>Open this form so it will edit the columns that are available in the given ListView when the ListView is showing the given type of view.</summary>
 		/// <param name="olv">The ObjectListView whose columns are to be altered</param>
 		/// <param name="view">The view that is to be altered. Must be View.Details or View.Tile</param>
 		public void OpenOn(ObjectListView olv, View view)
@@ -54,13 +54,13 @@ namespace BrightIdeasSoftware
 		protected void InitializeForm(ObjectListView olv, View view)
 		{
 			this.AllColumns = olv.AllColumns;
-			this.RearrangableColumns = new List<OLVColumn>(this.AllColumns);
-			foreach(OLVColumn col in this.RearrangableColumns)
+			this.RearrangeableColumns = new List<OLVColumn>(this.AllColumns);
+			foreach(OLVColumn col in this.RearrangeableColumns)
 				this.MapColumnToVisible[col] = view == View.Details
 					? col.IsVisible
 					: col.IsTileViewColumn;
 
-			this.RearrangableColumns.Sort(new SortByDisplayOrder(this));
+			this.RearrangeableColumns.Sort(new SortByDisplayOrder(this));
 
 			this.objectListView1.BooleanCheckStateGetter = (Object rowObject)
 				=> this.MapColumnToVisible[(OLVColumn)rowObject];
@@ -77,12 +77,12 @@ namespace BrightIdeasSoftware
 				return newValue;
 			};
 
-			this.objectListView1.SetObjects(this.RearrangableColumns);
+			this.objectListView1.SetObjects(this.RearrangeableColumns);
 			this.EnableControls();
 		}
 		private List<OLVColumn> AllColumns = null;
-		private List<OLVColumn> RearrangableColumns = new List<OLVColumn>();
-		private Dictionary<OLVColumn, Boolean> MapColumnToVisible = new Dictionary<OLVColumn, Boolean>();
+		private List<OLVColumn> RearrangeableColumns = new List<OLVColumn>();
+		private readonly Dictionary<OLVColumn, Boolean> MapColumnToVisible = new Dictionary<OLVColumn, Boolean>();
 
 		/// <summary>The user has pressed OK. Do what's required.</summary>
 		/// <param name="olv"></param>
@@ -100,7 +100,7 @@ namespace BrightIdeasSoftware
 					col.IsTileViewColumn = this.MapColumnToVisible[col];
 
 			// Collect the columns are still visible
-			List<OLVColumn> visibleColumns = this.RearrangableColumns.FindAll(x => this.MapColumnToVisible[x]);
+			List<OLVColumn> visibleColumns = this.RearrangeableColumns.FindAll(x => this.MapColumnToVisible[x]);
 
 			// Detail view and Tile view have to be handled in different ways.
 			if(view == View.Details)
@@ -109,7 +109,7 @@ namespace BrightIdeasSoftware
 				olv.ChangeToFilteredColumns(view);
 				foreach(OLVColumn col in visibleColumns)
 				{
-					col.DisplayIndex = visibleColumns.IndexOf((OLVColumn)col);
+					col.DisplayIndex = visibleColumns.IndexOf(col);
 					col.LastDisplayIndex = col.DisplayIndex;
 				}
 			} else
@@ -134,9 +134,9 @@ namespace BrightIdeasSoftware
 		private void buttonMoveUp_Click(Object sender, EventArgs e)
 		{
 			Int32 selectedIndex = this.objectListView1.SelectedIndices[0];
-			OLVColumn col = this.RearrangableColumns[selectedIndex];
-			this.RearrangableColumns.RemoveAt(selectedIndex);
-			this.RearrangableColumns.Insert(selectedIndex - 1, col);
+			OLVColumn col = this.RearrangeableColumns[selectedIndex];
+			this.RearrangeableColumns.RemoveAt(selectedIndex);
+			this.RearrangeableColumns.Insert(selectedIndex - 1, col);
 
 			this.objectListView1.BuildList();
 
@@ -146,9 +146,9 @@ namespace BrightIdeasSoftware
 		private void buttonMoveDown_Click(Object sender, EventArgs e)
 		{
 			Int32 selectedIndex = this.objectListView1.SelectedIndices[0];
-			OLVColumn col = this.RearrangableColumns[selectedIndex];
-			this.RearrangableColumns.RemoveAt(selectedIndex);
-			this.RearrangableColumns.Insert(selectedIndex + 1, col);
+			OLVColumn col = this.RearrangeableColumns[selectedIndex];
+			this.RearrangeableColumns.RemoveAt(selectedIndex);
+			this.RearrangeableColumns.Insert(selectedIndex + 1, col);
 
 			this.objectListView1.BuildList();
 
@@ -210,9 +210,7 @@ namespace BrightIdeasSoftware
 			public SortByDisplayOrder(ColumnSelectionForm form)
 				=> this._form = form;
 
-			private ColumnSelectionForm _form;
-
-			#region IComparer<OLVColumn> Members
+			private readonly ColumnSelectionForm _form;
 
 			Int32 IComparer<OLVColumn>.Compare(OLVColumn x, OLVColumn y)
 			{
@@ -226,8 +224,6 @@ namespace BrightIdeasSoftware
 					? x.Text.CompareTo(y.Text)
 					: x.DisplayIndex - y.DisplayIndex;
 			}
-
-			#endregion
 		}
 	}
 }

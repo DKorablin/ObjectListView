@@ -100,8 +100,6 @@ namespace BrightIdeasSoftware
 			TextBounds
 		}
 
-		#region Life and death
-
 		/// <summary>Create an OLVColumn</summary>
 		public OLVColumn()
 		{
@@ -116,8 +114,6 @@ namespace BrightIdeasSoftware
 			this.Text = title;
 			this.AspectName = aspect;
 		}
-
-		#endregion
 
 		#region Public Properties
 
@@ -196,7 +192,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets whether this column can be hidden by user actions</summary>
 		/// <remarks>This take into account both the Hideable property and whether this column
-		/// is the primary column of the listview (column 0).</remarks>
+		/// is the primary column of the ListView (column 0).</remarks>
 		[Browsable(false)]
 		public Boolean CanBeHidden
 		{
@@ -209,8 +205,8 @@ namespace BrightIdeasSoftware
 		/// <para>
 		/// When this is false (the default) and the control is owner drawn, 
 		/// ObjectListView will try to calculate the width of the cell's
-		/// actual contents, and then size the editing control to be just the right width. If this is true,
-		/// the whole width of the cell will be used, regardless of the cell's contents.
+		/// actual contents, and then size the editing control to be just the right width.
+		/// If this is true, the whole width of the cell will be used, regardless of the cell's contents.
 		/// </para>
 		/// <para>If this property is not set on the column, the value from the control will be used
 		/// </para>
@@ -308,8 +304,8 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets or sets a delegate that will create an editor for a cell in this column.</summary>
 		/// <remarks>
-		/// If you need different editors for different cells in the same column, this
-		/// delegate is your solution. Return null to use the default editor for the cell.
+		/// If you need different editors for different cells in the same column, this delegate is your solution.
+		/// Return null to use the default editor for the cell.
 		/// </remarks>
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -324,7 +320,7 @@ namespace BrightIdeasSoftware
 		[DefaultValue(false)]
 		public Boolean EnableButtonWhenItemIsDisabled { get; set; }
 
-		/// <summary>Should this column resize to fill the free space in the listview?</summary>
+		/// <summary>Should this column resize to fill the free space in the ListView?</summary>
 		/// <remarks>
 		/// <para>
 		/// If you want two (or more) columns to equally share the available free space, set this property to True.
@@ -336,7 +332,7 @@ namespace BrightIdeasSoftware
 		/// </para>
 		/// /// </remarks>
 		[Category(Constants.ObjectListView)]
-		[Description("Will this column resize to fill unoccupied horizontal space in the listview?")]
+		[Description("Will this column resize to fill unoccupied horizontal space in the ListView?")]
 		[DefaultValue(false)]
 		public Boolean FillsFreeSpace
 		{
@@ -352,7 +348,7 @@ namespace BrightIdeasSoftware
 		/// horizontally (you should never, ever make your users have to scroll anything horizontally!).
 		/// </para>
 		/// <para>
-		/// A space filling column is resized to occupy a proportion of the unoccupied width of the listview (the
+		/// A space filling column is resized to occupy a proportion of the unoccupied width of the ListView (the
 		/// unoccupied width is the width left over once all the non-filling columns have been given their space).
 		/// This property indicates the relative proportion of that unoccupied space that will be given to this column.
 		/// The actual value of this property is not important -- only its value relative to the value in other columns.
@@ -417,7 +413,7 @@ namespace BrightIdeasSoftware
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public GroupKeyToTitleConverterDelegate GroupKeyToTitleConverter { get; set; }
 
-		/// <summary>When the listview is grouped by this column and group title has an item count, how should the label be formatted?</summary>
+		/// <summary>When the ListView is grouped by this column and group title has an item count, how should the label be formatted?</summary>
 		/// <remarks>
 		/// The given format String can/should have two placeholders:
 		/// <list type="bullet">
@@ -457,7 +453,7 @@ namespace BrightIdeasSoftware
 		private String _cachedGroupWithItemCountFormat;
 
 		/// <summary>
-		/// When the listview is grouped by this column and a group title has an item count,
+		/// When the ListView is grouped by this column and a group title has an item count,
 		/// how should the label be formatted if there is only one item in the group?
 		/// </summary>
 		/// <remarks>
@@ -475,9 +471,7 @@ namespace BrightIdeasSoftware
 		public String GroupWithItemCountSingularFormat { get; set; }
 
 		/// <summary>Get this.GroupWithItemCountSingularFormat or a reasonable default</summary>
-		/// <remarks>
-		/// <para>If this value is not set, the values from the list view will be used</para>
-		/// </remarks>
+		/// <remarks>If this value is not set, the values from the list view will be used</remarks>
 		[Browsable(false)]
 		public String GroupWithItemCountSingularFormatOrDefault
 		{
@@ -577,17 +571,15 @@ namespace BrightIdeasSoftware
 		[DefaultValue(null)]
 		public HorizontalAlignment? HeaderTextAlign { get; set; }
 
-		/// <summary>
-		/// Return the text alignment of the header. This will either have been set explicitly,
-		/// or will follow the alignment of the text in the column
-		/// </summary>
+		/// <summary>Return the text alignment of the header.</summary>
+		/// <remarks>This will either have been set explicitly, or will follow the alignment of the text in the column.</remarks>
 		[Browsable(false)]
 		public HorizontalAlignment HeaderTextAlignOrDefault
 		{
 			get => this.HeaderTextAlign ?? this.TextAlign;
 		}
 
-		/// <summary>Gets the header alignment converted to a StringAlignment</summary>
+		/// <summary>Gets the header alignment converted to a StringAlignment.</summary>
 		[Browsable(false)]
 		public StringAlignment HeaderTextAlignAsStringAlignment
 		{
@@ -641,7 +633,7 @@ namespace BrightIdeasSoftware
 		/// There is no reverse of this function that automatically updates the header when the checkedness of a cell changes.
 		/// </para>
 		/// <para>
-		/// This property's behaviour on a TreeListView is probably best describes as undefined and should be avoided.
+		/// This property's behavior on a TreeListView is probably best describes as undefined and should be avoided.
 		/// </para>
 		/// <para>
 		/// The performance of this action (checking/unchecking all rows) is O(n) where n is the 
@@ -825,8 +817,8 @@ namespace BrightIdeasSoftware
 		private ButtonSizingMode buttonSizing = ButtonSizingMode.TextBounds;
 
 		/// <summary>Can the values shown in this column be edited?</summary>
-		/// <remarks>This defaults to true, since the primary means to control the editability of a listview
-		/// is on the listview itself. Once a listview is editable, all the columns are too, unless the
+		/// <remarks>This defaults to true, since the primary means to control the editability of a ListView
+		/// is on the ListView itself. Once a ListView is editable, all the columns are too, unless the
 		/// programmer explicitly marks them as not editable</remarks>
 		[Category(Constants.ObjectListView)]
 		[Description("Can the value in this column be edited?")]
@@ -841,7 +833,7 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>Get/set whether this column should be used when the view is switched to tile view.</summary>
-		/// <remarks>Column 0 is always included in tileview regardless of this setting.
+		/// <remarks>Column 0 is always included in TileView regardless of this setting.
 		/// Tile views do not work well with many "columns" of information. 
 		/// Two or three works best.</remarks>
 		[Category(Constants.ObjectListView)]
@@ -881,7 +873,7 @@ namespace BrightIdeasSoftware
 		/// <summary>Where was this column last positioned within the Detail view columns</summary>
 		/// <remarks>DisplayIndex is volatile. Once a column is removed from the control,
 		/// there is no way to discover where it was in the display order. This property
-		/// guards that information even when the column is not in the listview's active columns.</remarks>
+		/// guards that information even when the column is not in the ListView's active columns.</remarks>
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Int32 LastDisplayIndex { get; set; } = -1;
@@ -983,7 +975,7 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Gets or sets the horizontal alignment of the contents of the column.</summary>
 		/// <remarks>.NET will not allow column 0 to have any alignment except
-		/// to the left. We can't change the basic behaviour of the listview,
+		/// to the left. We can't change the basic behavior of the ListView,
 		/// but when owner drawn, column 0 can now have other alignments.</remarks>
 		new public HorizontalAlignment TextAlign
 		{
@@ -1086,10 +1078,9 @@ namespace BrightIdeasSoftware
 		private IModelFilter _valueBasedFilter;
 
 		/// <summary>
-		/// Gets or sets the values that will be used to generate a filter for this
-		/// column. For a model to be included by the generated filter, its value for this column
-		/// must be in this list. If the list is null or empty, this column will
-		/// not be used for filtering.
+		/// Gets or sets the values that will be used to generate a filter for this column.
+		/// For a model to be included by the generated filter, its value for this column must be in this list.
+		/// If the list is null or empty, this column will not be used for filtering.
 		/// </summary>
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -1144,10 +1135,10 @@ namespace BrightIdeasSoftware
 				return CheckState.Indeterminate;
 		}
 
-		/// <summary>Put the checkedness of the given Object for this column</summary>
-		/// <param name="rowObject">The row Object that is being displayed</param>
+		/// <summary>Put the checkedness of the given object for this column</summary>
+		/// <param name="rowObject">The row object that is being displayed</param>
 		/// <param name="newState"></param>
-		/// <returns>The checkedness of the Object</returns>
+		/// <returns>The checkedness of the object</returns>
 		public void PutCheckState(Object rowObject, CheckState newState)
 		{
 			if(newState == CheckState.Checked)
@@ -1158,16 +1149,16 @@ namespace BrightIdeasSoftware
 				this.PutValue(rowObject, null);
 		}
 
-		/// <summary>For a given row Object, extract the value indicated by the AspectName property of this column.</summary>
-		/// <param name="rowObject">The row Object that is being displayed</param>
-		/// <returns>An Object, which is the aspect named by AspectName</returns>
+		/// <summary>For a given row object, extract the value indicated by the AspectName property of this column.</summary>
+		/// <param name="rowObject">The row object that is being displayed</param>
+		/// <returns>An object, which is the aspect named by AspectName</returns>
 		public Object GetAspectByName(Object rowObject)
 			=> (this._aspectMunger ?? (this._aspectMunger = new Munger(this.AspectName))).GetValue(rowObject);
 		private Munger _aspectMunger;
 
-		/// <summary>For a given row Object, return the Object that is the key of the group that this row belongs to.</summary>
-		/// <param name="rowObject">The row Object that is being displayed</param>
-		/// <returns>Group key Object</returns>
+		/// <summary>For a given row object, return the object that is the key of the group that this row belongs to.</summary>
+		/// <param name="rowObject">The row object that is being displayed</param>
+		/// <returns>Group key object</returns>
 		public Object GetGroupKey(Object rowObject)
 		{
 			if(this.GroupKeyGetter != null)
@@ -1181,9 +1172,9 @@ namespace BrightIdeasSoftware
 			return key;
 		}
 
-		/// <summary>For a given row Object, return the image selector of the image that should displayed in this column.</summary>
-		/// <param name="rowObject">The row Object that is being displayed</param>
-		/// <returns>int or String or Image. int or String will be used as index into image list. null or -1 means no image</returns>
+		/// <summary>For a given row object, return the image selector of the image that should displayed in this column.</summary>
+		/// <param name="rowObject">The row object that is being displayed</param>
+		/// <returns>int or string or image. int or string will be used as index into image list. null or -1 means no image</returns>
 		public Object GetImage(Object rowObject)
 		{
 			if(this.CheckBoxes)
@@ -1276,10 +1267,8 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Convert the aspect Object to its String representation.</summary>
 		/// <remarks>
-		/// If the column has been given a AspectToStringConverter, that will be used to do
-		/// the conversion, otherwise just use ToString(). 
-		/// The returned value will not be null. Nulls are always converted
-		/// to empty strings.
+		/// If the column has been given a AspectToStringConverter, that will be used to do the conversion, otherwise just use ToString(). 
+		/// The returned value will not be null. Nulls are always converted to empty strings.
 		/// </remarks>
 		/// <param name="value">The value of the aspect that should be displayed</param>
 		/// <returns>A String representation of the aspect</returns>
@@ -1316,21 +1305,19 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>Gets or sets the type of data shown in this column.</summary>
-		/// <remarks>If this is not set, it will try to get the type
-		/// by looking through the rows of the listview.</remarks>
+		/// <remarks>If this is not set, it will try to get the type by looking through the rows of the ListView.</remarks>
 		[Browsable(false)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Type DataType
 		{
 			get
 			{
-				if(this._dataType == null)
-					if(this.ListView is ObjectListView olv)
-					{
-						Object value = olv.GetFirstNonNullValue(this);
-						if(value != null)
-							return value.GetType(); // THINK: Should we cache this?
-					}
+				if(this._dataType == null && this.ListView is ObjectListView olv)
+				{
+					Object value = olv.GetFirstNonNullValue(this);
+					if(value != null)
+						return value.GetType(); // THINK: Should we cache this?
+				}
 				return this._dataType;
 			}
 			set => this._dataType = value;
@@ -1388,10 +1375,12 @@ namespace BrightIdeasSoftware
 		/// If an aspect has a value greater than the last element in "values", it will be grouped
 		/// with the last element in "descriptions".
 		/// </summary>
-		/// <param name="values">Array of values. Values must be able to be
-		/// compared to the aspect (using IComparable)</param>
-		/// <param name="descriptions">The description for the matching value. The last element is the default description.
-		/// If there are n values, there must be n+1 descriptions.</param>
+		/// <param name="values">Array of values. Values must be able to be compared to the aspect (using IComparable)</param>
+		/// <param name="descriptions">
+		/// The description for the matching value.
+		/// The last element is the default description.
+		/// If there are n values, there must be n+1 descriptions.
+		/// </param>
 		/// <example>
 		/// this.salaryColumn.MakeGroupies(
 		///     new UInt32[] { 20000, 100000 },
@@ -1457,8 +1446,7 @@ namespace BrightIdeasSoftware
 		/// If an aspect is equal to value[n], it will be grouped with description[n].
 		/// If an aspect is not equal to any value, it will be grouped with "[other]".
 		/// </remarks>
-		/// <param name="values">Array of values. Values must be able to be
-		/// equated to the aspect</param>
+		/// <param name="values">Array of values. Values must be able to be equated to the aspect</param>
 		/// <param name="descriptions">The description for the matching value.</param>
 		/// <example>
 		/// this.marriedColumn.MakeEqualGroupies(

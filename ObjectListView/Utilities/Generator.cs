@@ -45,7 +45,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -129,15 +128,13 @@ namespace BrightIdeasSoftware
 			Generator.Instance.GenerateAndReplaceColumns(olv, null, allProperties);
 		}
 
-		/// <summary>
-		/// Generate columns into the given ObjectListView that come from the public properties of the given model Object type.
-		/// </summary>
+		/// <summary>Generate columns into the given ObjectListView that come from the public properties of the given model object type.</summary>
 		/// <param name="olv">The ObjectListView to modify</param>
 		/// <param name="type">The model type whose attributes will be considered.</param>
 		static public void GenerateColumns(ObjectListView olv, Type type)
 			=> Generator.Instance.GenerateAndReplaceColumns(olv, type, false);
 
-		/// <summary>Generate columns into the given ObjectListView that come from the public properties of the given model Object type.</summary>
+		/// <summary>Generate columns into the given ObjectListView that come from the public properties of the given model object type.</summary>
 		/// <param name="olv">The ObjectListView to modify</param>
 		/// <param name="type">The model type whose attributes will be considered.</param>
 		/// <param name="allProperties">Will columns be generated for properties that are not marked with [OLVColumn].</param>
@@ -154,7 +151,7 @@ namespace BrightIdeasSoftware
 
 		#region Public interface
 
-		/// <summary>Generate columns into the given ObjectListView that come from the given model Object type.</summary>
+		/// <summary>Generate columns into the given ObjectListView that come from the given model object type.</summary>
 		/// <param name="olv">The ObjectListView to modify</param>
 		/// <param name="type">The model type whose attributes will be considered.</param>
 		/// <param name="allProperties">Will columns be generated for properties that are not marked with [OLVColumn].</param>
@@ -216,7 +213,7 @@ namespace BrightIdeasSoftware
 
 		#region Implementation
 
-		/// <summary>Replace all the columns in the given listview with the given list of columns.</summary>
+		/// <summary>Replace all the columns in the given ListView with the given list of columns.</summary>
 		/// <param name="olv"></param>
 		/// <param name="columns"></param>
 		protected virtual void ReplaceColumns(ObjectListView olv, IList<OLVColumn> columns)
@@ -383,10 +380,10 @@ namespace BrightIdeasSoftware
 
 		/// <summary>Generate CanExpand and ChildrenGetter delegates from the given property.</summary>
 		/// <param name="tlv"></param>
-		/// <param name="pinfo"></param>
-		protected virtual void GenerateChildrenDelegates(TreeListView tlv, PropertyInfo pinfo)
+		/// <param name="pInfo"></param>
+		protected virtual void GenerateChildrenDelegates(TreeListView tlv, PropertyInfo pInfo)
 		{
-			Munger childrenGetter = new Munger(pinfo.Name);
+			Munger childrenGetter = new Munger(pInfo.Name);
 			tlv.CanExpandGetter = delegate (Object x)
 			{
 				try

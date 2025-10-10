@@ -143,8 +143,8 @@ namespace BrightIdeasSoftware
 			=> -1;
 
 		/// <summary></summary>
-		/// <param name="from"></param>
-		/// <param name="to"></param>
+		/// <param name="first"></param>
+		/// <param name="last"></param>
 		public virtual void PrepareCache(Int32 first, Int32 last)
 		{
 		}
@@ -227,16 +227,12 @@ namespace BrightIdeasSoftware
 			return -1;
 		}
 
-		#region IFilterableDataSource Members
-
 		/// <summary></summary>
 		/// <param name="modelFilter"></param>
 		/// <param name="listFilter"></param>
 		virtual public void ApplyFilters(IModelFilter modelFilter, IListFilter listFilter)
 		{
 		}
-
-		#endregion
 	}
 
 	/// <summary>This class mimics the behavior of VirtualObjectListView v1.x.</summary>
@@ -249,14 +245,8 @@ namespace BrightIdeasSoftware
 		{
 		}
 
-		#region Public properties
-
 		/// <summary>How will the n'th Object of the data source be fetched?</summary>
 		public RowGetterDelegate RowGetter { get; set; }
-
-		#endregion
-
-		#region IVirtualListDataSource implementation
 
 		/// <summary></summary>
 		/// <param name="n"></param>
@@ -269,7 +259,5 @@ namespace BrightIdeasSoftware
 		/// <inheritdoc/>
 		public override Int32 SearchText(String value, Int32 first, Int32 last, OLVColumn column)
 			=> DefaultSearchText(value, first, last, column, this);
-
-		#endregion
 	}
 }

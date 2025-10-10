@@ -9464,8 +9464,7 @@ namespace BrightIdeasSoftware
 		#endregion
 
 		#region Drag and drop
-		/// <summary></summary>
-		/// <param name="e"></param>
+		// <inheritdoc/>
 		protected override void OnItemDrag(ItemDragEventArgs e)
 		{
 			base.OnItemDrag(e);
@@ -9481,8 +9480,7 @@ namespace BrightIdeasSoftware
 			}
 		}
 
-		/// <summary></summary>
-		/// <param name="drgevent"></param>
+		// <inheritdoc/>
 		protected override void OnDragEnter(DragEventArgs drgevent)
 		{
 			base.OnDragEnter(drgevent);
@@ -9491,8 +9489,7 @@ namespace BrightIdeasSoftware
 				this.DropSink.Enter(drgevent);
 		}
 
-		/// <summary></summary>
-		/// <param name="drgevent"></param>
+		// <inheritdoc/>
 		protected override void OnDragOver(DragEventArgs drgevent)
 		{
 			base.OnDragOver(drgevent);
@@ -9500,19 +9497,17 @@ namespace BrightIdeasSoftware
 			this.DropSink?.Over(drgevent);
 		}
 
-		/// <summary></summary>
-		/// <param name="args"></param>
-		protected override void OnDragDrop(DragEventArgs args)
+		// <inheritdoc/>
+		protected override void OnDragDrop(DragEventArgs drgevent)
 		{
-			base.OnDragDrop(args);
+			base.OnDragDrop(drgevent);
 
 			this._lastMouseDownClickCount = 0;  // prevent drop events from becoming cell edits
 
-			this.DropSink?.Drop(args);
+			this.DropSink?.Drop(drgevent);
 		}
 
-		/// <summary></summary>
-		/// <param name="e"></param>
+		// <inheritdoc/>
 		protected override void OnDragLeave(EventArgs e)
 		{
 			base.OnDragLeave(e);
@@ -9520,8 +9515,7 @@ namespace BrightIdeasSoftware
 			this.DropSink?.Leave();
 		}
 
-		/// <summary></summary>
-		/// <param name="gfbevent"></param>
+		/// <inheritdoc/>
 		protected override void OnGiveFeedback(GiveFeedbackEventArgs gfbevent)
 		{
 			base.OnGiveFeedback(gfbevent);
@@ -9529,13 +9523,12 @@ namespace BrightIdeasSoftware
 			this.DropSink?.GiveFeedback(gfbevent);
 		}
 
-		/// <summary></summary>
-		/// <param name="qdevent"></param>
-		protected override void OnQueryContinueDrag(QueryContinueDragEventArgs qdevent)
+		/// <inheritdoc/>
+		protected override void OnQueryContinueDrag(QueryContinueDragEventArgs qcdevent)
 		{
-			base.OnQueryContinueDrag(qdevent);
+			base.OnQueryContinueDrag(qcdevent);
 
-			this.DropSink?.QueryContinue(qdevent);
+			this.DropSink?.QueryContinue(qcdevent);
 		}
 
 		#endregion

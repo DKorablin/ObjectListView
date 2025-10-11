@@ -40,5 +40,14 @@ jobs:
       run: msbuild ${{env.SolutionName}}.sln /p:Configuration=Debug
 
     - name: Run Tests
-      run: vstest.console.exe (Get-ChildItem -Recurse "*\bin\Debug\*Tests.dll" | ForEach-Object { $_.FullName })
+      run: |
+        $vsPath = (vswhere -latest -property installationPath)
+        $vstestPath = Join-Path $vsPath "Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe"
+        $testAssemblies = Get-ChildItem -Recuse -Path "*\bin\Debug\*Tests.dll" | ForEach-Object { $_.FullName }
+        if ($testAssemblies) {
+          & $vstestPath $testAssemblies
+        } else {
+          Write-Host "No test assemblies were found."
+          exit 1
+        }
       shell: pwsh

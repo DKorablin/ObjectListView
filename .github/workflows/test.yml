@@ -18,10 +18,13 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
-    - name: Setup
+    - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{env.DotNetVersion}}
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
     - name: Cache NuGet packages
       uses: actions/cache@v4
       with:
@@ -29,5 +32,13 @@ jobs:
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
         restore-keys: |
           ${{ runner.os }}-nuget-
-    - name: Testing
-      run: dotnet test ${{env.SolutionName}}.sln --verbosity normal
+
+    - name: Restore Packages
+      run: msbuild ${{env.SolutionName}}.sln /t:Restore
+
+    - name: Build Solution
+      run: msbuild ${{env.SolutionName}}.sln /p:Configuration=Debug
+
+    - name: Run Tests
+      run: vstest.console.exe (Get-ChildItem -Recurse "*\bin\Debug\*Tests.dll" | ForEach-Object { $_.FullName })
+      shell: pwsh

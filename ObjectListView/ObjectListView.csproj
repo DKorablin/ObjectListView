@@ -24,7 +24,7 @@
 		<RepositoryUrl>https://github.com/DKorablin/ObjectListView</RepositoryUrl>
 		<icon>index-icon.png</icon>
 		<Copyright>Copyright 2006-2016 Bright Ideas Software</Copyright>
-		<tags>.Net WinForms Net35 Net80 ListView Controls</tags>
+		<PackageTags>.Net WinForms Net35 Net80 ListView Controls</PackageTags>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="..\README.md" Pack="true" PackagePath="\"/>

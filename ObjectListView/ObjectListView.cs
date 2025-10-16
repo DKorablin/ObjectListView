@@ -4175,7 +4175,6 @@ namespace BrightIdeasSoftware
 				}
 			}
 			OlvListViewHitTestInfo olvListViewHitTest = new OlvListViewHitTestInfo(hitItem, subItem, lParam.flags, group, lParam.iSubItem);
-			// System.Diagnostics.Debug.WriteLine(String.Format("HitTest({0}, {1})=>{2}", x, y, olvListViewHitTest));
 			return olvListViewHitTest;
 		}
 
@@ -4995,7 +4994,6 @@ namespace BrightIdeasSoftware
 		/// <param name="m"></param>
 		protected override void WndProc(ref Message m)
 		{
-			// System.Diagnostics.Debug.WriteLine(m.Msg);
 			switch(m.Msg)
 			{
 			case 2: // WM_DESTROY
@@ -5031,12 +5029,10 @@ namespace BrightIdeasSoftware
 					base.WndProc(ref m);
 				break;
 			case 0x0201: // WM_LBUTTONDOWN
-						 // System.Diagnostics.Debug.WriteLine("WM_LBUTTONDOWN");
 				if(this.PossibleFinishCellEditing() && !this.HandleLButtonDown(ref m))
 					base.WndProc(ref m);
 				break;
 			case 0x202:  // WM_LBUTTONUP
-						 // System.Diagnostics.Debug.WriteLine("WM_LBUTTONUP");
 				if(this.PossibleFinishCellEditing() && !this.HandleLButtonUp(ref m))
 					base.WndProc(ref m);
 				break;
@@ -5045,12 +5041,10 @@ namespace BrightIdeasSoftware
 					base.WndProc(ref m);
 				break;
 			case 0x0204: // WM_RBUTTONDOWN
-						 // System.Diagnostics.Debug.WriteLine("WM_RBUTTONDOWN");
 				if(this.PossibleFinishCellEditing() && !this.HandleRButtonDown(ref m))
 					base.WndProc(ref m);
 				break;
 			case 0x0205: // WM_RBUTTONUP
-						 // System.Diagnostics.Debug.WriteLine("WM_RBUTTONUP");
 				base.WndProc(ref m);
 				break;
 			case 0x0206: // WM_RBUTTONDBLCLK
@@ -5063,7 +5057,6 @@ namespace BrightIdeasSoftware
 				break;
 			case 0x114: // WM_HSCROLL:
 			case 0x115: // WM_VSCROLL:
-						//System.Diagnostics.Debug.WriteLine("WM_VSCROLL");
 				if(this.PossibleFinishCellEditing())
 					base.WndProc(ref m);
 				break;
@@ -5079,15 +5072,10 @@ namespace BrightIdeasSoftware
 					base.WndProc(ref m);
 				break;
 			case 0x1000 + 18: // LVM_HITTEST:
-							  //System.Diagnostics.Debug.WriteLine("LVM_HITTEST");
 				if(this._skipNextHitTest)
-				{
-					//System.Diagnostics.Debug.WriteLine("SKIPPING LVM_HITTEST");
 					this._skipNextHitTest = false;
-				} else
-				{
+				else
 					base.WndProc(ref m);
-				}
 				break;
 			default:
 				base.WndProc(ref m);
@@ -8834,7 +8822,7 @@ namespace BrightIdeasSoftware
 				return;
 			}
 
-			// Handle combobox explicitly
+			// Handle ComboBox explicitly
 			if(control is ComboBox cb)
 			{
 				if(cb.Created)
@@ -9310,8 +9298,6 @@ namespace BrightIdeasSoftware
 			if(args.Handled)
 				return;
 
-			//            System.Diagnostics.Debug.WriteLine(String.Format("Changed hot item: {0}", args));
-
 			this.BeginUpdate();
 			try
 			{
@@ -9352,8 +9338,6 @@ namespace BrightIdeasSoftware
 		{
 			if(rowIndex < 0 || columnIndex < 0)
 				return;
-
-			// System.Diagnostics.Debug.WriteLine(String.Format("UpdateHotRow: {0}, {1}, {2}", rowIndex, columnIndex, hitLocation));
 
 			if(this.UseHyperlinks)
 			{

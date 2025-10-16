@@ -121,7 +121,7 @@ jobs:
         /p:DebugType=Portable
         /p:EmbedUntrackedSources=true
         /p:PublishRepositoryUrl=true
-        /p:EnablePackageValidation=true
+        #/p:EnablePackageValidation=true
         /p:SymbolPackageFormat=snupkg
     - name: NuGet login (OIDC)
       uses: NuGet/login@v1

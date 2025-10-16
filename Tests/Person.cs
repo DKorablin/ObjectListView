@@ -24,12 +24,12 @@ namespace BrightIdeasSoftware.Tests
 		public Person(String name)
 			=> this._name = name;
 
-		public Person(String name, String occupation, int culinaryRating, DateTime birthDate, double hourlyRate, bool canTellJokes, String photo, String comments)
+		public Person(String name, String occupation, Int32 culinaryRating, DateTime birthDate, Double hourlyRate, Boolean canTellJokes, String photo, String comments)
 		{
 			this._name = name;
 			this.Occupation = occupation;
 			this._culinaryRating = culinaryRating;
-			this.birthDate = birthDate;
+			this._birthDate = birthDate;
 			this._hourlyRate = hourlyRate;
 			this.CanTellJokes = canTellJokes;
 			this.Comments = comments;
@@ -41,7 +41,7 @@ namespace BrightIdeasSoftware.Tests
 			this._name = other.Name;
 			this.Occupation = other.Occupation;
 			this._culinaryRating = other.CulinaryRating;
-			this.birthDate = other.BirthDate;
+			this._birthDate = other.BirthDate;
 			this._hourlyRate = other.GetRate();
 			this.CanTellJokes = other.CanTellJokes;
 			this.Photo = other.Photo;
@@ -56,7 +56,7 @@ namespace BrightIdeasSoftware.Tests
 			{
 				if(_parent == value) return;
 				_parent = value;
-				this.OnPropertyChanged("Parent");
+				this.OnPropertyChanged(nameof(this.Parent));
 			}
 		}
 		private Person _parent;
@@ -69,7 +69,7 @@ namespace BrightIdeasSoftware.Tests
 			{
 				if(_name == value) return;
 				_name = value;
-				this.OnPropertyChanged("Name");
+				this.OnPropertyChanged(nameof(this.Name));
 			}
 		}
 		private String _name;
@@ -81,7 +81,7 @@ namespace BrightIdeasSoftware.Tests
 			{
 				if(_occupation == value) return;
 				_occupation = value;
-				this.OnPropertyChanged("Occupation");
+				this.OnPropertyChanged(nameof(this.Occupation));
 			}
 		}
 		private String _occupation;
@@ -93,45 +93,40 @@ namespace BrightIdeasSoftware.Tests
 			{
 				if(_culinaryRating == value) return;
 				_culinaryRating = value;
-				this.OnPropertyChanged("CulinaryRating");
+				this.OnPropertyChanged(nameof(this.CulinaryRating));
 			}
 		}
 		private Int32 _culinaryRating;
 
 		public DateTime BirthDate
 		{
-			get => birthDate;
+			get => _birthDate;
 			set
 			{
-				if(birthDate == value) return;
-				birthDate = value;
-				this.OnPropertyChanged("BirthDate");
+				if(_birthDate == value) return;
+				_birthDate = value;
+				this.OnPropertyChanged(nameof(this.BirthDate));
 			}
 		}
-		private DateTime birthDate;
+		private DateTime _birthDate;
 
-		public int YearOfBirth
+		public Int32 YearOfBirth
 		{
 			get => this.BirthDate.Year;
-			set => this.BirthDate = new DateTime(value, birthDate.Month, birthDate.Day);
+			set => this.BirthDate = new DateTime(value, _birthDate.Month, _birthDate.Day);
 		}
 
 		// Allows tests for methods
-		virtual public double GetRate()
+		virtual public Double GetRate()
 			=> _hourlyRate;
 
-		private double _hourlyRate;
+		private Double _hourlyRate;
 
-		public void SetRate(double value)
+		public void SetRate(Double value)
 			=> _hourlyRate = value;
 
 		// Allow tests on trees
-		public IList<Person> Children
-		{
-			get => _children;
-			set => _children = value;
-		}
-		private IList<Person> _children = new List<Person>();
+		public IList<Person> Children { get; set; } = new List<Person>();
 
 		public void AddChild(Person child)
 		{
@@ -142,7 +137,7 @@ namespace BrightIdeasSoftware.Tests
 		// Allows tests for fields.
 		public String Photo;
 		public String Comments;
-		public bool CanTellJokes;
+		public Boolean CanTellJokes;
 
 		#region Implementation of INotifyPropertyChanged
 
@@ -151,7 +146,7 @@ namespace BrightIdeasSoftware.Tests
 		private void OnPropertyChanged(String propertyName)
 			=> this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-		public int CountNotifyPropertyChangedSubscriptions
+		public Int32 CountNotifyPropertyChangedSubscriptions
 		{
 			get => this.PropertyChanged == null ? 0 : this.PropertyChanged.GetInvocationList().Length;
 		}
@@ -160,10 +155,10 @@ namespace BrightIdeasSoftware.Tests
 
 		#region Equality members
 
-		protected bool Equals(Person other)
+		protected Boolean Equals(Person other)
 			=> String.Equals(_name, other._name);
 
-		public override bool Equals(Object obj)
+		public override Boolean Equals(Object obj)
 		{
 			if(ReferenceEquals(null, obj)) return false;
 			if(ReferenceEquals(this, obj)) return true;
@@ -172,24 +167,24 @@ namespace BrightIdeasSoftware.Tests
 		}
 
 		public override Int32 GetHashCode()
-			=> (_name != null ? _name.GetHashCode() : 0);
+			=> _name?.GetHashCode() ?? 0;
 
 		#endregion
 
 		#region Implementation of ITreeModel
 
 		// These are used when the TreeListView doesn't have getter delegates installed
-		public bool TreeCanExpand
+		public Boolean TreeCanExpand
 		{
-			get => Children.Count > 0;
+			get => this.Children.Count > 0;
 		}
 		public IEnumerable TreeChildren
 		{
-			get => Children;
+			get => this.Children;
 		}
 		public Object TreeParent
 		{
-			get => Parent;
+			get => this.Parent;
 		}
 
 		#endregion
@@ -199,17 +194,15 @@ namespace BrightIdeasSoftware.Tests
 
 	public class Person2 : Person
 	{
-		public Person2(String name, String occupation, int culinaryRating, DateTime birthDate, double hourlyRate, bool canTellJokes, String photo, String comments)
+		public Person2(String name, String occupation, Int32 culinaryRating, DateTime birthDate, Double hourlyRate, Boolean canTellJokes, String photo, String comments)
 			: base(name, occupation, culinaryRating, birthDate, hourlyRate, canTellJokes, photo, comments)
 		{
 		}
 
-		public override double GetRate()
-		{
-			return base.GetRate() * 2;
-		}
+		public override Double GetRate()
+			=> base.GetRate() * 2;
 
-		new public int CulinaryRating
+		new public Int32 CulinaryRating
 		{
 			get => base.CulinaryRating * 2;
 			set { base.CulinaryRating = value; }

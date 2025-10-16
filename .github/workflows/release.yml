@@ -13,7 +13,6 @@ permissions:
 env:
   SolutionName: ${{github.event.repository.name}}
   DotNetVersion: 8.0.x
-  NuGetCacheKey: ${{runner.os}}-nuget-${{ hashFiles('Directory.Packages.props', '**/packages.lock.json') }}
   ArtifactsDir: ${{github.workspace}}\bin
 
 jobs:
@@ -32,7 +31,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ~/.nuget/packages
-        key: ${{NuGetCacheKey}}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('Directory.Packages.props', '**/packages.lock.json') }}
         restore-keys: |
           ${{ runner.os }}-nuget-
     - name: Restore
@@ -76,7 +75,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ~/.nuget/packages
-        key: ${{NuGetCacheKey}}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('Directory.Packages.props', '**/packages.lock.json') }}
         restore-keys: |
           ${{ runner.os }}-nuget-
     - name: Restore

@@ -3,7 +3,9 @@
 		<Version>2.9.1.0</Version>
 	</PropertyGroup>
 	<PropertyGroup>
-		<BaseOutputPath>..\bin\</BaseOutputPath>
-		<BaseIntermediateOutputPath>$(MSBuildProjectDirectory)\..\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
+		<ArtifactsDir Condition="'$(ArtifactsDir)' == ''">$(SolutionDir)..\bin\$(SolutionName)</ArtifactsDir>
+		<OutputPath>$(ArtifactsDir)</OutputPath>
+		<AppendTargetFrameworkToOutputPath>True</AppendTargetFrameworkToOutputPath>
+		<BaseIntermediateOutputPath>$(MSBuildProjectDirectory)\..\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
 	</PropertyGroup>
 </Project>

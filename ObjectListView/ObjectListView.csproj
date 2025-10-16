@@ -22,7 +22,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/DKorablin/ObjectListView</RepositoryUrl>
-		<icon>index-icon.png</icon>
+		<PackageIcon>index-icon.png</PackageIcon>
 		<Copyright>Copyright 2006-2016 Bright Ideas Software</Copyright>
 		<PackageTags>.Net WinForms Net35 Net80 ListView Controls</PackageTags>
 	</PropertyGroup>

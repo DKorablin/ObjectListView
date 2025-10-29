@@ -115,8 +115,9 @@ jobs:
         files: ${{steps.find_binaries.outputs.files_to_sign}}
     - name: Creating NuGet package
       run: >
-        dotnet pack ${{env.SolutionName}}\${{env.SolutionName}}.csproj --no-build --no-restore -o ${{env.ArtifactsDir}}\nupkg
+        dotnet pack ${{env.SolutionName}}\${{env.SolutionName}}.csproj --no-build --no-restore -c Release -o ${{env.ArtifactsDir}}\nupkg
         /p:PackageVersion=${{needs.version.outputs.new_version}}
+        /p:GenerateDocumentationFile=true
         /p:IncludeSymbols=false
         /p:DebugType=Portable
         /p:EmbedUntrackedSources=true

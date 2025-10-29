@@ -4,12 +4,13 @@
 		<UseWindowsForms>true</UseWindowsForms>
 		<OutputType>Library</OutputType>
 		<RootNamespace>BrightIdeasSoftware</RootNamespace>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<Configuration>Debug</Configuration>
+		<Configuration>Release</Configuration>
 		<Deterministic>false</Deterministic>
+		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>False</GenerateDocumentationFile>
-		<NoWarn>$(NoWarn);SYSLIB0011;CA1416</NoWarn>
-		<DefineConstants>$(DefineConstants)</DefineConstants>
+		<CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
+		<NoWarn>SYSLIB0011;CA1416</NoWarn>
 	</PropertyGroup>
 	
 	<!--nuspec-->
@@ -38,6 +39,9 @@
 	</PropertyGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net35'">
 		<Reference Include="System.Design" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Update="Properties\Resources.resx">

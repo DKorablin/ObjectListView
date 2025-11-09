@@ -11,7 +11,7 @@ env:
   DotNetVersion: 8.0.x
 
 jobs:
-  test_net_windows:
+  test:
     name: Testing
     runs-on: windows-latest
     steps:

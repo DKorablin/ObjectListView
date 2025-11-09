@@ -22,8 +22,6 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{env.DotNetVersion}}
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v2
 
     - name: Cache NuGet packages
       uses: actions/cache@v4
@@ -32,22 +30,41 @@ jobs:
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
         restore-keys: |
           ${{ runner.os }}-nuget-
+    - name: Restoring dependencies
+      run: dotnet restore ${{env.SolutionName}}.sln
+    - name: Testing .NET
+      run: >
+        dotnet test ${{env.SolutionName}}.sln --framework net8.0-windows --no-restore --verbosity normal
+        /p:GenerateDocumentationFile=true
 
-    - name: Restore Packages
+  build:
+    name: Build
+    needs: [test]
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        token: ${{secrets.SUBMODULE_TOKEN}}
+        submodules: true
+    - name: Caching NuGet packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+    - name: Restore
       run: msbuild ${{env.SolutionName}}.sln /t:Restore
-
-    - name: Build Solution
-      run: msbuild ${{env.SolutionName}}.sln /p:Configuration=Debug
-
-    - name: Run Tests
+    - name: Building multi-target project
+      run: >
+        msbuild ${{env.SolutionName}}.sln
+        /p:ArtifactsDir="${{env.ArtifactsDir}}"
+        /p:Configuration=Release
+        /p:GenerateDocumentationFile=true
+        /p:SignAssembly=false
+    - name: Listing release directory
       run: |
-        $vsPath = (vswhere -latest -property installationPath)
-        $vstestPath = Join-Path $vsPath "Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe"
-        $testAssemblies = Get-ChildItem -Recuse -Path "*\bin\Debug\*Tests.dll" | ForEach-Object { $_.FullName }
-        if ($testAssemblies) {
-          & $vstestPath $testAssemblies
-        } else {
-          Write-Host "No test assemblies were found."
-          exit 1
-        }
-      shell: pwsh
+        echo "Listing files in the release directory:"
+        ls ${{env.ArtifactsDir}} -Recurse

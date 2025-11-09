@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net48;net8.0-windows</TargetFrameworks>
+		<TargetFrameworks>net8.0-windows</TargetFrameworks>
 		<UseWindowsForms>true</UseWindowsForms>
-		<IsTestProject>true</IsTestProject>
-		<IsPackable>false</IsPackable>
-		<Configuration>Debug</Configuration>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<IsPackable>False</IsPackable>
+		<IsTestProject>True</IsTestProject>
+		<IsPublishable>False</IsPublishable>
+		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+		<CopyCodeCoverageMetadata>False</CopyCodeCoverageMetadata>
 		<Parallelize>true</Parallelize>
 	</PropertyGroup>
 

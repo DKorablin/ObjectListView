@@ -41,10 +41,6 @@ jobs:
     needs: [test]
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        token: ${{secrets.SUBMODULE_TOKEN}}
-        submodules: true
     - name: Caching NuGet packages
       uses: actions/cache@v4
       with:

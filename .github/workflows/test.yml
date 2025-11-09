@@ -35,7 +35,6 @@ jobs:
     - name: Testing .NET
       run: >
         dotnet test ${{env.SolutionName}}.sln --no-restore --verbosity normal
-        /p:GenerateDocumentationFile=true
 
   build:
     name: Build

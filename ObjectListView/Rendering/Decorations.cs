@@ -44,7 +44,7 @@ using System.Windows.Forms;
 namespace BrightIdeasSoftware
 {
 	/// <summary>A decoration is an overlay that draws itself in relation to a given row or cell.</summary>
-	/// <remarks>Decorations scroll when the listview scrolls.</remarks>
+	/// <remarks>Decorations scroll when the ListView scrolls.</remarks>
 	public interface IDecoration : IOverlay
 	{
 		/// <summary>Gets or sets the row that is to be decorated</summary>
@@ -189,8 +189,8 @@ namespace BrightIdeasSoftware
 	}
 
 	/// <summary>
-	/// This decoration draws a slight tint over a column of the owning listview.
-	/// If no column is explicitly set, the selected column in the listview will be used.
+	/// This decoration draws a slight tint over a column of the owning ListView.
+	/// If no column is explicitly set, the selected column in the ListView will be used.
 	/// The selected column is normally the sort column, but does not have to be.
 	/// </summary>
 	public class TintedColumnDecoration : ColumnDecoration
@@ -507,7 +507,7 @@ namespace BrightIdeasSoftware
 		}
 
 		/// <summary>Create a EditingCellBorderDecoration</summary>
-		/// <param name="useLightBox">Should the decoration use a lighbox display style?</param>
+		/// <param name="useLightBox">Should the decoration use a LighBox display style?</param>
 		public EditingCellBorderDecoration(Boolean useLightBox) : this()
 			=> this.UseLightbox = useLightbox;
 
@@ -525,10 +525,9 @@ namespace BrightIdeasSoftware
 				if(this.useLightbox == value)
 					return;
 				this.useLightbox = value;
-				if(this.useLightbox)
+				if(this.useLightbox && this.FillBrush == null)
 				{
-					if(this.FillBrush == null)
-						this.FillBrush = new SolidBrush(Color.FromArgb(64, Color.Black));
+					this.FillBrush = new SolidBrush(Color.FromArgb(64, Color.Black));
 				}
 			}
 		}

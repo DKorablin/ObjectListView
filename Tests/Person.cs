@@ -86,7 +86,7 @@ namespace BrightIdeasSoftware.Tests
 		}
 		private String _occupation;
 
-		public Int32 CulinaryRating
+		public virtual Int32 CulinaryRating
 		{
 			get => _culinaryRating;
 			set
@@ -202,7 +202,7 @@ namespace BrightIdeasSoftware.Tests
 		public override Double GetRate()
 			=> base.GetRate() * 2;
 
-		new public Int32 CulinaryRating
+		public override Int32 CulinaryRating
 		{
 			get => base.CulinaryRating * 2;
 			set { base.CulinaryRating = value; }

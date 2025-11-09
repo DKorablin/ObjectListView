@@ -21,6 +21,7 @@ namespace BrightIdeasSoftware.Tests
 		[TestInitialize]
 		public void SetupTest()
 		{
+			PersonDb.Reset();
 			this._mainForm = new MainForm()
 			{
 				Size = new Size(),
@@ -41,7 +42,7 @@ namespace BrightIdeasSoftware.Tests
 		public void Test_Filter_UseFiltering()
 		{
 			this.olv.SetObjects(PersonDb.All);
-			this.olv.ModelFilter = new ModelFilter(delegate (Object x) { return false; });
+			this.olv.ModelFilter = new ModelFilter(x => false);
 
 			this.olv.UseFiltering = true;
 			Assert.AreEqual(0, this.olv.GetItemCount());
@@ -54,7 +55,7 @@ namespace BrightIdeasSoftware.Tests
 			this.olv.UseFiltering = true;
 			Assert.AreNotEqual(0, this.olv.GetItemCount());
 
-			this.olv.ModelFilter = new ModelFilter(delegate (Object x) { return false; });
+			this.olv.ModelFilter = new ModelFilter(x => false);
 			Assert.AreEqual(0, this.olv.GetItemCount());
 		}
 
@@ -65,7 +66,7 @@ namespace BrightIdeasSoftware.Tests
 			this.olv.UseFiltering = true;
 			Int32 originalCount = this.olv.GetItemCount();
 
-			this.olv.ModelFilter = new ModelFilter(delegate (Object x) { return true; });
+			this.olv.ModelFilter = new ModelFilter(x => true);
 			Assert.AreEqual(originalCount, this.olv.GetItemCount());
 		}
 
@@ -76,7 +77,7 @@ namespace BrightIdeasSoftware.Tests
 			this.olv.UseFiltering = true;
 			Assert.AreNotEqual(0, this.olv.GetItemCount());
 
-			this.olv.ListFilter = new ListFilter(delegate (IEnumerable x) { return new ArrayList(); });
+			this.olv.ListFilter = new ListFilter(x => new ArrayList());
 			Assert.AreEqual(0, this.olv.GetItemCount());
 		}
 
@@ -87,7 +88,7 @@ namespace BrightIdeasSoftware.Tests
 			this.olv.UseFiltering = true;
 			Int32 originalCount = this.olv.GetItemCount();
 
-			this.olv.ListFilter = new ListFilter(delegate (IEnumerable x) { return x; });
+			this.olv.ListFilter = new ListFilter(x => x);
 			Assert.AreEqual(originalCount, this.olv.GetItemCount());
 		}
 
